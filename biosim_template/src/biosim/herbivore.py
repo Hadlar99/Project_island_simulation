@@ -3,12 +3,6 @@ import math as m
 
 class Herbivore:
 
-    num_herbivores = 0
-
-    @classmethod
-    def count_new_herbivore(cls):
-        cls.num_herbivores += 1
-
 
     def __init__(self, w_birth, a_half, w_half, phi_weight, phi_age, beta, eta):
         self.age = 0
