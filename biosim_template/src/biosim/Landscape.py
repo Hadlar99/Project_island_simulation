@@ -1,3 +1,6 @@
+from .herbivore import Herbivore
+
+
 class lowland:
 
     def __init__(self, F_herbivores, herbivores=None, carnivores= None):
@@ -26,11 +29,14 @@ class lowland:
                 self.fooder = 0
 
     def reproduction(self):
-        N = num_herbivores()
-        babies = [herbivore(bw) for herbi in self.hebivores if (bw := herbi.birth(N))]
+        N = len(self.herbivores)
+        babies = [Herbivore(bw) for herbi in self.herbivores if (bw := herbi.birth(N))]
         self.herbivores.extend(babies)
 
 
+    def pop_reduction(self):
+        alive = [herbi for herbi in self.herbivores if not herbi.death()]
 
+        self.herbivores = alive
 
 
