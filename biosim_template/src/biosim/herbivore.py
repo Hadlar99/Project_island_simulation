@@ -35,11 +35,14 @@ class Herbivore:
 
 
 
-    def __init__(self, weight):
+    def __init__(self, weight=None):
         self.age = 0
-        self.weight = weight
+        self.weight = weight if weight is not None else random.gauss(self.params['w_birth'], self.params['sigma_birth'])
         #self.fitness = 1/(1 + m.exp(self.params['phi_age'](self.age-self.params['a_half']))) * 1/(1 + m.exp(self.params['phi_weight'](self.params['w_half']-self.weight))) if self.weight>0 else 0
 
+
+    def add_weight(self, food):
+        self.weight += food * self.params['beta']
 
 
     def year(self):
@@ -47,8 +50,8 @@ class Herbivore:
 
 
 
-    def weight(self, Food):
-        self.weight = Food * self.params['beta'] - self.weight * self.params['eta']
+    def lose_weight(self):
+        self.weight -= self.weight * self.params['eta']
 
 
 
