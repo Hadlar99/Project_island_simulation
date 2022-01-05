@@ -1,4 +1,5 @@
 import math as m
+import random
 
 
 class Herbivore:
@@ -54,3 +55,10 @@ class Herbivore:
         self.weight = F*beta - self.weight*eta
         self.fitness = 1/(1 + m.exp(phi_age(self.age-a_half))) * 1/(1 + m.exp(phi_weight(w_half-self.weight))) if self.weight>0 else 0
 
+    def birth(self, N):
+        if self.weight < zeta * (w_birth + sigma_birth):
+            return False
+        elif random.uniform(0, 1) < min(1, gamma*self.fitness*(N-1)):
+            return True
+        else:
+            return False
