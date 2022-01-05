@@ -7,6 +7,15 @@ class lowland:
         self.carnivores = carnivores if carnivores is not None else []
         self.F_herbivores = F_herbivores
 
+    def num_herbivores(self):
+
+        return len(self.herbivores)
+
+    def num_carnivores(self):
+
+        return len(self.carnivores)
+
+
     def feeding(self):
         for herbi in self.herbivores:
             if self.fodder >= self.F_herbivores:
