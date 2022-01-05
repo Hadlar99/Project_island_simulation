@@ -43,9 +43,9 @@ class Herbivore:
 
 
 
-    def __init__(self):
+    def __init__(self, wieght):
         self.age = 0
-        self.weight = w_birth
+        self.weight = weight
         self.fitness = 1/(1 + m.exp(phi_age(self.age-a_half))) * 1/(1 + m.exp(phi_weight(w_half-self.weight))) if self.weight>0 else 0
 
 
@@ -59,12 +59,14 @@ class Herbivore:
         if self.weight < zeta * (w_birth + sigma_birth):
             return False
         elif random.uniform(0, 1) < min(1, gamma*self.fitness*(N-1)):
-            return True
+            weight_baby = random.gauss(w_birth, sigma_birth)
+            self.weight -= xi * weight_baby
+            return weight_baby
         else:
             return False
 
     def death(self):
-        if self.weight = 0:
+        if self.weight == 0:
             return True
         elif random.uniform(0,1) < omega *(1-self.fitness):
             return True
