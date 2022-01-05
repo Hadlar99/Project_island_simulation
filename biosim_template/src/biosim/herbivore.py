@@ -25,11 +25,11 @@ class Herbivore:
     @classmethod
     def set_params(cls, given_params):
         for key in given_params:
-            if key not in params:
+            if key not in cls.params:
                 raise KeyError(f'Invalid parameter name: {key}')
 
         for key in given_params():
-            params[key] = given_params[key]
+            cls.params[key] = given_params[key]
 
 
 
@@ -38,14 +38,25 @@ class Herbivore:
     def __init__(self, weight):
         self.age = 0
         self.weight = weight
-        self.fitness = 1/(1 + m.exp(self.params['phi_age'](self.age-self.params['a_half']))) * 1/(1 + m.exp(self.params['phi_weight'](self.params['w_half']-self.weight))) if self.weight>0 else 0
+        #self.fitness = 1/(1 + m.exp(self.params['phi_age'](self.age-self.params['a_half']))) * 1/(1 + m.exp(self.params['phi_weight'](self.params['w_half']-self.weight))) if self.weight>0 else 0
 
 
 
-    def year(self, F):
+    def year(self):
         self.age += 1
-        self.weight = F*self.params['beta'] - self.weight*self.params['eta']
-        self.fitness = 1/(1 + m.exp(self.params['phi_age'](self.age-self.params['a_half']))) * 1/(1 + m.exp(self.params['phi_weight'](self.params['w_half']-self.weight))) if self.weight>0 else 0
+
+
+
+    def weight(self, Food):
+        self.weight = Food * self.params['beta'] - self.weight * self.params['eta']
+
+
+
+    def fitness(self):
+        self.fitness = 1 / (1 + m.exp(self.params['phi_age'](self.age - self.params['a_half']))) * 1 / (
+                    1 + m.exp(self.params['phi_weight'](self.params['w_half'] - self.weight))) if self.weight > 0 else 0
+
+
 
     def birth(self, N):
         if self.weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
