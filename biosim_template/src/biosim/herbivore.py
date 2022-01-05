@@ -62,3 +62,11 @@ class Herbivore:
             return True
         else:
             return False
+
+    def death(self):
+        if self.weight = 0:
+            return True
+        elif random.uniform(0,1) < omega *(1-self.fitness):
+            return True
+        else:
+            return False
