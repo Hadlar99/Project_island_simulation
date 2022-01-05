@@ -26,6 +26,11 @@ class lowland:
                 self.fooder = 0
 
     def reproduction(self):
+        N = num_herbivores()
+        babies = [herbivore(bw) for herbi in self.hebivores if (bw := herbi.birth(N))]
+        self.herbivores.extend(babies)
+
+
 
 
 
