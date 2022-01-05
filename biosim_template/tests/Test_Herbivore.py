@@ -1,4 +1,4 @@
-from .src.biosim.herbivore import Herbivore
+from biosim.herbivore import Herbivore
 import pytest
 
 def test_age():
