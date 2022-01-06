@@ -39,3 +39,5 @@ def test_give_birth():
 
 def test_not_birth_weight():
     herbivore = Herbivore(10)
+
+    assert 6.5 >= herbivore.birth(100) <= 9.5
