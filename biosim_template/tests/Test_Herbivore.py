@@ -21,3 +21,8 @@ def test_lose_weight():
     herbivore.lose_weight()
 
     assert herbivore.weight < previous_weight
+
+
+def test_fitness():
+    herbivore = Herbivore(8)
+    assert 0 <= herbivore.fitness() <= 1

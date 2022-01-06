@@ -38,7 +38,6 @@ class Herbivore:
     def __init__(self, weight=None):
         self.age = 0
         self.weight = weight if weight is not None else random.gauss(self.params['w_birth'], self.params['sigma_birth'])
-        #self.fitness = 1/(1 + m.exp(self.params['phi_age'](self.age-self.params['a_half']))) * 1/(1 + m.exp(self.params['phi_weight'](self.params['w_half']-self.weight))) if self.weight>0 else 0
 
 
     def add_weight(self, food):
@@ -56,15 +55,17 @@ class Herbivore:
 
 
     def fitness(self):
-        self.fitness = 1 / (1 + m.exp(self.params['phi_age'](self.age - self.params['a_half']))) * 1 / (
-                    1 + m.exp(self.params['phi_weight'](self.params['w_half'] - self.weight))) if self.weight > 0 else 0
+        if self.weight <= 0:
+            return 0
+        return 1 / (1 + m.exp(self.params['phi_age'] * (self.age - self.params['a_half']))) * 1 / (
+                    1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self.weight)))
 
 
 
     def birth(self, N):
         if self.weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
             return False
-        elif random.uniform(0, 1) < min(1, self.params['gamma']*self.fitness*(N-1)):
+        elif random.uniform(0, 1) < min(1, self.params['gamma']*self.fitness()*(N-1)):
             weight_baby = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
             self.weight -= self.params['xi'] * weight_baby
             return weight_baby
@@ -74,7 +75,7 @@ class Herbivore:
     def death(self):
         if self.weight == 0:
             return True
-        elif random.uniform(0,1) < self.params['omega'] *(1-self.fitness):
+        elif random.uniform(0,1) < self.params['omega'] *(1-self.fitness()):
             return True
         else:
             return False
