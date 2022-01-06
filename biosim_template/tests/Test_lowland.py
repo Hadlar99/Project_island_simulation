@@ -43,3 +43,9 @@ def test_loss_of_weight():
     cell.loss_of_weight()
 
     assert cell.herbivores[0].weight == 35 - 35 * cell.herbivores[0].params['eta']
+
+def test_pop_reduction():
+    cell = lowland([Herbivore(a, 35) for a in range(50)])
+    cell.pop_reduction()
+
+    assert cell.num_herbivores() < 50
