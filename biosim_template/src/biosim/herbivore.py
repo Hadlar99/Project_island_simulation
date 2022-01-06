@@ -28,8 +28,8 @@ class Herbivore:
         for key in given_params():
             cls.params[key] = given_params[key]
 
-    def __init__(self, weight=None):
-        self.age = 0
+    def __init__(self, age=0, weight=None):
+        self.age = age
         self.weight = weight if weight is not None else random.gauss(self.params['w_birth'], self.params['sigma_birth'])
 
     def add_weight(self, food):
