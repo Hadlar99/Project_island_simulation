@@ -61,12 +61,13 @@ class Herbivore:
                     1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self.weight)))
 
 
-
     def birth(self, N):
         if self.weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
             return False
         elif random.random() < min(1, self.params['gamma']*self.fitness()*(N-1)):
             weight_baby = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
+            if weight_baby > self.weight:
+                return False
             self.weight -= self.params['xi'] * weight_baby
             return weight_baby
         else:
