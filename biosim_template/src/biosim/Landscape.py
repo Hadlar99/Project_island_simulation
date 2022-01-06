@@ -3,12 +3,11 @@ from .herbivore import Herbivore
 
 class lowland:
 
-    def __init__(self, F_herbivores, herbivores=None, carnivores= None):
+    def __init__(self, herbivores=None, carnivores= None):
         self.fodder = 800
         self.herbivores = herbivores if herbivores is not None else []
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness, reverse=True)
         self.carnivores = carnivores if carnivores is not None else []
-        self.F_herbivores = F_herbivores
 
     def num_herbivores(self):
 
@@ -18,12 +17,11 @@ class lowland:
 
         return len(self.carnivores)
 
-
     def feeding(self):
         for herbi in self.herbivores:
-            if self.fodder >= self.F_herbivores:
-                self.fodder -= self.F_herbivores
-                herbi.add_weigth(self.F_herbivores)
+            if self.fodder >= herbi.params['F']:
+                self.fodder -= herbi.params['F']
+                herbi.add_weigth(herbi.params['F'])
             elif self.fooder == 0:
                 pass
             else:
@@ -35,11 +33,9 @@ class lowland:
         babies = [Herbivore(bw) for herbi in self.herbivores if (bw := herbi.birth(N))]
         self.herbivores.extend(babies)
 
-
     def aging(self):
         for herbi in self.herbivores:
             herbi.year()
-
 
     def loss_of_weight(self):
         for herbi in self.herbivores:
