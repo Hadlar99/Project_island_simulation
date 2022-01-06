@@ -8,4 +8,5 @@ class Island:
         self.pop_herbivore = [Herbivore(animal['age'], animal['weight']) for animal in self.pop
                               if animal['species'] == 'Herbivore']
 
+    def location(self):
 
