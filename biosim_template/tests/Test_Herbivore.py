@@ -4,6 +4,7 @@ from biosim.herbivore import Herbivore
 import pytest
 random.seed(15)
 
+
 def test_age():
     num_year = 21
     herbivore = Herbivore()
@@ -17,6 +18,7 @@ def test_add_weight():
     herbivore.add_weight(10)
 
     assert herbivore.weight >= 0
+
 
 def test_lose_weight():
     herbivore = Herbivore()
@@ -37,7 +39,14 @@ def test_give_birth():
 
     assert 6.5 <= herbivore.birth(100) <= 9.5
 
+
 def test_not_birth_weight():
     herbivore = Herbivore(10)
 
     assert 6.5 >= herbivore.birth(100) <= 9.5
+
+
+def test_death():
+    herbivore = Herbivore(0)
+    assert herbivore.death()
+
