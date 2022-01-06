@@ -23,9 +23,11 @@ class lowland:
         for herbi in self.herbivores:
             if self.fodder >= self.F_herbivores:
                 self.fodder -= self.F_herbivores
-                herbi.year(self.F_herbivores)
+                herbi.add_weigth(self.F_herbivores)
+            elif self.fooder == 0:
+                pass
             else:
-                herbi.year(self.fooder)
+                herbi.add_weigth(self.fooder)
                 self.fooder = 0
 
     def reproduction(self):
@@ -33,6 +35,15 @@ class lowland:
         babies = [Herbivore(bw) for herbi in self.herbivores if (bw := herbi.birth(N))]
         self.herbivores.extend(babies)
 
+
+    def aging(self):
+        for herbi in self.herbivores:
+            herbi.year()
+
+
+    def loss_of_weight(self):
+        for herbi in self.herbivores:
+            herbi.lose_weight()
 
     def pop_reduction(self):
         alive = [herbi for herbi in self.herbivores if not herbi.death()]
