@@ -21,12 +21,12 @@ class lowland:
         for herbi in self.herbivores:
             if self.fodder >= herbi.params['F']:
                 self.fodder -= herbi.params['F']
-                herbi.add_weigth(herbi.params['F'])
-            elif self.fooder == 0:
+                herbi.add_weight(herbi.params['F'])
+            elif self.fodder == 0:
                 pass
             else:
-                herbi.add_weigth(self.fooder)
-                self.fooder = 0
+                herbi.add_weight(self.fodder)
+                self.fodder = 0
 
     def reproduction(self):
         N = len(self.herbivores)

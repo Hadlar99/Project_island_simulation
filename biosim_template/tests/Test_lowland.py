@@ -8,4 +8,11 @@ def test_count_herbivores():
     assert cell.num_herbivores() == 50
 
 
+def test_feeding():
+    cell = lowland([Herbivore() for _ in range(50)])
+    cell.feeding()
+
+    assert cell.fodder == 800-50*10
+
+
 
