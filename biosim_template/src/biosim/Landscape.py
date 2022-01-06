@@ -30,7 +30,7 @@ class lowland:
 
     def reproduction(self):
         N = len(self.herbivores)
-        babies = [Herbivore(bw) for herbi in self.herbivores if (bw := herbi.birth(N))]
+        babies = [Herbivore(0, bw) for herbi in self.herbivores if (bw := herbi.birth(N)) > 0]
         self.herbivores.extend(babies)
 
     def aging(self):
