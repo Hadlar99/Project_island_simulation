@@ -2,7 +2,7 @@
 import random
 
 from biosim.Landscape import Lowland
-from biosim.herbivore import Herbivore
+from biosim.Animal import Herbivore
 
 import pytest
 seed = 456

@@ -1,4 +1,4 @@
-from .herbivore import Herbivore
+from .Animal import Herbivore
 from .Landscape import Lowland, Highland, Water, Dessert
 
 class Island:

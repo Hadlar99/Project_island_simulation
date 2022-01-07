@@ -1,9 +1,7 @@
 """Test for Herbivore class"""
 
-import random
 
-from biosim.herbivore import Herbivore
-import pytest
+from biosim.Animal import Herbivore
 
 
 def test_age():
@@ -51,7 +49,7 @@ def test_not_birth_weight():
     """test if herbivore cannot give birth because of weight"""
     herbivore = Herbivore(0, 10)
 
-    assert 6.5 >= herbivore.birth(100) <= 9.5
+    assert not herbivore.birth(100)
 
 
 def test_death():

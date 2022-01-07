@@ -6,6 +6,16 @@ import random
 
 class Animal:
 
+    params = {}
+
+    @classmethod
+    def set_params(cls, given_params):
+        for key in given_params:
+            if key not in cls.params:
+                raise KeyError(f'Invalid parameter name: {key}')
+
+        for key in given_params():
+            cls.params[key] = given_params[key]
 
     def __init__(self, age=0, weight=None):
         """
@@ -90,6 +100,7 @@ class Animal:
         else:
             return False       # if not dead, it's going to live
 
+
 class Herbivore(Animal):
     """Given parameters for herbivores that works with the code"""
 
@@ -110,14 +121,6 @@ class Herbivore(Animal):
 
     """Method to change parameter when given a dictionary with same keys"""
 
-    @classmethod
-    def set_params(cls, given_params):
-        for key in given_params:
-            if key not in cls.params:
-                raise KeyError(f'Invalid parameter name: {key}')
-
-        for key in given_params():
-            cls.params[key] = given_params[key]
 
 class Carnivore(Animal):
     """Given parameters for carnivores that works with the code"""
@@ -140,13 +143,6 @@ class Carnivore(Animal):
 
     """Method to change parameter when given a dictionary with same keys"""
 
-    @classmethod
-    def set_params(cls, given_params):
-        for key in given_params:
-            if key not in cls.params:
-                raise KeyError(f'Invalid parameter name: {key}')
 
-        for key in given_params():
-            cls.params[key] = given_params[key]
 
 

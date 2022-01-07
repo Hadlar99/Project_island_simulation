@@ -1,4 +1,4 @@
-from .herbivore import Herbivore
+from .Animal import Herbivore
 
 '''Super Class for the Landscape'''
 

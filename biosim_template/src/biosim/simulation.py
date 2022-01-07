@@ -2,7 +2,7 @@
 Template for BioSim class.
 """
 from .Island import Island
-from .herbivore import Herbivore
+from .Animal import Herbivore
 from .Landscape import Dessert, Highland, Lowland, Water
 import random
 import matplotlib.pyplot as plt
