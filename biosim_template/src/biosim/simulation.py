@@ -1,6 +1,17 @@
 """
 Template for BioSim class.
 """
+from .Island import Island
+from .herbivore import Herbivore
+from .Landscape import Dessert, Highland, Lowland, Water
+import random
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as pd
+import pathlib as Path
+import re
+
+
 
 # The material in this file is licensed under the BSD 3-clause license
 # https://opensource.org/licenses/BSD-3-Clause
@@ -45,6 +56,9 @@ class BioSim:
 
         img_dir and img_base must either be both None or both strings.
         """
+        random.seed(seed)
+
+        self.Island = Island(island_map, ini_pop)
 
     def set_animal_parameters(self, species, params):
         """
@@ -53,6 +67,12 @@ class BioSim:
         :param species: String, name of animal species
         :param params: Dict with valid parameter specification for species
         """
+        if species == 'Herbivore':
+            Herbivore.set_params(params)
+        elif species == 'Carnivore':
+            pass
+        else:
+            raise NameError('Species have to be Herbivore or Carnivore ')
 
     def set_landscape_parameters(self, landscape, params):
         """
@@ -62,6 +82,15 @@ class BioSim:
         :param params: Dict with valid parameter specification for landscape
         """
 
+        if landscape == 'L':
+            Lowland.food_params(params)
+        elif landscape == 'H':
+            Highland.food_params(params)
+        elif landscape == 'D':
+            Dessert.food_params(params)
+        else:
+            raise NameError(f'Landscape has to be L, H or D')
+
     def simulate(self, num_years):
         """
         Run simulation while visualizing the result.
@@ -69,12 +98,23 @@ class BioSim:
         :param num_years: number of years to simulate
         """
 
+        self.years = num_years
+        x = []
+        y = []
+        for year in range(num_years):
+            self.Island.season()
+            y.append(self.Island.amount_of_herbivores())
+            x.append(year)
+        plt.plot(x, y)
+
+
     def add_population(self, population):
         """
         Add a population to the island
 
         :param population: List of dictionaries specifying population
         """
+        self.population = []
 
     @property
     def year(self):

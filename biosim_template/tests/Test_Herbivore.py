@@ -1,26 +1,30 @@
+"""Test for Herbivore class"""
+
 import random
 
 from biosim.herbivore import Herbivore
 import pytest
-random.seed(15)
 
 
 def test_age():
+    """test for aging of herbivore, each time it is called the age will grow with 1"""
     num_year = 21
-    herbivore = Herbivore()
+    herbivore = Herbivore(5)
     for i in range (num_year):
         herbivore.year()
-    assert herbivore.age == num_year
+    assert herbivore.age == num_year + 5
 
 
 def test_add_weight():
+    """Checks if the weight goes up when the herbivore eats"""
     herbivore = Herbivore()
     herbivore.add_weight(10)
 
-    assert herbivore.weight >= 0
+    assert herbivore.weight >= 9 #the weight must be more than 9 because of beta and how much it eats
 
 
 def test_lose_weight():
+    """checks if the herbivore loses weight"""
     herbivore = Herbivore()
     previous_weight = herbivore.weight
     herbivore.lose_weight()
@@ -29,24 +33,29 @@ def test_lose_weight():
 
 
 def test_fitness():
+    """find the fitness of the animal, fitness is a number between 0 and 1"""
     herbivore = Herbivore(8)
     assert 0 <= herbivore.fitness() <= 1
 
 
-def test_give_birth():
-    herbivore = Herbivore(50)
-    herbivore.year()
+def test_give_birth(mocker):
+    """test if herbivore gives birth, specified the random numbers needed to give wished weight of baby"""
+    mocker.patch('random.random', return_value=0.1)
+    mocker.patch('random.gauss', return_value=8)
+    herbivore = Herbivore(5, 50)
 
-    assert 6.5 <= herbivore.birth(100) <= 9.5
+    assert 8 == herbivore.birth(10)
 
 
 def test_not_birth_weight():
-    herbivore = Herbivore(10)
+    """test if herbivore cannot give birth because of weight"""
+    herbivore = Herbivore(0, 10)
 
     assert 6.5 >= herbivore.birth(100) <= 9.5
 
 
 def test_death():
-    herbivore = Herbivore(0)
+    """if herbivore weight is 0 it will die"""
+    herbivore = Herbivore(0, 0)
     assert herbivore.death()
 
