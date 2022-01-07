@@ -25,6 +25,26 @@ class Island:
             if type(cell) is not Water:
                 cell.feeding()
 
+    def sexy_season(self):
+        for cell in self.map.values():
+            if type(cell) is not Water:
+                cell.reproduction()
+
+    def birthday_season(self):
+        for cell in self.map.values():
+            if type(cell) is not Water:
+                cell.aging()
+
+    def shredding_season(self):
+        for cell in self.map.values():
+            if type(cell) is not Water:
+                cell.loss_of_weight()
+
+    def danger_season(self):
+        for cell in self.map.values():
+            if type(cell) is not Water:
+                cell.pop_reduction()
+
 
 
 
