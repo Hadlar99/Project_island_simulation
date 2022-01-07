@@ -5,6 +5,13 @@ from .Island import Island
 from .herbivore import Herbivore
 from .Landscape import Dessert, Highland, Lowland, Water
 import random
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as pd
+import pathlib as Path
+import re
+
+
 
 # The material in this file is licensed under the BSD 3-clause license
 # https://opensource.org/licenses/BSD-3-Clause

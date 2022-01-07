@@ -27,6 +27,7 @@ class Landscape:
 
     def feeding(self):
         """Feeds the herbivores in the landscape"""
+        self.fodder = self.f_max
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness(), reverse=True)  # Sort herbivores by fitness
         for herbi in self.herbivores:
             if self.fodder >= herbi.params['F']:
