@@ -49,7 +49,9 @@ class BioSim:
 
         img_dir and img_base must either be both None or both strings.
         """
-        random.random(seed)
+        random.seed(seed)
+
+        self.Island = Island(island_map, ini_pop)
 
     def set_animal_parameters(self, species, params):
         """
@@ -58,9 +60,9 @@ class BioSim:
         :param species: String, name of animal species
         :param params: Dict with valid parameter specification for species
         """
-        if species is 'Herbivore':
+        if species == 'Herbivore':
             Herbivore.set_params(params)
-        elif species is 'Carnivore':
+        elif species == 'Carnivore':
             pass
         else:
             raise NameError('Species have to be Herbivore or Carnivore ')
@@ -73,11 +75,11 @@ class BioSim:
         :param params: Dict with valid parameter specification for landscape
         """
 
-        if landscape is 'L':
+        if landscape == 'L':
             Lowland.food_params(params)
-        elif landscape is 'H'
+        elif landscape == 'H':
             Highland.food_params(params)
-        elif landscape is 'D'
+        elif landscape == 'D':
             Dessert.food_params(params)
         else:
             raise NameError(f'Landscape has to be L, H or D')
@@ -90,6 +92,9 @@ class BioSim:
         """
 
         self.years = num_years
+        for year in range(num_years):
+            self.Island.season()
+            print(self.Island.amount_of_herbivores())
 
     def add_population(self, population):
         """
