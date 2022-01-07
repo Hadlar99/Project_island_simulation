@@ -99,9 +99,14 @@ class BioSim:
         """
 
         self.years = num_years
+        x = []
+        y = []
         for year in range(num_years):
             self.Island.season()
-            print(self.Island.amount_of_herbivores())
+            y.append(self.Island.amount_of_herbivores())
+            x.append(year)
+        plt.plot(x, y)
+        plt.show()
 
     def add_population(self, population):
         """
