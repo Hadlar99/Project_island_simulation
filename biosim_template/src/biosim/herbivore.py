@@ -97,7 +97,9 @@ class Herbivore:
         elif random.random() < min(1, self.params['gamma']*self.fitness()*(N-1)):
             weight_baby = random.gauss(self.params['w_birth'], self.params['sigma_birth']) #gives a weight to baby if birth
             if weight_baby > self.weight:
-                return False #if the baby is going to weigh more thatn the parent, no birth
+                return False  #if the baby is going to weigh more thatn the parent, no birth
+            if weight_baby <= 0:
+                return False  # Baby not born if it weight is less or equal to 0
             self.weight -= self.params['xi'] * weight_baby # reduce weight of parent when given birth
             return weight_baby
         else:
