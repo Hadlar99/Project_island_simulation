@@ -5,7 +5,7 @@ Island with single lowland cell, first herbivores only, later carnivores.
 
 __author__ = 'Hans Ekkehard Plesser, NMBU'
 
-
+import matplotlib.pyplot as plt
 import textwrap
 from biosim.simulation import BioSim
 
@@ -25,3 +25,5 @@ for seed in range(100, 103):
     sim = BioSim(geogr, ini_herbs, seed=seed,
                  img_dir='results', img_base=f'mono_ho_{seed:05d}', img_years=300)
     sim.simulate(301)
+
+plt.show()
