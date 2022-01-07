@@ -5,6 +5,18 @@ from .herbivore import Herbivore
 
 class Landscape:
 
+    def pop_herbivores(self, pop):
+        """
+
+        Parameters
+        ----------
+        pop_herbivore : list With Herbivore
+
+        """
+        pop_herbivore = [Herbivore(animal['age'], animal['weight']) for animal in pop
+                         if animal['species'] == 'Herbivore']
+        self.herbivores.extend(pop_herbivore)
+
     def num_herbivores(self):
         """Finds the number of herbivores"""
         return len(self.herbivores)
@@ -57,6 +69,8 @@ class Water(Landscape):
     """Water without food and animals"""
 
     def __init__(self):
+        self.herbivores = []
+        self.carnivores = []
         self.fodder = 0  # How much food there are in the Water
 
 

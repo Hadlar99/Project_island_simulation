@@ -15,6 +15,14 @@ def test_count_herbivores():
     assert cell.num_herbivores() == 50
 
 
+def test_pop_herbivores():
+    cell = Lowland()
+    cell.pop_herbivores([{'species': 'Herbivore',
+                        'age': 5,
+                        'weight': 20}
+                        for _ in range(50)])
+    assert cell.num_herbivores() == 50
+
 def test_feeding():
     """Tests if the right amount of food are eaten"""
     cell = Lowland([Herbivore() for _ in range(50)])
