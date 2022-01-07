@@ -11,9 +11,11 @@ ini_herbs = [{'loc': (2, 2),
                         'weight': 20}
                         for _ in range(50)]}]
 
-def test_feeding_season():
+def test_feeding():
     cell = Island(geogr, ini_herbs)
-    cell.feeding_season()
+    cell.season()
+    cell.season()
+    assert cell.amount_of_herbivores() > 50
 
 
 def test_amount_of_herbivores():
