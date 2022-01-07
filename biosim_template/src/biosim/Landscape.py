@@ -1,6 +1,6 @@
 from .herbivore import Herbivore
 
-'''lowland Class for'''
+'''Super Class for the Landscape'''
 
 
 class Landscape:

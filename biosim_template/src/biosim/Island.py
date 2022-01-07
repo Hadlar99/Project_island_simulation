@@ -1,5 +1,5 @@
 from .herbivore import Herbivore
-from .Landscape import Lowland
+from .Landscape import Lowland, Highland, Water, Dessert
 
 class Island:
 
@@ -20,5 +20,13 @@ class Island:
         self.pop_herbivore = [Herbivore(animal['age'], animal['weight']) for animal in self.pop
                               if animal['species'] == 'Herbivore']
 
-    def location(self):
+    def feeding_season(self):
+        for cell in self.map.values():
+            if type(cell) is not Water:
+                cell.feeding()
+
+
+
+
+
 
