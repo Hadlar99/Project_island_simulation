@@ -76,29 +76,57 @@ class Water(Landscape):
 
 class Lowland(Landscape):
     """Lowland with food and animals"""
+    f_max = 800
+
+    @classmethod
+    def food_params(cls, param):
+        for key, value in param.items():
+            if key == 'f_max':
+                f_max = value
+            else:
+                raise KeyError(f'Invalid parameter name: {key}')
+
 
     def __init__(self, herbivores=None, carnivores=None):
         self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
         self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
-        self.fodder = 800       # How much food there are in the lowland
+        self.fodder = self.f_max       # How much food there are in the lowland
 
 
 class Highland(Landscape):
     """Highland with food and animals"""
+    f_max = 300
+
+    @classmethod
+    def food_params(cls, param):
+        for key, value in param.items():
+            if key == 'f_max':
+                f_max = value
+            else:
+                raise KeyError(f'Invalid parameter name: {key}')
 
     def __init__(self, herbivores=None, carnivores=None):
         self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
         self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
-        self.fodder = 0  # How much food there are in the Highland
+        self.fodder = self.f_max  # How much food there are in the Highland
 
 
 class Dessert(Landscape):
     """Dessert animals and no food"""
+    f_max = 0
+
+    @classmethod
+    def food_params(cls, param):
+        for key, value in param.items():
+            if key == 'f_max':
+                f_max = value
+            else:
+                raise KeyError(f'Invalid parameter name: {key}')
 
     def __init__(self, herbivores=None, carnivores=None):
         self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
         self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
-        self.fodder = 0  # How much food there are in the Dessert
+        self.fodder = self.f_max  # How much food there are in the Dessert
 
 
 

@@ -50,7 +50,7 @@ class BioSim:
         img_dir and img_base must either be both None or both strings.
         """
         random.random(seed)
-        Herbivore,set_
+
     def set_animal_parameters(self, species, params):
         """
         Set parameters for animal species.
@@ -58,8 +58,12 @@ class BioSim:
         :param species: String, name of animal species
         :param params: Dict with valid parameter specification for species
         """
-        self.species = species
-        self.params = params
+        if species is 'Herbivore':
+            Herbivore.set_params(params)
+        elif species is 'Carnivore':
+            pass
+        else:
+            raise NameError('Species have to be Herbivore or Carnivore ')
 
     def set_landscape_parameters(self, landscape, params):
         """
@@ -68,14 +72,23 @@ class BioSim:
         :param landscape: String, code letter for landscape
         :param params: Dict with valid parameter specification for landscape
         """
-        self.landscape = landscape
-        self.params = params
+
+        if landscape is 'L':
+            Lowland.food_params(params)
+        elif landscape is 'H'
+            Highland.food_params(params)
+        elif landscape is 'D'
+            Dessert.food_params(params)
+        else:
+            raise NameError(f'Landscape has to be L, H or D')
+
     def simulate(self, num_years):
         """
         Run simulation while visualizing the result.
 
         :param num_years: number of years to simulate
         """
+
         self.years = num_years
 
     def add_population(self, population):
