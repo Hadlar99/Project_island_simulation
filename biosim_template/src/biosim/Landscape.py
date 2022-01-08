@@ -69,9 +69,13 @@ class Landscape:
 
     def reproduction(self):
         """Checks hoe many new babies there are and add them to the landscape"""
-        N = len(self.herbivores)
-        babies = [Herbivore(0, bw) for herbi in self.herbivores if (bw := herbi.birth(N)) > 0]
-        self.herbivores.extend(babies)  # Adds the new babies to the list of herbivores
+
+        self.herbivores.extend([Herbivore(0, bw) for herbi in self.herbivores
+                                if (bw := herbi.birth(self.num_herbivores())) > 0])
+        # Adds the new babies to the list of herbivores
+        self.carnivores.extend([Carnivore(0, bw) for carni in self.carnivores
+                                if (bw := carni.birth(self.num_carnivores())) > 0])
+        # Adds the new babies to the list of carnivores
 
     def aging(self):
         """Makes all the animals one year older"""
@@ -79,7 +83,6 @@ class Landscape:
             herbi.year()
         for carni in self.carnivores:
             carni.year()
-
 
     def loss_of_weight(self):
         """Removes the weight the animals loses in a year"""

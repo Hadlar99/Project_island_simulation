@@ -7,6 +7,9 @@ __author__ = 'Hans Ekkehard Plesser, NMBU'
 
 
 import textwrap
+
+import matplotlib.pyplot as plt
+
 from biosim.simulation import BioSim
 
 geogr = """\
@@ -32,3 +35,5 @@ for seed in range(100, 103):
     sim.simulate(50)
     sim.add_population(ini_carns)
     sim.simulate(251)
+
+plt.show()

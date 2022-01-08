@@ -23,6 +23,7 @@ class Island:
         for cell in self.map.values():
             if type(cell) is not Water:
                 cell.feeding()
+                cell.carnivore_feeding()
                 cell.reproduction()
                 cell.aging()
                 cell.loss_of_weight()
@@ -31,7 +32,8 @@ class Island:
     def amount_of_herbivores(self):
         return sum(cell.num_herbivores() for cell in self.map.values())
 
-
+    def amount_of_carnivores(self):
+        return sum(cell.num_carnivores() for cell in self.map.values())
 
 
 
