@@ -1,6 +1,6 @@
 import random
 
-from .Animal import Herbivore
+from .Animal import Herbivore, Carnivore
 
 '''Super Class for the Landscape'''
 
@@ -23,9 +23,11 @@ class Landscape:
         pop : list With Herbivore
 
         """
-        pop_herbivore = [Herbivore(animal['age'], animal['weight']) for animal in pop
-                         if animal['species'] == 'Herbivore']
-        self.herbivores.extend(pop_herbivore)
+        for animal in pop:
+            if animal['species'] == 'Herbivore':
+                self.herbivores.append(Herbivore(animal['age'], animal['weight']))
+            elif animal['species'] == 'Carnivore':
+                self.carnivores.append(Carnivore(animal['age'], animal['weight']))
 
     def num_herbivores(self):
         """Finds the number of herbivores"""
@@ -75,17 +77,24 @@ class Landscape:
         """Makes all the animals one year older"""
         for herbi in self.herbivores:
             herbi.year()
+        for carni in self.carnivores:
+            carni.year()
+
 
     def loss_of_weight(self):
         """Removes the weight the animals loses in a year"""
         for herbi in self.herbivores:
             herbi.lose_weight()
+        for carni in self.carnivores:
+            carni.lose_weight()
 
     def pop_reduction(self):
         """Removes all animals that dies"""
-        alive = [herbi for herbi in self.herbivores if not herbi.death()]
+        alive_herbi = [herbi for herbi in self.herbivores if not herbi.death()]
+        self.herbivores = alive_herbi
 
-        self.herbivores = alive
+        alive_carni = [carni for carni in self.carnivores if not carni.death()]
+        self.carnivores = alive_carni
 
 
 class Water(Landscape):

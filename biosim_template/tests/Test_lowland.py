@@ -2,7 +2,7 @@
 import random
 
 from biosim.Landscape import Lowland
-from biosim.Animal import Herbivore
+from biosim.Animal import Herbivore, Carnivore
 
 import pytest
 seed = 456
@@ -50,7 +50,7 @@ def test_reproduction():
 
 def test_aging():
     """Tests if the herbivores are aging correctly"""
-    cell = Lowland([Herbivore(a, 35) for a in range(10)])
+    cell = Lowland([Herbivore(a, 35) for a in range(10)], [Carnivore(a, 35) for a in range(10)])
     cell.aging()
 
     assert all(herbi.age == i + 1 for i, herbi in enumerate(cell.herbivores))
