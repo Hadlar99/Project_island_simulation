@@ -18,6 +18,7 @@ class Island:
         self.loc_start = ini_animals[0]['loc']
         self.pop = ini_animals[0]['pop']
         self.map[self.loc_start].pop_animals(self.pop)
+        self.year = 0
 
     def season(self):
         for cell in self.map.values():
@@ -28,6 +29,7 @@ class Island:
                 cell.aging()
                 cell.loss_of_weight()
                 cell.pop_reduction()
+        self.year += 1
 
     def amount_of_herbivores(self):
         return sum(cell.num_herbivores() for cell in self.map.values())

@@ -106,7 +106,7 @@ class BioSim:
             y1.append(self.Island.amount_of_herbivores())
             y2.append(self.Island.amount_of_carnivores())
             self.Island.season()
-            x.append(year)
+            x.append(self.Island.year)
         plt.plot(x, y1, '-r')
         plt.plot(x, y2, '-b')
 
