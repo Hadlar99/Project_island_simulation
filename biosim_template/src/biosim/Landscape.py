@@ -54,7 +54,7 @@ class Landscape:
                 self.fodder = 0
 
     def carnivore_feeding(self):
-
+        """Feeds the carnivores if there are any herbivores"""
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness())
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
