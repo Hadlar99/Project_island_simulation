@@ -28,6 +28,8 @@ class Landscape:
                 self.herbivores.append(Herbivore(animal['age'], animal['weight']))
             elif animal['species'] == 'Carnivore':
                 self.carnivores.append(Carnivore(animal['age'], animal['weight']))
+            else:
+                raise ValueError(f"species must be Herbivore or Carnivore, not {animal['species']}")
 
     def num_herbivores(self):
         """Finds the number of herbivores"""
