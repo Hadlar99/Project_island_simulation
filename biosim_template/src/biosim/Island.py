@@ -6,10 +6,20 @@ class Island:
     def __init__(self, island_map, ini_animals=None):
         self.map = {}
         map_lines = island_map.splitlines()
-        first_line = len(map_lines[0])
-        for i, row in enumerate(island_map.splitlines()):
-            if len(row) != first_line:
+        len_first_line = len(map_lines[0])
+
+        for  landscape in map_lines[0] + map_lines[-1]:
+            if landscape != 'W':
+                raise ValueError('Boundary must be W')
+        for row in island_map:
+            if len(row) != len_first_line:
                 raise ValueError('All lines must have the same length')
+            for landscape in row:
+                if landscape[0] != 'W' or landscape[-1]:
+                    raise ValueError('Boundary must be W')
+
+
+        for i, row in enumerate(island_map.splitlines()):
             for j, landscape in enumerate(row):
                 if landscape == 'W':
                     self.map[(i+1, j+1)] = Water()
