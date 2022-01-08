@@ -35,7 +35,22 @@ def test_feeding():
     assert cell.fodder == 800-50*10
 
 def test_feeding_carnivores():
+    """Test if the carnivores are going to eat any herbivores"""
+    ini_herbs = [{'species': 'Herbivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(50)]
+    ini_carns = [{'species': 'Carnivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(20)]
+    cell = Lowland()
+    cell.pop_animals(ini_herbs)
+    cell.pop_animals(ini_carns)
 
+    cell.carnivore_feeding()
+
+    assert cell.num_herbivores() < 50
 
 def test_feeding_no_fodder():
     """Test if there are no food left when all the food are eaten"""
