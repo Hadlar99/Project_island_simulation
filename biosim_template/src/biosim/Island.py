@@ -3,7 +3,7 @@ from .Landscape import Lowland, Highland, Water, Dessert
 
 class Island:
 
-    def __init__(self, island_map, ini_herbs):
+    def __init__(self, island_map, ini_animals):
         self.map = {}
         for i, row in enumerate(island_map.splitlines()):
             for j, landscape in enumerate(row):
@@ -15,9 +15,9 @@ class Island:
                     self.map[(i+1, j+1)] = Highland()
                 if landscape == 'D':
                     self.map[(i+1, j+1)] = Dessert()
-        self.loc_start = ini_herbs[0]['loc']
-        self.pop = ini_herbs[0]['pop']
-        self.map[self.loc_start].pop_herbivores(self.pop)
+        self.loc_start = ini_animals[0]['loc']
+        self.pop = ini_animals[0]['pop']
+        self.map[self.loc_start].pop_animals(self.pop)
 
     def season(self):
         for cell in self.map.values():
@@ -34,6 +34,11 @@ class Island:
 
     def amount_of_carnivores(self):
         return sum(cell.num_carnivores() for cell in self.map.values())
+
+    def new_animals(self, ini_pop):
+        self.loc_start = ini_pop[0]['loc']
+        self.pop = ini_pop[0]['pop']
+        self.map[self.loc_start].pop_animals(self.pop)
 
 
 

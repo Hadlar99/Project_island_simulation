@@ -117,7 +117,7 @@ class BioSim:
 
         :param population: List of dictionaries specifying population
         """
-        self.population = []
+        self.Island.new_animals(population)
 
     @property
     def year(self):

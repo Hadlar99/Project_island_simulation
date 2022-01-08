@@ -15,7 +15,7 @@ class Landscape:
             else:
                 raise KeyError(f'Invalid parameter name: {key}')
 
-    def pop_herbivores(self, pop):
+    def pop_animals(self, pop):
         """
 
         Parameters
@@ -56,7 +56,7 @@ class Landscape:
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness())
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
-            Hunger = carni.params('F')
+            Hunger = carni.params['F']
             for herbi in alive_herbivores:
                 if (carni.fitness()-herbi.fitness())/carni.params['DeltaPhiMax'] > random.random():
                     if herbi.weight > Hunger:
