@@ -1,3 +1,5 @@
+import random
+
 from .Animal import Herbivore
 
 '''Super Class for the Landscape'''
@@ -38,6 +40,25 @@ class Landscape:
             else:  # If there are less food then a herbivore can eat
                 herbi.add_weight(self.fodder)  # the herbivore get the rest of the food
                 self.fodder = 0
+
+
+    def carnivore_feeding(self):
+
+        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness())
+        for carni in self.carnivores:
+            alive_herbivores = self.herbivores
+            Hunger = carni.params('F')
+            for i in alive_herbivores:
+                if (carni.fitness()-i.fitness())/carni.params['DeltaPhiMax'] > random.random():
+                    if i.weight > Hunger:
+                        carni.add_weight(Hunger)
+                        self.herbivores.remove(i)
+                        break
+                    else:
+                        carni.add_weight(i.weight)
+                        self.herbivores.remove(i)
+
+
 
 
     def reproduction(self):
