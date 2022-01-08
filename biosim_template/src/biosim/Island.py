@@ -9,12 +9,14 @@ class Island:
             for j, landscape in enumerate(row):
                 if landscape == 'W':
                     self.map[(i+1, j+1)] = Water()
-                if landscape == 'L':
+                elif landscape == 'L':
                     self.map[(i+1, j+1)] = Lowland()
-                if landscape == 'H':
+                elif landscape == 'H':
                     self.map[(i+1, j+1)] = Highland()
-                if landscape == 'D':
+                elif landscape == 'D':
                     self.map[(i+1, j+1)] = Dessert()
+                else:
+                    raise ValueError(f'Landscape has to be W, L, H, D, can not be {landscape}')
         self.year = 0
         if ini_animals:
             self.new_animals(ini_animals)
