@@ -4,7 +4,6 @@ import random
 from biosim.Landscape import Lowland
 from biosim.Animal import Herbivore, Carnivore
 
-import pytest
 seed = 456
 
 
@@ -17,7 +16,7 @@ def test_count_herbivores():
 
 def test_pop_herbivores():
     cell = Lowland()
-    cell.pop_herbivores([{'species': 'Herbivore',
+    cell.pop_animals([{'species': 'Herbivore',
                         'age': 5,
                         'weight': 20}
                         for _ in range(50)])
