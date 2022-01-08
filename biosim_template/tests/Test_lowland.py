@@ -71,3 +71,10 @@ def test_pop_reduction():
     cell.pop_reduction()
 
     assert cell.num_herbivores() < 50
+
+
+def test_food_params():
+    Lowland.food_params({'f_max': 100.})
+    cell = Lowland([Herbivore() for _ in range(50)])
+    cell.feeding()
+    assert cell.fodder == 0

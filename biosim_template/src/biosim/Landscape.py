@@ -7,12 +7,20 @@ from .Animal import Herbivore
 
 class Landscape:
 
+    @classmethod
+    def food_params(cls, param):
+        for key, value in param.items():
+            if key == 'f_max':
+                cls.f_max = value
+            else:
+                raise KeyError(f'Invalid parameter name: {key}')
+
     def pop_herbivores(self, pop):
         """
 
         Parameters
         ----------
-        pop_herbivore : list With Herbivore
+        pop : list With Herbivore
 
         """
         pop_herbivore = [Herbivore(animal['age'], animal['weight']) for animal in pop
@@ -41,25 +49,21 @@ class Landscape:
                 herbi.add_weight(self.fodder)  # the herbivore get the rest of the food
                 self.fodder = 0
 
-
     def carnivore_feeding(self):
 
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness())
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
             Hunger = carni.params('F')
-            for i in alive_herbivores:
-                if (carni.fitness()-i.fitness())/carni.params['DeltaPhiMax'] > random.random():
-                    if i.weight > Hunger:
+            for herbi in alive_herbivores:
+                if (carni.fitness()-herbi.fitness())/carni.params['DeltaPhiMax'] > random.random():
+                    if herbi.weight > Hunger:
                         carni.add_weight(Hunger)
-                        self.herbivores.remove(i)
+                        self.herbivores.remove(herbi)
                         break
                     else:
-                        carni.add_weight(i.weight)
-                        self.herbivores.remove(i)
-
-
-
+                        carni.add_weight(herbi.weight)
+                        self.herbivores.remove(herbi)
 
     def reproduction(self):
         """Checks hoe many new babies there are and add them to the landscape"""
@@ -67,18 +71,15 @@ class Landscape:
         babies = [Herbivore(0, bw) for herbi in self.herbivores if (bw := herbi.birth(N)) > 0]
         self.herbivores.extend(babies)  # Adds the new babies to the list of herbivores
 
-
     def aging(self):
         """Makes all the animals one year older"""
         for herbi in self.herbivores:
             herbi.year()
 
-
     def loss_of_weight(self):
         """Removes the weight the animals loses in a year"""
         for herbi in self.herbivores:
             herbi.lose_weight()
-
 
     def pop_reduction(self):
         """Removes all animals that dies"""
@@ -100,15 +101,6 @@ class Lowland(Landscape):
     """Lowland with food and animals"""
     f_max = 800
 
-    @classmethod
-    def food_params(cls, param):
-        for key, value in param.items():
-            if key == 'f_max':
-                f_max = value
-            else:
-                raise KeyError(f'Invalid parameter name: {key}')
-
-
     def __init__(self, herbivores=None, carnivores=None):
         self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
         self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
@@ -118,14 +110,6 @@ class Lowland(Landscape):
 class Highland(Landscape):
     """Highland with food and animals"""
     f_max = 300
-
-    @classmethod
-    def food_params(cls, param):
-        for key, value in param.items():
-            if key == 'f_max':
-                f_max = value
-            else:
-                raise KeyError(f'Invalid parameter name: {key}')
 
     def __init__(self, herbivores=None, carnivores=None):
         self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
@@ -137,19 +121,7 @@ class Dessert(Landscape):
     """Dessert animals and no food"""
     f_max = 0
 
-    @classmethod
-    def food_params(cls, param):
-        for key, value in param.items():
-            if key == 'f_max':
-                f_max = value
-            else:
-                raise KeyError(f'Invalid parameter name: {key}')
-
     def __init__(self, herbivores=None, carnivores=None):
         self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
         self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
         self.fodder = self.f_max  # How much food there are in the Dessert
-
-
-
-
