@@ -5,7 +5,11 @@ class Island:
 
     def __init__(self, island_map, ini_animals=None):
         self.map = {}
+        map_lines = island_map.splitlines()
+        first_line = len(map_lines[0])
         for i, row in enumerate(island_map.splitlines()):
+            if len(row) != first_line:
+                raise ValueError('All lines must have the same length')
             for j, landscape in enumerate(row):
                 if landscape == 'W':
                     self.map[(i+1, j+1)] = Water()
