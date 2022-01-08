@@ -10,6 +10,15 @@ class Animal:
 
     @classmethod
     def set_params(cls, given_params):
+        '''
+
+        Parameters
+        ----------
+        given_params: dict
+            parameter name as key and parameter value as value
+
+        changes the parameters for Animal
+        '''
         for key in given_params:
             if key not in cls.params:
                 raise KeyError(f'Invalid parameter name: {key}')
