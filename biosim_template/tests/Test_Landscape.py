@@ -54,6 +54,7 @@ def test_feeding_if_no_fodder():
 
 def test_feeding_carnivores():
     """Test if the carnivores are going to eat any herbivores"""
+    random.seed(seed)
     ini_herbs = [{'species': 'Herbivore',
                   'age': 5,
                   'weight': 20}
@@ -69,15 +70,6 @@ def test_feeding_carnivores():
     cell.carnivore_feeding()
 
     assert cell.num_herbivores() < 50
-
-
-def test_feeding_no_fodder():
-    """Test if there are no food left when all the food are eaten"""
-    cell = Lowland([Herbivore() for _ in range(90)])
-    cell.feeding()
-
-    assert cell.fodder == 0
-
 
 def test_reproduction():
     """Test if there are getting more herbivores when new herbivores are born"""
