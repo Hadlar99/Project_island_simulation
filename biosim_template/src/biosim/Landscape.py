@@ -15,6 +15,11 @@ class Landscape:
             else:
                 raise KeyError(f'Invalid parameter name: {key}')
 
+    def __init__(self, herbivores=None, carnivores=None):
+        self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
+        self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
+        self.fodder = self.f_max       # How much food that is available
+
     def pop_animals(self, pop):
         """
 
@@ -104,38 +109,20 @@ class Landscape:
 
 class Water(Landscape):
     """Water without food and animals"""
-
-    def __init__(self):
-        self.herbivores = []
-        self.carnivores = []
-        self.fodder = 0  # How much food there are in the Water
-
+    f_max = 0
 
 class Lowland(Landscape):
     """Lowland with food and animals"""
     f_max = 800
-
-    def __init__(self, herbivores=None, carnivores=None):
-        self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
-        self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
-        self.fodder = self.f_max       # How much food there are in the lowland
 
 
 class Highland(Landscape):
     """Highland with food and animals"""
     f_max = 300
 
-    def __init__(self, herbivores=None, carnivores=None):
-        self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
-        self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
-        self.fodder = self.f_max  # How much food there are in the Highland
 
 
 class Dessert(Landscape):
     """Dessert animals and no food"""
     f_max = 0
 
-    def __init__(self, herbivores=None, carnivores=None):
-        self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
-        self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
-        self.fodder = self.f_max  # How much food there are in the Dessert
