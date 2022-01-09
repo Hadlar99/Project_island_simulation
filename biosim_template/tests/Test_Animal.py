@@ -68,6 +68,7 @@ def test_death_weight_0():
 
 
 def test_death(mocker):
+    """Test if the animal dies when it should"""
     mocker.patch('random.random', return_value=0)
     herbivore = Herbivore(5, 50)
 
@@ -75,6 +76,7 @@ def test_death(mocker):
 
 
 def test_not_death(mocker):
+    """Test if the animal survives when it should"""
     mocker.patch('random.random', return_value=1)
     herbivore = Herbivore(5, 50)
 
