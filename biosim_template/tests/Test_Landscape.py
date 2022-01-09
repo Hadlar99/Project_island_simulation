@@ -3,7 +3,7 @@ import random
 
 from biosim.Landscape import Lowland
 from biosim.Animal import Herbivore, Carnivore
-
+import pytest
 seed = 456
 
 
@@ -15,6 +15,7 @@ def test_count_herbivores():
 
 
 def test_pop_animals():
+    """Test if it counts the list of herbivores and carnivores correctly"""
     cell = Lowland()
     cell.pop_animals([{'species': 'Herbivore',
                        'age': 5,
@@ -26,6 +27,15 @@ def test_pop_animals():
                       for _ in range(50)])
     assert cell.num_herbivores(), cell.num_carnivores() == 50
 
+def test_pop_animals_ValueError():
+    """Checks if the program raises a ValueError if wrong species"""
+    with pytest.raises(ValueError):
+        cell = Lowland()
+        cell.pop_animals([{'species': 'Animal',
+                       'age': 5,
+                       'weight': 20}
+                      for _ in range(50)])
+
 
 def test_feeding():
     """Tests if the right amount of food are eaten"""
@@ -33,6 +43,13 @@ def test_feeding():
     cell.feeding()
 
     assert cell.fodder == 800-50*10
+
+def test_feeding_if_no_fodder():
+    """Test when all the fodder goes empty"""
+    cell = Lowland([Herbivore() for _ in range(90)])
+    cell.feeding()
+
+    assert cell.fodder == 0
 
 
 def test_feeding_carnivores():

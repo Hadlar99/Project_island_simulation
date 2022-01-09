@@ -25,7 +25,7 @@ class Landscape:
 
         Parameters
         ----------
-        pop : list With Herbivore
+        pop : list With Herbivore or Carnivore
 
         """
         for animal in pop:
