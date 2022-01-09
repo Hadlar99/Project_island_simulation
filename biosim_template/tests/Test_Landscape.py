@@ -1,4 +1,4 @@
-"""Test for lowland class"""
+"""Test for Landscape class"""
 import random
 
 from biosim.Landscape import Lowland
@@ -17,9 +17,9 @@ def test_count_herbivores():
 def test_pop_animals():
     cell = Lowland()
     cell.pop_animals([{'species': 'Herbivore',
-                        'age': 5,
-                        'weight': 20}
-                        for _ in range(50)])
+                       'age': 5,
+                       'weight': 20}
+                      for _ in range(50)])
     cell.pop_animals([{'species': 'Carnivore',
                        'age': 5,
                        'weight': 20}
@@ -34,16 +34,17 @@ def test_feeding():
 
     assert cell.fodder == 800-50*10
 
+
 def test_feeding_carnivores():
     """Test if the carnivores are going to eat any herbivores"""
     ini_herbs = [{'species': 'Herbivore',
-                           'age': 5,
-                           'weight': 20}
-                          for _ in range(50)]
+                  'age': 5,
+                  'weight': 20}
+                 for _ in range(50)]
     ini_carns = [{'species': 'Carnivore',
-                           'age': 5,
-                           'weight': 20}
-                          for _ in range(20)]
+                  'age': 5,
+                  'weight': 20}
+                 for _ in range(20)]
     cell = Lowland()
     cell.pop_animals(ini_herbs)
     cell.pop_animals(ini_carns)
@@ -51,6 +52,7 @@ def test_feeding_carnivores():
     cell.carnivore_feeding()
 
     assert cell.num_herbivores() < 50
+
 
 def test_feeding_no_fodder():
     """Test if there are no food left when all the food are eaten"""

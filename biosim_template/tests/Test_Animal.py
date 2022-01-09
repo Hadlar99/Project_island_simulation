@@ -1,4 +1,4 @@
-"""Test for Herbivore class"""
+"""Test for Animal class"""
 
 
 from biosim.Animal import Herbivore
@@ -8,7 +8,7 @@ def test_age():
     """test for aging of herbivore, each time it is called the age will grow with 1"""
     num_year = 21
     herbivore = Herbivore(5)
-    for i in range (num_year):
+    for i in range(num_year):
         herbivore.year()
     assert herbivore.age == num_year + 5
 
@@ -18,7 +18,7 @@ def test_add_weight():
     herbivore = Herbivore()
     herbivore.add_weight(10)
 
-    assert herbivore.weight >= 9 #the weight must be more than 9 because of beta and how much it eats
+    assert herbivore.weight >= 9    # the weight must be more than 9 because of beta and how much it eats
 
 
 def test_lose_weight():
@@ -56,4 +56,3 @@ def test_death():
     """if herbivore weight is 0 it will die"""
     herbivore = Herbivore(0, 0)
     assert herbivore.death()
-

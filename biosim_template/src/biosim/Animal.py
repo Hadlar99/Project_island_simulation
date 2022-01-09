@@ -10,7 +10,7 @@ class Animal:
 
     @classmethod
     def set_params(cls, given_params):
-        '''
+        """
 
         Parameters
         ----------
@@ -18,7 +18,7 @@ class Animal:
             parameter name as key and parameter value as value
 
         changes the parameters for Animal
-        '''
+        """
         for key in given_params:
             if key not in cls.params:
                 raise KeyError(f'Invalid parameter name: {key}')
@@ -74,12 +74,12 @@ class Animal:
         return 1 / (1 + m.exp(self.params['phi_age'] * (self.age - self.params['a_half']))) * 1 / (
                     1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self.weight)))
 
-    def birth(self, N):
+    def birth(self, num):
         """
 
         Parameters
         ----------
-        N: int
+        :num int
             How many herbivors that is present
 
         Returns the weight of the new baby
@@ -88,7 +88,7 @@ class Animal:
         """
         if self.weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
             return False    # if the mother weighs too little, no birth
-        elif random.random() < min(1, self.params['gamma']*self.fitness()*(N-1)):
+        elif random.random() < min(1, self.params['gamma']*self.fitness()*(num-1)):
             weight_baby = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
             # gives a weight to baby if birth
             if weight_baby > self.weight:
@@ -151,7 +151,3 @@ class Carnivore(Animal):
               'DeltaPhiMax': 10.0}
 
     """Method to change parameter when given a dictionary with same keys"""
-
-
-
-

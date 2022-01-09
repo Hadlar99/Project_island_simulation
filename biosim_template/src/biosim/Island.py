@@ -1,5 +1,5 @@
-from .Animal import Herbivore
 from .Landscape import Lowland, Highland, Water, Dessert
+
 
 class Island:
 
@@ -8,7 +8,7 @@ class Island:
         map_lines = island_map.splitlines()
         len_first_line = len(map_lines[0].strip())
 
-        for  landscape in map_lines[0] + map_lines[-1]:
+        for landscape in map_lines[0] + map_lines[-1]:
             if landscape != 'W':
                 raise ValueError('Boundary must be W')
         for row in map_lines:
@@ -16,7 +16,6 @@ class Island:
                 raise ValueError('All lines must have the same length')
             if row[0] != 'W' or row[-1] != 'W':
                 raise ValueError('Boundary must be W')
-
 
         for i, row in enumerate(island_map.splitlines()):
             for j, landscape in enumerate(row):
@@ -55,7 +54,3 @@ class Island:
         loc_start = ini_pop[0]['loc']
         pop = ini_pop[0]['pop']
         self.map[loc_start].pop_animals(pop)
-
-
-
-

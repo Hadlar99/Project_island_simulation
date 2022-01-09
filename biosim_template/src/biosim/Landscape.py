@@ -63,11 +63,11 @@ class Landscape:
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness())
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
-            Hunger = carni.params['F']
+            hunger = carni.params['F']
             for herbi in alive_herbivores:
                 if (carni.fitness()-herbi.fitness())/carni.params['DeltaPhiMax'] > random.random():
-                    if herbi.weight > Hunger:
-                        carni.add_weight(Hunger)
+                    if herbi.weight > hunger:
+                        carni.add_weight(hunger)
                         self.herbivores.remove(herbi)
                         break
                     else:
@@ -111,6 +111,7 @@ class Water(Landscape):
     """Water without food and animals"""
     f_max = 0
 
+
 class Lowland(Landscape):
     """Lowland with food and animals"""
     f_max = 800
@@ -121,8 +122,6 @@ class Highland(Landscape):
     f_max = 300
 
 
-
 class Dessert(Landscape):
     """Dessert animals and no food"""
     f_max = 0
-
