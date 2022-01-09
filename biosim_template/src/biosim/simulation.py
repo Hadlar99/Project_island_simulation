@@ -2,7 +2,7 @@
 Template for BioSim class.
 """
 from .Island import Island
-from .herbivore import Herbivore
+from .Animal import Herbivore
 from .Landscape import Dessert, Highland, Lowland, Water
 import random
 import matplotlib.pyplot as plt
@@ -100,12 +100,15 @@ class BioSim:
 
         self.years = num_years
         x = []
-        y = []
+        y1 = []
+        y2 = []
         for year in range(num_years):
+            y1.append(self.Island.amount_of_herbivores())
+            y2.append(self.Island.amount_of_carnivores())
             self.Island.season()
-            y.append(self.Island.amount_of_herbivores())
-            x.append(year)
-        plt.plot(x, y)
+            x.append(self.Island.year)
+        plt.plot(x, y1, '-r')
+        plt.plot(x, y2, '-b')
 
 
     def add_population(self, population):
@@ -114,7 +117,7 @@ class BioSim:
 
         :param population: List of dictionaries specifying population
         """
-        self.population = []
+        self.Island.new_animals(population)
 
     @property
     def year(self):

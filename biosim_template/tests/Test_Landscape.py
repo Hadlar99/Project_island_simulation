@@ -2,9 +2,8 @@
 import random
 
 from biosim.Landscape import Lowland
-from biosim.herbivore import Herbivore
+from biosim.Animal import Herbivore, Carnivore
 
-import pytest
 seed = 456
 
 
@@ -15,13 +14,18 @@ def test_count_herbivores():
     assert cell.num_herbivores() == 50
 
 
-def test_pop_herbivores():
+def test_pop_animals():
     cell = Lowland()
-    cell.pop_herbivores([{'species': 'Herbivore',
+    cell.pop_animals([{'species': 'Herbivore',
                         'age': 5,
                         'weight': 20}
                         for _ in range(50)])
-    assert cell.num_herbivores() == 50
+    cell.pop_animals([{'species': 'Carnivore',
+                       'age': 5,
+                       'weight': 20}
+                      for _ in range(50)])
+    assert cell.num_herbivores(), cell.num_carnivores() == 50
+
 
 def test_feeding():
     """Tests if the right amount of food are eaten"""
@@ -30,6 +34,23 @@ def test_feeding():
 
     assert cell.fodder == 800-50*10
 
+def test_feeding_carnivores():
+    """Test if the carnivores are going to eat any herbivores"""
+    ini_herbs = [{'species': 'Herbivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(50)]
+    ini_carns = [{'species': 'Carnivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(20)]
+    cell = Lowland()
+    cell.pop_animals(ini_herbs)
+    cell.pop_animals(ini_carns)
+
+    cell.carnivore_feeding()
+
+    assert cell.num_herbivores() < 50
 
 def test_feeding_no_fodder():
     """Test if there are no food left when all the food are eaten"""
@@ -50,7 +71,7 @@ def test_reproduction():
 
 def test_aging():
     """Tests if the herbivores are aging correctly"""
-    cell = Lowland([Herbivore(a, 35) for a in range(10)])
+    cell = Lowland([Herbivore(a, 35) for a in range(10)], [Carnivore(a, 35) for a in range(10)])
     cell.aging()
 
     assert all(herbi.age == i + 1 for i, herbi in enumerate(cell.herbivores))
@@ -71,3 +92,10 @@ def test_pop_reduction():
     cell.pop_reduction()
 
     assert cell.num_herbivores() < 50
+
+
+def test_food_params():
+    Lowland.food_params({'f_max': 100.})
+    cell = Lowland([Herbivore() for _ in range(50)])
+    cell.feeding()
+    assert cell.fodder == 0

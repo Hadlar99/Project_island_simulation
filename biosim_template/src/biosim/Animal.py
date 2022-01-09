@@ -4,33 +4,26 @@ import random
 """This is a class for a single Herbivore"""
 
 
-class Herbivore:
+class Animal:
 
-    """Given parameters that works with the code"""
+    params = {}
 
-    params = {'w_birth': 8.0,
-              'sigma_birth': 1.5,
-              'beta': 0.9,
-              'eta': 0.05,
-              'a_half': 40.0,
-              'phi_age': 0.6,
-              'w_half': 10.0,
-              'phi_weight': 0.1,
-              'mu': 0.25,
-              'gamma': 0.2,
-              'zeta': 3.5,
-              'xi': 1.2,
-              'omega': 0.4,
-              'F': 10.0}
-
-    """Method to change parameter when given a dictionary with same keys"""
     @classmethod
     def set_params(cls, given_params):
+        '''
+
+        Parameters
+        ----------
+        given_params: dict
+            parameter name as key and parameter value as value
+
+        changes the parameters for Animal
+        '''
         for key in given_params:
             if key not in cls.params:
                 raise KeyError(f'Invalid parameter name: {key}')
 
-        for key in given_params():
+        for key in given_params:
             cls.params[key] = given_params[key]
 
     def __init__(self, age=0, weight=None):
@@ -115,3 +108,50 @@ class Herbivore:
             return True     # if less fit, more likely to die
         else:
             return False       # if not dead, it's going to live
+
+
+class Herbivore(Animal):
+    """Given parameters for herbivores that works with the code"""
+
+    params = {'w_birth': 8.0,
+              'sigma_birth': 1.5,
+              'beta': 0.9,
+              'eta': 0.05,
+              'a_half': 40.0,
+              'phi_age': 0.6,
+              'w_half': 10.0,
+              'phi_weight': 0.1,
+              'mu': 0.25,
+              'gamma': 0.2,
+              'zeta': 3.5,
+              'xi': 1.2,
+              'omega': 0.4,
+              'F': 10.0}
+
+    """Method to change parameter when given a dictionary with same keys"""
+
+
+class Carnivore(Animal):
+    """Given parameters for carnivores that works with the code"""
+
+    params = {'w_birth': 6.0,
+              'sigma_birth': 1.0,
+              'beta': 0.75,
+              'eta': 0.125,
+              'a_half': 40.0,
+              'phi_age': 0.3,
+              'w_half': 4.0,
+              'phi_weight': 0.4,
+              'mu': 0.4,
+              'gamma': 0.8,
+              'zeta': 3.5,
+              'xi': 1.1,
+              'omega': 0.8,
+              'F': 50.0,
+              'DeltaPhiMax': 10.0}
+
+    """Method to change parameter when given a dictionary with same keys"""
+
+
+
+
