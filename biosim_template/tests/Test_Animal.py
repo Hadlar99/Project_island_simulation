@@ -61,7 +61,22 @@ def test_baby_weights_too_much(mocker):
     assert not herbivore.birth(10)
 
 
-def test_death():
+def test_death_weight_0():
     """if herbivore weight is 0 it will die"""
     herbivore = Herbivore(0, 0)
     assert herbivore.death()
+
+
+def test_death(mocker):
+    mocker.patch('random.random', return_value=0)
+    herbivore = Herbivore(5, 50)
+
+    assert herbivore.death()
+
+
+def test_not_death(mocker):
+    mocker.patch('random.random', return_value=1)
+    herbivore = Herbivore(5, 50)
+
+    assert not herbivore.death()
+
