@@ -23,7 +23,7 @@ class Animal:
             if key not in cls.params:
                 raise KeyError(f'Invalid parameter name: {key}')
 
-        for key in given_params():
+        for key in given_params:
             cls.params[key] = given_params[key]
 
     def __init__(self, age=0, weight=None):

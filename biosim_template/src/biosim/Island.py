@@ -6,17 +6,16 @@ class Island:
     def __init__(self, island_map, ini_animals=None):
         self.map = {}
         map_lines = island_map.splitlines()
-        len_first_line = len(map_lines[0])
+        len_first_line = len(map_lines[0].strip())
 
         for  landscape in map_lines[0] + map_lines[-1]:
             if landscape != 'W':
                 raise ValueError('Boundary must be W')
-        for row in island_map:
+        for row in map_lines:
             if len(row) != len_first_line:
                 raise ValueError('All lines must have the same length')
-            for landscape in row:
-                if landscape[0] != 'W' or landscape[-1]:
-                    raise ValueError('Boundary must be W')
+            if row[0] != 'W' or row[-1] != 'W':
+                raise ValueError('Boundary must be W')
 
 
         for i, row in enumerate(island_map.splitlines()):
