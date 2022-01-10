@@ -109,16 +109,22 @@ class Landscape:
         self.carnivores = alive_carni
 
     def migration(self):
+        """
+        Sortes the animal that are going to migrate and those who will stand still
+        Returns
+        -------
+        Two list all the animals that are going to migrate
+        """
         moving_herbivores = []
         stationary_herbivores = []
-        for herbi in self.herbivores:
+        for herbi in self.herbivores:  # The herbivores are getting sorted
             if herbi.migrate():
                 moving_herbivores.append(herbi)
             else:
                 stationary_herbivores.append(herbi)
         moving_carnivores = []
         stationary_carnivores = []
-        for carni in self.carnivores:
+        for carni in self.carnivores:   # The carnivores are getting sorted
             if carni.migrate():
                 moving_carnivores.append(carni)
             else:
@@ -128,31 +134,31 @@ class Landscape:
         return moving_herbivores, moving_carnivores
 
     def immigration(self):
-        self.herbivores.extend(self.immigrating_herbivores)
+        """The specific animals that er going immigrate """
+        self.herbivores.extend(self.immigrating_herbivores)  # Adds all the new animals that are immigrating to the cell
         self.carnivores.extend(self.immigrating_carnivores)
-        self.immigrating_herbivores = []
+        self.immigrating_herbivores = []  # Empties the list for next time the function is called upon
         self.immigrating_carnivores = []
 
 
-
 class Water(Landscape):
-    """Water without food and animals"""
+    """Water without food and animals and is not possible to move to"""
     f_max = 0
     move = False
 
 
 class Lowland(Landscape):
-    """Lowland with food and animals"""
+    """Lowland with food, animals and the possibility to move to"""
     f_max = 800
     move = True
 
 class Highland(Landscape):
-    """Highland with food and animals"""
+    """Highland with food, animals and the possibility to move to"""
     f_max = 300
     move = True
 
 
 class Dessert(Landscape):
-    """Dessert animals and no food"""
+    """Dessert with food, animals and the possibility to move to"""
     f_max = 0
     move = True
