@@ -1,5 +1,6 @@
 import math as m
 import random
+from numba import jit
 
 """This is a class for a single Herbivore"""
 
@@ -62,6 +63,12 @@ class Animal:
         self.weight -= self.weight * self.params['eta']
 
     def fitness(self):
+        return self.fitness_calc(self.weight, self.age, self.params['phi_age'],
+                                 self.params['a_half'], self.params['phi_weight'], self.params['w_half'])
+
+    @staticmethod
+    @jit(nopython=True)
+    def fitness_calc(weight, age, phi_age, a_half, phi_weight, w_half):
         """
         Decide how fit the herbivore are
 
@@ -69,10 +76,10 @@ class Animal:
         -------
 
         """
-        if self.weight <= 0:    # if the herbivore weight is less than 0 it cannot get any fitness
+        if weight <= 0:    # if the herbivore weight is less than 0 it cannot get any fitness
             return 0
-        return 1 / (1 + m.exp(self.params['phi_age'] * (self.age - self.params['a_half']))) * 1 / (
-                    1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self.weight)))
+        return 1 / (1 + m.exp(phi_age * (age - a_half))) * \
+               1 / (1 + m.exp(phi_weight * (w_half - weight)))
 
     def migrate(self):
         """
