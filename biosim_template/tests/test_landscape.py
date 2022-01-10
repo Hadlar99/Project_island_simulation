@@ -1,7 +1,7 @@
 """Test for Landscape class"""
 import random
 
-from biosim.landscape import Lowland
+from biosim.landscape import Lowland, Highland, Dessert, Water
 from biosim.animal import Herbivore, Carnivore
 import pytest
 seed = 456
@@ -110,3 +110,11 @@ def test_food_params():
     cell = Lowland([Herbivore() for _ in range(50)])
     cell.feeding()
     assert cell.fodder == 0
+
+def test_moving_params():
+    cell = Lowland()
+    assert cell.move
+
+def test_moving_water_params():
+    cell = Water()
+    assert not cell.move

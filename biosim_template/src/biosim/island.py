@@ -37,6 +37,12 @@ class Island:
         if ini_animals:
             self.new_animals(ini_animals)
 
+    def migration_place(self):
+        moving_herbivores = {}
+        moving_carnivores = {}
+        for loc, cell in self.map.items():
+
+
     def season(self):
         """Everything that happens each year in correct order"""
         for cell in self.map.values():

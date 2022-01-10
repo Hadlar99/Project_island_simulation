@@ -125,22 +125,29 @@ class Landscape:
         self.carnivores = stationary_carnivores
         return moving_herbivores, moving_carnivores
 
+    def landscape_migration(self):
+        self.move
+
+
 
 class Water(Landscape):
     """Water without food and animals"""
     f_max = 0
+    move = False
 
 
 class Lowland(Landscape):
     """Lowland with food and animals"""
     f_max = 800
-
+    move = True
 
 class Highland(Landscape):
     """Highland with food and animals"""
     f_max = 300
+    move = True
 
 
 class Dessert(Landscape):
     """Dessert animals and no food"""
     f_max = 0
+    move = True
