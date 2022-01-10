@@ -1,9 +1,9 @@
 """
 Template for BioSim class.
 """
-from .Island import Island
-from .Animal import Herbivore
-from .Landscape import Dessert, Highland, Lowland, Water
+from .island import Island
+from .animal import Herbivore
+from .landscape import Dessert, Highland, Lowland, Water
 import random
 import matplotlib.pyplot as plt
 import pandas as pd

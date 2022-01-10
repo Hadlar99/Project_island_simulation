@@ -1,6 +1,6 @@
 import random
 
-from .Animal import Herbivore, Carnivore
+from .animal import Herbivore, Carnivore
 
 '''Super Class for the Landscape'''
 

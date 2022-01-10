@@ -1,4 +1,4 @@
-from .Landscape import Lowland, Highland, Water, Dessert
+from .landscape import Lowland, Highland, Water, Dessert
 
 """Class for the island"""
 

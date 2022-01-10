@@ -1,7 +1,7 @@
 """Test for Animal class"""
 
 
-from biosim.Animal import Herbivore
+from biosim.animal import Herbivore
 
 
 def test_age():

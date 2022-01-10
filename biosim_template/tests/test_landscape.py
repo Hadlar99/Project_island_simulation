@@ -1,8 +1,8 @@
 """Test for Landscape class"""
 import random
 
-from biosim.Landscape import Lowland
-from biosim.Animal import Herbivore, Carnivore
+from biosim.landscape import Lowland
+from biosim.animal import Herbivore, Carnivore
 import pytest
 seed = 456
 
