@@ -18,9 +18,9 @@ class Landscape:
     def __init__(self, herbivores=None, carnivores=None):
         self.herbivores = herbivores if herbivores is not None else []  # Empty list if no list are given
         self.carnivores = carnivores if carnivores is not None else []  # Empty list if no list are given
-        self.immigrating_herbivores = []
+        self.immigrating_herbivores = []    # Lists of animals immigrating
         self.immigrating_carnivores = []
-        self.fodder = self.f_max # How much food that is available
+        self.fodder = self.f_max    # How much food that is available
 
     def pop_animals(self, pop):
         """

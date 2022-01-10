@@ -4,6 +4,7 @@ from .landscape import Lowland, Highland, Water, Dessert
 
 """Class for the island"""
 
+
 class Island:
 
     def __init__(self, island_map, ini_animals=None):
@@ -34,31 +35,31 @@ class Island:
                     self.map[(i+1, j+1)] = Dessert()
                 else:
                     raise ValueError(f'Landscape has to be W, L, H, D, can not be {landscape}')
-        self.year = 0 #reset the year
+        self.year = 0   # set the start year to 0
         """Import the animals"""
         if ini_animals:
             self.new_animals(ini_animals)
 
-    def migration_place(self):
+    def migrate_season(self):
+        """Moves animals from one cell to another"""
         for loc, cell in self.map.items():
             move_to = [(loc[0]-1, loc[1]), (loc[0], loc[1]-1), (loc[0]+1, loc[1]), (loc[0], loc[1]+1)]
-            herbivores, carnivores = cell.migration()
+            # The cells Animals can move to
+            herbivores, carnivores = cell.migration()   # gets the animals that are emigrating
+
             for herbi in herbivores:
-                if (new_cell := self.map[random.choice(move_to)]).move:
+                if (new_cell := self.map[random.choice(move_to)]).move:     # Checks if the animal can move to that cell
                     new_cell.immigrating_herbivores.append(herbi)
                 else:
                     cell.immigrating_herbivores.append(herbi)
+
             for carni in carnivores:
                 if (new_cell := self.map[random.choice(move_to)]).move:
                     new_cell.immigrating_carnivores.append(carni)
                 else:
                     cell.immigrating_carnivores.append(carni)
         for cell in self.map.values():
-            cell.immigration()
-
-
-
-
+            cell.immigration()      # Immigrate the immigrating animals in each cell
 
     def season(self):
         """Everything that happens each year in correct order"""
@@ -66,7 +67,7 @@ class Island:
             cell.feeding()
             cell.carnivore_feeding()
             cell.reproduction()
-        self.migration_place()
+        self.migrate_season()
         for cell in self.map.values():
             cell.aging()
             cell.loss_of_weight()
