@@ -106,15 +106,26 @@ def test_pop_reduction():
 
 
 def test_food_params():
+    """Test if we can change the food params for a given landscape"""
     Lowland.food_params({'f_max': 100.})
     cell = Lowland([Herbivore() for _ in range(50)])
     cell.feeding()
     assert cell.fodder == 0
 
 def test_moving_params():
+    """Test if is possible to move to this landscape"""
     cell = Lowland()
     assert cell.move
 
 def test_moving_water_params():
+    """Test if it is not possible to move to this landscape"""
     cell = Water()
     assert not cell.move
+
+def test_migration():
+    """Tests if the function migration returns 2 lists"""
+    cell = Lowland([Herbivore() for _ in range(50)])
+    cell_herbi, cell_carni = cell.migration()
+
+    assert type(cell_herbi) == list and type(cell_carni) == list
+
