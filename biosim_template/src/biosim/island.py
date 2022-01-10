@@ -1,3 +1,5 @@
+import random
+
 from .landscape import Lowland, Highland, Water, Dessert
 
 """Class for the island"""
@@ -38,22 +40,37 @@ class Island:
             self.new_animals(ini_animals)
 
     def migration_place(self):
-        moving_herbivores = {}
-        moving_carnivores = {}
         for loc, cell in self.map.items():
+            move_to = [(loc[0]-1, loc[1]), (loc[0], loc[1]-1), (loc[0]+1, loc[1]), (loc[0], loc[1]+1)]
+            herbivores, carnivores = cell.migration()
+            for herbi in herbivores:
+                if (new_cell := self.map[random.choice(move_to)]).move:
+                    new_cell.immigrating_herbivores.append(herbi)
+                else:
+                    cell.immigrating_herbivores.append(herbi)
+            for carni in carnivores:
+                if (new_cell := self.map[random.choice(move_to)]).move:
+                    new_cell.immigrating_carnivores.append(carni)
+                else:
+                    cell.immigrating_carnivores.append(carni)
+        for cell in self.map.values():
+            cell.immigration()
+
+
+
 
 
     def season(self):
         """Everything that happens each year in correct order"""
         for cell in self.map.values():
-            if type(cell) is not Water:
-                cell.feeding()
-                cell.carnivore_feeding()
-                cell.reproduction()
-
-                cell.aging()
-                cell.loss_of_weight()
-                cell.pop_reduction()
+            cell.feeding()
+            cell.carnivore_feeding()
+            cell.reproduction()
+        self.migration_place()
+        for cell in self.map.values():
+            cell.aging()
+            cell.loss_of_weight()
+            cell.pop_reduction()
         self.year += 1
 
     def amount_of_herbivores(self):
@@ -66,6 +83,7 @@ class Island:
 
     def new_animals(self, ini_pop):
         """Takes in a dictonary with the location and what kind of species and put it on the island """
-        loc_start = ini_pop[0]['loc']
-        pop = ini_pop[0]['pop']
-        self.map[loc_start].pop_animals(pop)
+        for animals in ini_pop:
+            loc_start = animals['loc']
+            pop = animals['pop']
+            self.map[loc_start].pop_animals(pop)
