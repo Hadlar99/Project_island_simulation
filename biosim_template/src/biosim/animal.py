@@ -74,6 +74,15 @@ class Animal:
         return 1 / (1 + m.exp(self.params['phi_age'] * (self.age - self.params['a_half']))) * 1 / (
                     1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self.weight)))
 
+    def migrate(self):
+        """
+        Tests if an animal will move or not
+        Returns
+        -------
+        True if the animal will move, otherwise it returns False
+        """
+        return random.random() < self.params['mu'] * self.fitness()
+
     def birth(self, num):
         """
 

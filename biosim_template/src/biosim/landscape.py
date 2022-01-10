@@ -106,6 +106,25 @@ class Landscape:
         alive_carni = [carni for carni in self.carnivores if not carni.death()]
         self.carnivores = alive_carni
 
+    def migration(self):
+        moving_herbivores = []
+        stationary_herbivores = []
+        for herbi in self.herbivores:
+            if herbi.migrate():
+                moving_herbivores.append(herbi)
+            else:
+                stationary_herbivores.append(herbi)
+        moving_carnivores = []
+        stationary_carnivores = []
+        for carni in self.carnivores:
+            if carni.migrate():
+                moving_carnivores.append(carni)
+            else:
+                stationary_carnivores.append(carni)
+        self.herbivores = stationary_herbivores
+        self.carnivores = stationary_carnivores
+        return moving_herbivores, moving_carnivores
+
 
 class Water(Landscape):
     """Water without food and animals"""

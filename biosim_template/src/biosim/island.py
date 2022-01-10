@@ -44,6 +44,7 @@ class Island:
                 cell.feeding()
                 cell.carnivore_feeding()
                 cell.reproduction()
+
                 cell.aging()
                 cell.loss_of_weight()
                 cell.pop_reduction()
