@@ -3,6 +3,12 @@
 
 from biosim.animal import Herbivore
 
+def test_set_params():
+    """Test if it is possible to change multiple params in Herbivore class"""
+    Herbivore.set_params({'gamma': 0.8, 'mu': 1.5})
+    assert Herbivore.params['gamma'] == 0.8 and Herbivore.params['mu'] == 1.5
+
+
 
 def test_age():
     """Test for aging of herbivore, each time it is called the age will grow with 1"""

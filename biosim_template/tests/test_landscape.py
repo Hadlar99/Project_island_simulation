@@ -135,3 +135,8 @@ def test_migration():
     cell_herbi, cell_carni = cell.migration()
 
     assert type(cell_herbi) == list and type(cell_carni) == list
+
+def test_food_params():
+    """Test if it is possible to change the food parameter in landscape"""
+    Dessert.food_params({'f_max': 600})
+    assert Dessert.f_max == 600
