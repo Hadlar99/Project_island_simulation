@@ -60,26 +60,29 @@ class Graphics:
 
         # the following will be initialized by _setup_graphics
         self._fig = None
-        self._map_ax = None
-        self._img_axis = None
+        self._herbivore_map_ax = None
+        self._herbivore_img_axis = None
+        self._carnivore_map_ax = None
+        self._carnivore_img_axis = None
         self._mean_ax = None
         self._mean_line = None
 
-    def update(self, step, sys_map, sys_mean):
+    def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map):
         """
         Updates graphics with current data and save to file if necessary.
 
-        :param step: current time step
+        :param year: current time step
         :param sys_map: current system status (2d array)
         :param sys_mean: current mean value of system
         """
 
-        self._update_system_map(sys_map)
-        self._update_mean_graph(step, sys_mean)
+        self._update_carnivore_map(carnivore_map)
+        self._update_herbivore_map(herbivore_map)
+        #self._update_mean_graph(year, sys_mean)
         self._fig.canvas.flush_events()  # ensure every thing is drawn
         plt.pause(1e-6)  # pause required to pass control to GUI
 
-        self._save_graphics(step)
+        self._save_graphics(year)
 
     def make_movie(self, movie_fmt=None):
         """
@@ -142,13 +145,18 @@ class Graphics:
         # Add left subplot for images created with imshow().
         # We cannot create the actual ImageAxis object before we know
         # the size of the image, so we delay its creation.
-        if self._map_ax is None:
-            self._map_ax = self._fig.add_subplot(1, 2, 1)
-            self._img_axis = None
+        if self._herbivore_map_ax is None:
+            self._herbivore_map_ax = self._fig.add_subplot(2, 2, 1)
+            self._herbivore_img_axis = None
 
+        if self._carnivore_map_ax is None:
+            self._carnivore_map_ax = self._fig.add_subplot(2, 2, 2)
+            self._carnivore_img_axis = None
+
+        """
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(1, 2, 2)
+            self._mean_ax = self._fig.add_subplot(2, 2, 3)
             self._mean_ax.set_ylim(-0.05, 0.05)
 
         # needs updating on subsequent calls to simulate()
@@ -166,17 +174,30 @@ class Graphics:
                 y_new = np.full(x_new.shape, np.nan)
                 self._mean_line.set_data(np.hstack((x_data, x_new)),
                                          np.hstack((y_data, y_new)))
+                                         """
 
-    def _update_system_map(self, sys_map):
+    def _update_herbivore_map(self, herbivore_map):
         """Update the 2D-view of the system."""
 
-        if self._img_axis is not None:
-            self._img_axis.set_data(sys_map)
+        if self._herbivore_img_axis is not None:
+            self._herbivore_img_axis.set_data(herbivore_map)
         else:
-            self._img_axis = self._map_ax.imshow(sys_map,
-                                                 interpolation='nearest',
-                                                 vmin=-0.25, vmax=0.25)
-            plt.colorbar(self._img_axis, ax=self._map_ax,
+            self._herbivore_img_axis = self._herbivore_map_ax.imshow(herbivore_map,
+                                                                     interpolation='nearest',
+                                                                     vmin=-0.25, vmax=0.25)
+            plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
+                         orientation='horizontal')
+
+    def _update_carnivore_map(self, carnivore_map):
+        """Update the 2D-view of the system."""
+
+        if self._herbivore_img_axis is not None:
+            self._herbivore_img_axis.set_data(carnivore_map)
+        else:
+            self._herbivore_img_axis = self._herbivore_map_ax.imshow(carnivore_map,
+                                                                     interpolation='nearest',
+                                                                     vmin=-0.25, vmax=0.25)
+            plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
                          orientation='horizontal')
 
     def _update_mean_graph(self, step, mean):
