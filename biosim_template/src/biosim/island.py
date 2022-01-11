@@ -70,8 +70,7 @@ class Island:
             cell.reproduction()
         self.migrate_season()
         for cell in self.map.values():
-            cell.aging()
-            cell.loss_of_weight()
+            cell.aging_and_loss_of_weight()
             cell.pop_reduction()
         self.year += 1
 

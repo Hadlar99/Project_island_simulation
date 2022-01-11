@@ -49,7 +49,7 @@ class Landscape:
     def feeding(self):
         """Feeds the herbivores in the landscape"""
         self.fodder = self.f_max
-        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness(), reverse=True)  # Sort herbivores by fitness
+        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness, reverse=True)  # Sort herbivores by fitness
         for herbi in self.herbivores:
             if self.fodder >= herbi.params['F']:
                 self.fodder -= herbi.params['F']
@@ -62,13 +62,14 @@ class Landscape:
 
     def carnivore_feeding(self):
         """Feeds the carnivores if there are any herbivores"""
-        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness())
+        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness)
+        random.shuffle(self.carnivores)
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
             hunger = carni.params['F']
             for herbi in alive_herbivores:
-                if (carni.fitness()-herbi.fitness())/carni.params['DeltaPhiMax'] > random.random():
-                    if herbi.weight > hunger:
+                if (carni.fitness-herbi.fitness)/carni.params['DeltaPhiMax'] > random.random():
+                    if herbi.weight >= hunger:
                         carni.add_weight(hunger)
                         self.herbivores.remove(herbi)
                         break
@@ -86,19 +87,12 @@ class Landscape:
                                 if (bw := carni.birth(self.num_carnivores())) > 0])
         # Adds the new babies to the list of carnivores
 
-    def aging(self):
-        """Makes all the animals one year older"""
+    def aging_and_loss_of_weight(self):
+        """Makes all the animals one year older and removes the weight the animals loses in a year"""
         for herbi in self.herbivores:
-            herbi.year()
+            herbi.aging_and_lose_weight()
         for carni in self.carnivores:
-            carni.year()
-
-    def loss_of_weight(self):
-        """Removes the weight the animals loses in a year"""
-        for herbi in self.herbivores:
-            herbi.lose_weight()
-        for carni in self.carnivores:
-            carni.lose_weight()
+            carni.aging_and_lose_weight()
 
     def pop_reduction(self):
         """Removes all animals that dies"""

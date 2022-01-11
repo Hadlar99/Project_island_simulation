@@ -40,6 +40,7 @@ class Animal:
         self.age = age
         self.weight = weight if weight is not None else random.gauss(self.params['w_birth'], self.params['sigma_birth'])
         self.fitness = 0
+        self.update_fitness()
 
     def add_weight(self, food):
         """
@@ -54,14 +55,13 @@ class Animal:
 
         """
         self.weight += food * self.params['beta']
+        self.update_fitness()
 
-    def year(self):
-        """Add one year to the age"""
+    def aging_and_lose_weight(self):
+        """Add one year to the age and reduce the weight of the herbivore"""
         self.age += 1
-
-    def lose_weight(self):
-        """Reduce the weight of the herbivore"""
         self.weight -= self.weight * self.params['eta']
+        self.update_fitness()
 
     def update_fitness(self):
 
@@ -85,7 +85,7 @@ class Animal:
         -------
         True if the animal will move, otherwise it returns False
         """
-        return random.random() < self.params['mu'] * self.fitness()
+        return random.random() < self.params['mu'] * self.fitness
 
     def birth(self, num):
         """
@@ -101,7 +101,7 @@ class Animal:
         """
         if self.weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
             return False    # if the mother weighs too little, no birth
-        elif random.random() < min(1, self.params['gamma']*self.fitness()*(num-1)):
+        elif random.random() < min(1, self.params['gamma']*self.fitness*(num-1)):
             weight_baby = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
             # gives a weight to baby if birth
             if weight_baby > self.weight:
@@ -109,6 +109,7 @@ class Animal:
             if weight_baby <= 0:
                 return False  # baby not born if it weight is less or equal to 0
             self.weight -= self.params['xi'] * weight_baby  # reduce weight of parent when given birth
+            self.update_fitness()
             return weight_baby
         else:
             return False
@@ -117,7 +118,7 @@ class Animal:
         """Sets conditions for an animal to die"""
         if self.weight == 0:
             return True     # if the weight is 0 it's going to die
-        elif random.random() < self.params['omega'] * (1-self.fitness()):
+        elif random.random() < self.params['omega'] * (1-self.fitness):
             return True     # if less fit, more likely to die
         else:
             return False       # if not dead, it's going to live
