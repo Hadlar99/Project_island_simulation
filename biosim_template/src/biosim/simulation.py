@@ -7,6 +7,8 @@ from .landscape import Dessert, Highland, Lowland, Water
 from .map import mapping
 import random
 import matplotlib.pyplot as plt
+from .graphics import Graphics
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 import pandas as pd
 import numpy as pd
 import pathlib as Path
@@ -58,9 +60,12 @@ class BioSim:
         img_dir and img_base must either be both None or both strings.
         """
         random.seed(seed)
-
         self.Island = Island(island_map, ini_pop)
         self.Island_map = island_map
+        self._graphics = Graphics(img_dir, img_base, img_fmt)
+
+        self._year = 0
+        self._final_year = None
 
     def set_animal_parameters(self, species, params):
         """
@@ -93,13 +98,35 @@ class BioSim:
         else:
             raise NameError(f'Landscape has to be L, H or D')
 
-    def simulate(self, num_years):
+    def simulate(self, num_years, vis_years=1, img_years=None):
         """
         Run simulation while visualizing the result.
 
         :param num_years: number of years to simulate
         """
 
+        if img_years is None:
+            img_years = vis_years
+
+        if img_years % vis_years != 0:
+            raise ValueError('img_years must be multiple of vis_years')
+
+        self._final_year = self._year + num_years
+        self._graphics.setup(self._final_year, img_years)
+
+        while self._year < self._final_year:
+            self.Island.season()
+            self._year += 1
+
+            if self._year % vis_years == 0:
+                self._graphics.update(self._year,
+                                      self.Island.amount_of_herbivores(),
+                                      self.Island.amount_of_carnivores(),
+                                      self.Island.herbivore_map(),
+                                      self.Island.carnivore_map())
+
+
+        """
         self.years = num_years
         x = []
         y1 = []
@@ -127,7 +154,7 @@ class BioSim:
 
         map = mapping(self.Island_map)
         ax4.imshow(map)
-
+        """
     def add_population(self, population):
         """
         Add a population to the island
@@ -148,5 +175,6 @@ class BioSim:
     def num_animals_per_species(self):
         """Number of animals per species in island, as dictionary."""
 
-    def make_movie(self):
+    def make_movie(self, movie_fmt=None):
         """Create MPEG4 movie from visualization images saved."""
+        self._graphics.make_movie(movie_fmt)
