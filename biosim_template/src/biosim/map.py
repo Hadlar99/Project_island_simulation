@@ -26,10 +26,10 @@ def mapping(island_map):
 
     ax_im.imshow(map_rgb)
 
-    ax_im.set_xticks(range(len(map_rgb[0])))
-    ax_im.set_xticklabels(range(1, 1 + len(map_rgb[0])))
-    ax_im.set_yticks(range(len(map_rgb)))
-    ax_im.set_yticklabels(range(1, 1 + len(map_rgb)))
+    ax_im.set_xticks(range(0, len(map_rgb[0]), 5))
+    ax_im.set_xticklabels(range(1, 1 + len(map_rgb[0]), 5))
+    ax_im.set_yticks(range(0, len(map_rgb), 5))
+    ax_im.set_yticklabels(range(1, 1 + len(map_rgb), 5))
 
     ax_lg = fig.add_axes([0.85, 0.1, 0.1, 0.8])  # llx, lly, w, h
     ax_lg.axis('off')
