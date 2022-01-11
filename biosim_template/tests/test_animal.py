@@ -5,11 +5,11 @@ from biosim.animal import Herbivore
 
 
 def test_age():
-    """test for aging of herbivore, each time it is called the age will grow with 1"""
+    """Test for aging of herbivore, each time it is called the age will grow with 1"""
     num_year = 21
     herbivore = Herbivore(5)
     for i in range(num_year):
-        herbivore.year()
+        herbivore.aging_and_lose_weight()
     assert herbivore.age == num_year + 5
 
 
@@ -22,10 +22,10 @@ def test_add_weight():
 
 
 def test_lose_weight():
-    """checks if the herbivore loses weight"""
+    """Checks if the herbivore loses weight"""
     herbivore = Herbivore()
     previous_weight = herbivore.weight
-    herbivore.lose_weight()
+    herbivore.aging_and_lose_weight()
 
     assert herbivore.weight < previous_weight
 
@@ -33,7 +33,8 @@ def test_lose_weight():
 def test_fitness():
     """find the fitness of the animal, fitness is a number between 0 and 1"""
     herbivore = Herbivore(8)
-    assert 0 <= herbivore.fitness() <= 1
+    herbivore.update_fitness()
+    assert 0 <= herbivore.fitness <= 1
 
 
 def test_give_birth(mocker):
@@ -97,5 +98,3 @@ def test_migrate_true(mocker):
     herbivore = Herbivore(5, 50)
 
     assert herbivore.migrate()
-
-
