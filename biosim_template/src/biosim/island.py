@@ -10,14 +10,15 @@ class Island:
     def __init__(self, island_map, ini_animals=None):
         self.map = {}
         map_lines = island_map.splitlines()
-        len_first_line = len(map_lines[0].strip())
+        self.height = len(map_lines)
+        self.length = len(map_lines[0].strip())
 
         'Checks if the boundaries are all water and if the lines in the landscape are equal length'
         for landscape in map_lines[0] + map_lines[-1]:
             if landscape != 'W':
                 raise ValueError('Boundary must be W')
         for row in map_lines:
-            if len(row) != len_first_line:
+            if len(row) != self.length:
                 raise ValueError('All lines must have the same length')
             if row[0] != 'W' or row[-1] != 'W':
                 raise ValueError('Boundary must be W')
@@ -88,3 +89,6 @@ class Island:
             loc_start = animals['loc']
             pop = animals['pop']
             self.map[loc_start].pop_animals(pop)
+
+    def herbivore_map(self):
+        return [[(0, 1, self.map[(j+1, i+1)].num_herbivores()) for i in range(self.length)] for j in range(self.height)]

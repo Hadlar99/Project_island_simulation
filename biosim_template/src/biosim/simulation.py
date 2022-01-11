@@ -109,6 +109,10 @@ class BioSim:
             x.append(self.Island.year)
         plt.plot(x, y1, '-r')
         plt.plot(x, y2, '-b')
+        fig = plt.figure()
+        ax_im = fig.add_axes([0.1, 0.1, 0.7, 0.8])  # llx, lly, w, h
+        map_rgb = self.Island.herbivore_map()
+        ax_im.imshow(map_rgb)
 
 
     def add_population(self, population):
