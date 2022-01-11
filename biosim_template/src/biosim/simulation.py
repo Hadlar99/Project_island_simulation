@@ -109,14 +109,24 @@ class BioSim:
             y2.append(self.Island.amount_of_carnivores())
             self.Island.season()
             x.append(self.Island.year)
-        plt.plot(x, y1, '-r')
-        plt.plot(x, y2, '-b')
         fig = plt.figure()
-        ax_im = fig.add_axes([0.1, 0.1, 0.7, 0.8])  # llx, lly, w, h
-        map_herbi = self.Island.herbivore_map()
-        ax_im.imshow(map_herbi)
-        mapping(self.Island_map)
+        ax1 = fig.add_subplot(2, 2, 1)
+        ax2 = fig.add_subplot(2, 2, 2)
+        ax3 = fig.add_subplot(2, 2, 3)
+        ax4 = fig.add_subplot(2, 2, 4)
 
+        ax1.plot(x, y1, '-r')
+        ax1.plot(x, y2, '-b')
+
+        map_herbi = self.Island.herbivore_map()
+        ax2.imshow(map_herbi)
+
+        map_carni = self.Island.carnivore_map()
+        ax3.imshow(map_carni)
+
+
+        map = mapping(self.Island_map)
+        ax4.imshow(map)
 
     def add_population(self, population):
         """

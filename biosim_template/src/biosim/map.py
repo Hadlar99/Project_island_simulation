@@ -20,7 +20,10 @@ def mapping(island_map):
     map_rgb = [[rgb_value[column] for column in row]
                for row in island_map.splitlines()]
 
-    fig = plt.figure()
+    return map_rgb
+
+"""
+       fig = plt.figure()
 
     ax_im = fig.add_axes([0.1, 0.1, 0.7, 0.8])  # llx, lly, w, h
 
@@ -39,5 +42,6 @@ def mapping(island_map):
                                       edgecolor='none',
                                       facecolor=rgb_value[name[0]]))
         ax_lg.text(0.35, ix * 0.2, name, transform=ax_lg.transAxes)
+"""
 
-    plt.show()
+
