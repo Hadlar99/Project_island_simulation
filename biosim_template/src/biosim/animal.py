@@ -44,7 +44,15 @@ class Animal:
             will be given a weight when born
         """
         self.age = age
-        self.weight = weight if weight is not None else random.gauss(self.params['w_birth'], self.params['sigma_birth'])
+        if weight is not None:
+            if weight <= 0:
+                raise ValueError('Weight of the animal must be strictly positive')
+            self.weight = weight
+        else:
+            while weight is None or weight <= 0:
+                weight = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
+            self.weight = weight
+
         self.fitness = 0
         self.update_fitness()
 
