@@ -111,8 +111,8 @@ class BioSim:
         plt.plot(x, y2, '-b')
         fig = plt.figure()
         ax_im = fig.add_axes([0.1, 0.1, 0.7, 0.8])  # llx, lly, w, h
-        map_rgb = self.Island.herbivore_map()
-        ax_im.imshow(map_rgb)
+        map_herbi = self.Island.herbivore_map()
+        ax_im.imshow(map_herbi)
 
 
     def add_population(self, population):
