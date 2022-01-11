@@ -1,6 +1,5 @@
 import math as m
 import random
-from numba import jit
 
 """This is a class for a single Herbivore"""
 

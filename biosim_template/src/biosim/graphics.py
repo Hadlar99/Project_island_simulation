@@ -26,7 +26,7 @@ _MAGICK_BINARY = 'magick'
 
 # update this to the directory and file-name beginning
 # for the graphics files
-_DEFAULT_GRAPHICS_DIR = os.path.join('../../../../..', 'data')
+_DEFAULT_GRAPHICS_DIR = os.path.join('../..', 'data')
 _DEFAULT_GRAPHICS_NAME = 'dv'
 _DEFAULT_IMG_FORMAT = 'png'
 _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
@@ -186,19 +186,19 @@ class Graphics:
                                                                      interpolation='nearest',
                                                                      vmin=-0.25, vmax=0.25)
             plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
-                         orientation='horizontal')
+                         orientation='vertical')
 
     def _update_carnivore_map(self, carnivore_map):
         """Update the 2D-view of the system."""
 
-        if self._herbivore_img_axis is not None:
-            self._herbivore_img_axis.set_data(carnivore_map)
+        if self._carnivore_img_axis is not None:
+            self._carnivore_img_axis.set_data(carnivore_map)
         else:
-            self._herbivore_img_axis = self._herbivore_map_ax.imshow(carnivore_map,
+            self._carnivore_img_axis = self._carnivore_map_ax.imshow(carnivore_map,
                                                                      interpolation='nearest',
                                                                      vmin=-0.25, vmax=0.25)
-            plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
-                         orientation='horizontal')
+            plt.colorbar(self._carnivore_img_axis, ax=self._carnivore_map_ax,
+                         orientation='vertical')
 
     def _update_mean_graph(self, step, mean):
         y_data = self._mean_line.get_ydata()
