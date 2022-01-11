@@ -20,9 +20,15 @@ class Animal:
 
         changes the parameters for Animal
         """
-        for key in given_params:
+        for key, value in given_params.items():
             if key not in cls.params:
                 raise KeyError(f'Invalid parameter name: {key}')
+            if value < 0:
+                raise ValueError(f'Value for {key} must be positive')
+            if key == 'DeltaPhiMax' and value <= 0:
+                raise ValueError('Value for DeltaPhiMax must be strictly positive')
+            if key == 'eta' and value > 1:
+                raise ValueError('Value for eta must be lower than 1')
 
         for key in given_params:
             cls.params[key] = given_params[key]
