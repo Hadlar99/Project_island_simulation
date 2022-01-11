@@ -39,6 +39,7 @@ class Animal:
         """
         self.age = age
         self.weight = weight if weight is not None else random.gauss(self.params['w_birth'], self.params['sigma_birth'])
+        self.fitness = 0
 
     def add_weight(self, food):
         """
@@ -62,13 +63,8 @@ class Animal:
         """Reduce the weight of the herbivore"""
         self.weight -= self.weight * self.params['eta']
 
-    def fitness(self):
-        return self.fitness_calc(self.weight, self.age, self.params['phi_age'],
-                                 self.params['a_half'], self.params['phi_weight'], self.params['w_half'])
+    def update_fitness(self):
 
-    @staticmethod
-    @jit(nopython=True)
-    def fitness_calc(weight, age, phi_age, a_half, phi_weight, w_half):
         """
         Decide how fit the herbivore are
 
@@ -76,10 +72,11 @@ class Animal:
         -------
 
         """
-        if weight <= 0:    # if the herbivore weight is less than 0 it cannot get any fitness
-            return 0
-        return 1 / (1 + m.exp(phi_age * (age - a_half))) * \
-               1 / (1 + m.exp(phi_weight * (w_half - weight)))
+        if self.weight <= 0:    # if the herbivore weight is less than 0 it cannot get any fitness
+            self.fitness = 0
+        else:
+            self.fitness = 1 / (1 + m.exp(self.params['phi_age'] * (self.age - self.params['a_half']))) * \
+               1 / (1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self.weight)))
 
     def migrate(self):
         """
