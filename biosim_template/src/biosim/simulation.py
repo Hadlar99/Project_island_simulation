@@ -4,6 +4,7 @@ Template for BioSim class.
 from .island import Island
 from .animal import Herbivore
 from .landscape import Dessert, Highland, Lowland, Water
+from .map import mapping
 import random
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -59,6 +60,7 @@ class BioSim:
         random.seed(seed)
 
         self.Island = Island(island_map, ini_pop)
+        self.Island_map = island_map
 
     def set_animal_parameters(self, species, params):
         """
@@ -113,6 +115,7 @@ class BioSim:
         ax_im = fig.add_axes([0.1, 0.1, 0.7, 0.8])  # llx, lly, w, h
         map_herbi = self.Island.herbivore_map()
         ax_im.imshow(map_herbi)
+        mapping(self.Island_map)
 
 
     def add_population(self, population):
