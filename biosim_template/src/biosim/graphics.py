@@ -158,7 +158,7 @@ class Graphics:
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
             self._mean_ax = self._fig.add_subplot(2, 2, 3)
-            self._mean_ax.set_ylim(0, 5000)
+            self._mean_ax.set_ylim(0, 10000)
 
 
         # needs updating on subsequent calls to simulate()
