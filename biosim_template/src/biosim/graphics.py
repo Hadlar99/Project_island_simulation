@@ -183,8 +183,7 @@ class Graphics:
             self._herbivore_img_axis.set_data(herbivore_map)
         else:
             self._herbivore_img_axis = self._herbivore_map_ax.imshow(herbivore_map,
-                                                                     interpolation='nearest',
-                                                                     vmin=-0.25, vmax=0.25)
+                                                                     interpolation='nearest')
             plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
                          orientation='vertical')
 
@@ -195,8 +194,7 @@ class Graphics:
             self._carnivore_img_axis.set_data(carnivore_map)
         else:
             self._carnivore_img_axis = self._carnivore_map_ax.imshow(carnivore_map,
-                                                                     interpolation='nearest',
-                                                                     vmin=-0.25, vmax=0.25)
+                                                                     interpolation='nearest')
             plt.colorbar(self._carnivore_img_axis, ax=self._carnivore_map_ax,
                          orientation='vertical')
 
