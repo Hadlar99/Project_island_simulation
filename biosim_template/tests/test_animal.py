@@ -129,7 +129,7 @@ def test_not_death(mocker):
 def test_migrate_false(mocker):
     """Tests if migrate returns False when the animal will not move"""
     mocker.patch('random.random', return_value=1)
-    herbivore = Herbivore(5, 50)
+    herbivore = Herbivore(5, 10)
 
     assert not herbivore.migrate()
 
