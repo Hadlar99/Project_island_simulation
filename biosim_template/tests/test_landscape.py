@@ -104,8 +104,8 @@ def test_aging():
     cell = Lowland([Herbivore(a, 35) for a in range(10)], [Carnivore(a, 35) for a in range(10)])
     cell.aging_and_loss_of_weight()
 
-    assert all(herbi.age == i + 1 for i, herbi in enumerate(cell.herbivores)) and \
-           all(carni.age == i + 1 for i, carni in enumerate(cell.carnivores))
+    assert all(herbi._age == i + 1 for i, herbi in enumerate(cell.herbivores)) and \
+           all(carni._age == i + 1 for i, carni in enumerate(cell.carnivores))
 
 
 def test_loss_of_weight():
@@ -113,8 +113,8 @@ def test_loss_of_weight():
     cell = Lowland([Herbivore(7, 35)], [Carnivore(7, 35)])
     cell.aging_and_loss_of_weight()
 
-    assert cell.herbivores[0].weight == 35 - 35 * cell.herbivores[0].params['eta'] and \
-           cell.carnivores[0].weight == 35 - 35 * cell.carnivores[0].params['eta']
+    assert cell.herbivores[0]._weight == 35 - 35 * cell.herbivores[0].params['eta'] and \
+           cell.carnivores[0]._weight == 35 - 35 * cell.carnivores[0].params['eta']
 
 
 def test_pop_reduction():
@@ -182,14 +182,14 @@ def test_list_herbivore_fitness():
     """Test if it returns a list with the fitness of herbivores"""
     cell = Lowland([Herbivore(3, 50)])
     assert type(cell.list_herbivores_fitness()) == list and\
-           cell.list_herbivores_fitness() == [Herbivore(3, 50).fitness]
+           cell.list_herbivores_fitness() == [Herbivore(3, 50)._fitness]
 
 
 def test_list_carnivore_fitness():
     """Test if it retruns a list with the fitness of carnivores"""
     cell = Lowland(carnivores=[Carnivore(3, 50)])
     assert type(cell.list_carnivores_fitness()) == list and \
-           cell.list_carnivores_fitness() == [Carnivore(3, 50).fitness]
+           cell.list_carnivores_fitness() == [Carnivore(3, 50)._fitness]
 
 
 def test_food_params():

@@ -49,7 +49,7 @@ class Landscape:
     def feeding(self):
         """Feeds the herbivores in the landscape"""
         self.fodder = self.f_max
-        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness, reverse=True)  # Sort herbivores by fitness
+        self.herbivores = sorted(self.herbivores, key=lambda x: x._fitness, reverse=True)  # Sort herbivores by fitness
         for herbi in self.herbivores:
             if self.fodder >= herbi.params['F']:
                 self.fodder -= herbi.params['F']
@@ -62,19 +62,19 @@ class Landscape:
 
     def carnivore_feeding(self):
         """Feeds the carnivores if there are any herbivores"""
-        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness)
+        self.herbivores = sorted(self.herbivores, key=lambda x: x._fitness)
         random.shuffle(self.carnivores)
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
             hunger = carni.params['F']
             for herbi in alive_herbivores:
-                if (carni.fitness-herbi.fitness)/carni.params['DeltaPhiMax'] > random.random():
-                    if herbi.weight >= hunger:
+                if (carni._fitness - herbi._fitness)/carni.params['DeltaPhiMax'] > random.random():
+                    if herbi._weight >= hunger:
                         carni.add_weight(hunger)
                         self.herbivores.remove(herbi)
                         break
                     else:
-                        carni.add_weight(herbi.weight)
+                        carni.add_weight(herbi._weight)
                         self.herbivores.remove(herbi)
 
     def reproduction(self):
@@ -135,22 +135,22 @@ class Landscape:
         self.immigrating_carnivores = []
 
     def list_herbivores_ages(self):
-        return [animal.age for animal in self.herbivores]
+        return [animal._age for animal in self.herbivores]
 
     def list_carnivores_ages(self):
-        return [animal.age for animal in self.carnivores]
+        return [animal._age for animal in self.carnivores]
 
     def list_herbivores_weight(self):
-        return [animal.weight for animal in self.herbivores]
+        return [animal._weight for animal in self.herbivores]
 
     def list_carnivores_weight(self):
-        return [animal.weight for animal in self.carnivores]
+        return [animal._weight for animal in self.carnivores]
 
     def list_herbivores_fitness(self):
-        return [animal.fitness for animal in self.herbivores]
+        return [animal._fitness for animal in self.herbivores]
 
     def list_carnivores_fitness(self):
-        return [animal.fitness for animal in self.carnivores]
+        return [animal._fitness for animal in self.carnivores]
 
 
 class Water(Landscape):

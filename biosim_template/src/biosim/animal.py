@@ -20,17 +20,25 @@ class Animal:
         changes the parameters for Animal
         """
         for key, value in given_params.items():
+
+            # Returns KeyError if the key is not a parameter
             if key not in cls.params:
                 raise KeyError(f'Invalid parameter name: {key}')
-            if value < 0:
+
+            # Returns ValueError if the value of a parameter is below 0
+            if value < 0:       #
                 raise ValueError(f'Value for {key} must be positive')
+
+            # Returns ValueError if DeltaPhiMax is not strictly positive
             if key == 'DeltaPhiMax' and value <= 0:
                 raise ValueError('Value for DeltaPhiMax must be strictly positive')
+
+            # Returns ValueError if eta is higher than 1
             if key == 'eta' and value > 1:
                 raise ValueError('Value for eta must be lower than 1')
 
         for key in given_params:
-            cls.params[key] = given_params[key]
+            cls.params[key] = given_params[key]     # Changes the parameters
 
     def __init__(self, age=0, weight=None):
         """
@@ -42,18 +50,20 @@ class Animal:
         weight: float
             will be given a weight when born
         """
-        self.age = age
+
         if weight is not None:
+
+            # Raises ValueError if the weight of the animal is not strictly positive
             if weight <= 0:
                 raise ValueError('Weight of the animal must be strictly positive')
-            self.weight = weight
         else:
-            while weight is None or weight <= 0:
+            while weight is None or weight <= 0:    # weights of a new animal must be strictly positive
                 weight = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
-            self.weight = weight
 
-        self.fitness = 0
-        self.update_fitness()
+        self._age = age
+        self._weight = weight
+        self._fitness = 0
+        self.update_fitness()   # Makes fitness the right fitness from start
 
     def add_weight(self, food):
         """
@@ -63,17 +73,16 @@ class Animal:
         food: int
             how much the animal eats
 
-        Returns the new weight of the animal
-        -------
+        updates the weight of the animal when the animal eats
 
         """
-        self.weight += food * self.params['beta']
+        self._weight += food * self.params['beta']
         self.update_fitness()
 
     def aging_and_lose_weight(self):
         """Add one year to the age and reduce the weight of the herbivore"""
-        self.age += 1
-        self.weight -= self.weight * self.params['eta']
+        self._age += 1
+        self._weight -= self._weight * self.params['eta']
         self.update_fitness()
 
     def update_fitness(self):
@@ -81,15 +90,14 @@ class Animal:
         """
         Decide how fit the herbivore are
 
-        Returns float between 1 and 0
-        -------
+        It is called every time the weight or age
 
         """
-        if self.weight <= 0:    # if the herbivore weight is less than 0 it cannot get any fitness
-            self.fitness = 0
+        if self._weight <= 0:    # if the herbivore weight is less than 0 it cannot get any fitness
+            self._fitness = 0
         else:
-            self.fitness = 1 / (1 + m.exp(self.params['phi_age'] * (self.age - self.params['a_half']))) * \
-               1 / (1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self.weight)))
+            self._fitness = 1 / (1 + m.exp(self.params['phi_age'] * (self._age - self.params['a_half']))) * \
+                            1 / (1 + m.exp(self.params['phi_weight'] * (self.params['w_half'] - self._weight)))
 
     def migrate(self):
         """
@@ -98,7 +106,7 @@ class Animal:
         -------
         True if the animal will move, otherwise it returns False
         """
-        return random.random() < self.params['mu'] * self.fitness
+        return random.random() < self.params['mu'] * self._fitness
 
     def birth(self, num):
         """
@@ -112,16 +120,16 @@ class Animal:
         -------
 
         """
-        if self.weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
+        if self._weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
             return False    # if the mother weighs too little, no birth
-        elif random.random() < min(1, self.params['gamma']*self.fitness*(num-1)):
+        elif random.random() < min(1, self.params['gamma'] * self._fitness * (num - 1)):
             weight_baby = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
             # gives a weight to baby if birth
-            if weight_baby > self.weight:
+            if weight_baby > self._weight:
                 return False  # if the baby is going to weigh more than the parent, no birth
             if weight_baby <= 0:
                 return False  # baby not born if it weight is less or equal to 0
-            self.weight -= self.params['xi'] * weight_baby  # reduce weight of parent when given birth
+            self._weight -= self.params['xi'] * weight_baby  # reduce weight of parent when given birth
             self.update_fitness()
             return weight_baby
         else:
@@ -129,9 +137,9 @@ class Animal:
 
     def death(self):
         """Sets conditions for an animal to die"""
-        if self.weight == 0:
+        if self._weight == 0:
             return True     # if the weight is 0 it's going to die
-        elif random.random() < self.params['omega'] * (1-self.fitness):
+        elif random.random() < self.params['omega'] * (1-self._fitness):
             return True     # if less fit, more likely to die
         else:
             return False       # if not dead, it's going to live

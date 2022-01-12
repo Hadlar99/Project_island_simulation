@@ -44,7 +44,7 @@ def test_age():
     herbivore = Herbivore(5)
     for i in range(num_year):
         herbivore.aging_and_lose_weight()
-    assert herbivore.age == num_year + 5
+    assert herbivore._age == num_year + 5
 
 
 def test_add_weight():
@@ -52,23 +52,23 @@ def test_add_weight():
     herbivore = Herbivore()
     herbivore.add_weight(10)
 
-    assert herbivore.weight >= 9    # the weight must be more than 9 because of beta and how much it eats
+    assert herbivore._weight >= 9    # the weight must be more than 9 because of beta and how much it eats
 
 
 def test_lose_weight():
     """Checks if the herbivore loses weight"""
     herbivore = Herbivore()
-    previous_weight = herbivore.weight
+    previous_weight = herbivore._weight
     herbivore.aging_and_lose_weight()
 
-    assert herbivore.weight < previous_weight
+    assert herbivore._weight < previous_weight
 
 
 def test_fitness():
     """find the fitness of the animal, fitness is a number between 0 and 1"""
     herbivore = Herbivore(8)
     herbivore.update_fitness()
-    assert 0 <= herbivore.fitness <= 1
+    assert 0 <= herbivore._fitness <= 1
 
 
 def test_give_birth(mocker):
@@ -107,7 +107,7 @@ def test_not_birth(mocker):
 def test_death_weight_0():
     """if herbivore weight is 0 it will die"""
     herbivore = Herbivore(0, 8)
-    herbivore.weight = 0
+    herbivore._weight = 0
     assert herbivore.death()
 
 
@@ -152,10 +152,10 @@ def test_weight_negative():
 def test_update_fitness_negative_weight():
     """Tests if it sets fitness to 0 if weight is 0 or lower"""
     herbivore = Herbivore(0, 8)
-    herbivore.weight = -2
+    herbivore._weight = -2
     herbivore.update_fitness()
 
-    assert herbivore.fitness == 0
+    assert herbivore._fitness == 0
 
 
 def test_baby_weight_negative(mocker):
