@@ -137,25 +137,29 @@ class Animal:
 
     def birth(self, num):
         """
-
+        Tests if an animal will give birth or not
         Parameters
         ----------
         :num int
             How many herbivors that is present
 
-        Returns the weight of the new baby
+        Returns the weight of the new baby or False if do not give birth
         -------
 
         """
         if self._weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
             return False    # if the mother weighs too little, no birth
+
         elif random.random() < min(1, self.params['gamma'] * self._fitness * (num - 1)):
             weight_baby = random.gauss(self.params['w_birth'], self.params['sigma_birth'])
             # gives a weight to baby if birth
+
             if weight_baby > self._weight:
                 return False  # if the baby is going to weigh more than the parent, no birth
+
             if weight_baby <= 0:
                 return False  # baby not born if it weight is less or equal to 0
+
             self._weight -= self.params['xi'] * weight_baby  # reduce weight of parent when given birth
             self.update_fitness()
             return weight_baby
