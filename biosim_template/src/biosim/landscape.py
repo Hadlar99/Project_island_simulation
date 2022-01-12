@@ -59,6 +59,7 @@ class Landscape:
             else:  # If there are less food then a herbivore can eat
                 herbi.add_weight(self.fodder)  # the herbivore get the rest of the food
                 self.fodder = 0
+                break
 
     def carnivore_feeding(self):
         """Feeds the carnivores if there are any herbivores"""
@@ -161,23 +162,27 @@ class Landscape:
 
 class Water(Landscape):
     """Water without food and animals and is not possible to move to"""
-    f_max = 0
+    default_f_max = 0
+    f_max = default_f_max
     move = False
 
 
 class Lowland(Landscape):
     """Lowland with food, animals and the possibility to move to"""
-    f_max = 800
+    default_f_max = 800
+    f_max = default_f_max
     move = True
 
 
 class Highland(Landscape):
     """Highland with food, animals and the possibility to move to"""
-    f_max = 300
+    default_f_max = 300
+    f_max = default_f_max
     move = True
 
 
 class Dessert(Landscape):
     """Dessert with food, animals and the possibility to move to"""
-    f_max = 0
+    default_f_max = 0
+    f_max = default_f_max
     move = True

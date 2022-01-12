@@ -126,12 +126,25 @@ def test_pop_reduction():
     assert cell.num_herbivores() < 50
 
 
-def test_food_params():
+@pytest.fixture
+def reset_food_params():
+    """"""
+    yield
+    Lowland.f_max = Lowland.default_f_max
+
+
+def test_food_params(reset_food_params):
     """Test if we can change the food params for a given landscape"""
     Lowland.food_params({'f_max': 100.})
     cell = Lowland([Herbivore() for _ in range(50)])
     cell.feeding()
     assert cell.fodder == 0
+
+
+def test_invalid_food_param(reset_food_params):
+    """Tests if it returns KeyError if we try to set a parameter that does not exists"""
+    with pytest.raises(KeyError):
+        Lowland.food_params({'food': 600})
 
 
 def test_moving_params():
@@ -192,7 +205,4 @@ def test_list_carnivore_fitness():
            cell.list_carnivores_fitness() == [Carnivore(3, 50)._fitness]
 
 
-def test_food_params():
-    """Test if it is possible to change the food parameter in landscape"""
-    Dessert.food_params({'f_max': 600})
-    assert Dessert.f_max == 600
+
