@@ -171,16 +171,19 @@ def test_list_herbivore_weight():
     cell = Lowland([Herbivore(3, 50)])
     assert type(cell.list_herbivores_weight()) == list and cell.list_herbivores_weight() == [50]
 
+
 def test_list_carnivores_weight():
     """Test to see if it returns a list with the weight of carnivores"""
     cell = Lowland(carnivores=[Carnivore(3, 50)])
     assert type(cell.list_carnivores_weight()) == list and cell.list_carnivores_weight() == [50]
+
 
 def test_list_herbivore_fitness():
     """Test if it returns a list with the fitness of herbivores"""
     cell = Lowland([Herbivore(3, 50)])
     assert type(cell.list_herbivores_fitness()) == list and\
            cell.list_herbivores_fitness() == [Herbivore(3, 50).fitness]
+
 
 def test_list_carnivore_fitness():
     """Test if it retruns a list with the fitness of carnivores"""
