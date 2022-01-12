@@ -158,6 +158,7 @@ class Graphics:
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
             self._mean_ax = self._fig.add_subplot(2, 2, 3)
+            self._mean_ax.set_ylim(0, 5000)
 
 
         # needs updating on subsequent calls to simulate()
@@ -221,16 +222,6 @@ class Graphics:
 
     def _save_graphics(self, step):
         """Saves graphics to file if file name given."""
-
-        # define the name of the directory to be created
-        path = self._img_base
-
-        try:
-            os.mkdir(path)
-        except OSError:
-            print("Creation of the directory %s failed" % path)
-        else:
-            print("Successfully created the directory %s " % path)
 
         if self._img_base is None or step % self._img_step != 0:
             return

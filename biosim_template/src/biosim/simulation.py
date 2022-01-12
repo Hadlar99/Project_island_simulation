@@ -58,7 +58,7 @@ class BioSim:
         random.seed(seed)
         self.Island = Island(island_map, ini_pop)
         self.Island_map = island_map
-        self._graphics = Graphics(img_dir, img_fmt=img_fmt)
+        self._graphics = Graphics(img_fmt=img_fmt)
 
         self._year = 0
         self._final_year = None
