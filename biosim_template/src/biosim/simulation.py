@@ -169,14 +169,15 @@ class BioSim:
     @property
     def year(self):
         """Last year simulated."""
-
+        return self._final_year
     @property
     def num_animals(self):
         """Total number of animals on island."""
-
+        return self.Island.amount_of_herbivores() + self.Island.amount_of_carnivores()
     @property
     def num_animals_per_species(self):
         """Number of animals per species in island, as dictionary."""
+        return {'Herbivore': self.Island.amount_of_herbivores(), 'Carnivore': self.Island.amount_of_carnivores()}
 
     def make_movie(self, movie_fmt=None):
         """Create MPEG4 movie from visualization images saved."""
