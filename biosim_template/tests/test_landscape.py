@@ -15,13 +15,6 @@ ini_carns = [{'species': 'Carnivore',
              for _ in range(20)]
 
 
-def test_count_herbivores():
-    """Tests the if the count_herbivores count correctly"""
-    cell = Lowland([Herbivore() for _ in range(50)])
-
-    assert cell.num_herbivores() == 50
-
-
 def test_pop_animals():
     """Test if it counts the list of herbivores and carnivores correctly"""
     cell = Lowland()
@@ -45,6 +38,17 @@ def test_pop_animals_ValueError():
                            'weight': 20}
                           for _ in range(50)])
 
+def test_count_herbivores():
+    """Tests if the num_herbivores count correctly"""
+    cell = Lowland(herbivores=[Herbivore() for _ in range(50)])
+
+    assert cell.num_herbivores() == 50
+
+def test_count_carnivore():
+    """Test if the num_carnivore count correctly"""
+    cell = Highland(carnivores=[Carnivore() for _ in range(50)])
+
+    assert cell.num_carnivores() == 50
 
 def test_feeding():
     """Tests if the right amount of food are eaten"""
