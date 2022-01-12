@@ -1,13 +1,41 @@
 """Test for Animal class"""
+import pytest
+
+from biosim.animal import Herbivore, Carnivore
 
 
-from biosim.animal import Herbivore
+class TestSetParameters:
 
-def test_set_params():
-    """Test if it is possible to change multiple params in Herbivore class"""
-    Herbivore.set_params({'gamma': 0.8, 'mu': 1.5})
-    assert Herbivore.params['gamma'] == 0.8 and Herbivore.params['mu'] == 1.5
+    @pytest.fixture
+    def reset_params(self):
+        """Resetting the parameters to default"""
+        yield
+        Herbivore.params = Herbivore.default_params
 
+    def test_set_params(self, reset_params):
+        """Test if it is possible to change multiple params in Herbivore class"""
+        Herbivore.set_params({'gamma': 0.8, 'mu': 1.5})
+        assert Herbivore.params['gamma'] == 0.8 and Herbivore.params['mu'] == 1.5
+
+    def test_invalid_param(self, reset_params):
+        """Tests if it return KeyError if we try to set in a invalid parameter"""
+        with pytest.raises(KeyError):
+            Carnivore.set_params({'no_param': 0.6})
+
+    def test_invalid_value(self, reset_params):
+        """Tests if it return ValueError if we try to set in a invalid value for a parameter"""
+        with pytest.raises(ValueError):
+            Herbivore.set_params({'gamma': -0.6})
+
+    def test_invalid_DeltaPhiMax(self, reset_params):
+        """Tests if it return ValueError if we try to set in a invalid value for DeltaPhiMax"""
+        with pytest.raises(ValueError):
+            Carnivore.set_params({'DeltaPhiMax': 0})
+
+    def test_invalid_eta(self, reset_params):
+        """Tests if it return ValueError if we try to set in a invalid value for eta"""
+        with pytest.raises(ValueError):
+            Herbivore.set_params({'eta': 2})
 
 
 def test_age():
@@ -68,9 +96,17 @@ def test_baby_weights_too_much(mocker):
     assert not herbivore.birth(10)
 
 
+def test_not_birth(mocker):
+    mocker.patch('random.random', return_value=1)
+    herbivore = Herbivore(5, 50)
+
+    assert not herbivore.birth(10)
+
+
 def test_death_weight_0():
     """if herbivore weight is 0 it will die"""
-    herbivore = Herbivore(0, 0)
+    herbivore = Herbivore(0, 8)
+    herbivore.weight = 0
     assert herbivore.death()
 
 
