@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import subprocess
 import os
+from biosim.map import mapping
 
 # Update these variables to point to your ffmpeg and convert binaries
 # If you installed ffmpeg using conda or installed both softwares in
@@ -35,7 +36,7 @@ _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
 class Graphics:
     """Provides graphics support for RandVis."""
 
-    def __init__(self, img_dir=None, img_name=None, img_fmt=None):
+    def __init__(self, island_map, img_dir=None, img_name=None, img_fmt=None):
         """
         :param img_dir: directory for image files; no images if None
         :type img_dir: str
@@ -67,6 +68,8 @@ class Graphics:
         self._mean_ax = None
         self._herbivore_line = None
         self._carnivore_line = None
+        self.island_map = island_map
+        self.island_img = None
 
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map):
         """
@@ -154,11 +157,14 @@ class Graphics:
             self._carnivore_map_ax = self._fig.add_subplot(2, 2, 2)
             self._carnivore_img_axis = None
 
+        if self.island_img is None:
+            self.island_img = self._fig.add_subplot(2, 2, 3)
+            self.island_img.imshow(mapping(self.island_map))
 
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(2, 2, 3)
-            self._mean_ax.set_ylim(0, 10000)
+            self._mean_ax = self._fig.add_subplot(2, 2, 4)
+            self._mean_ax.set_ylim(0, 7000)
 
 
         # needs updating on subsequent calls to simulate()
@@ -196,7 +202,8 @@ class Graphics:
             self._herbivore_img_axis.set_data(herbivore_map)
         else:
             self._herbivore_img_axis = self._herbivore_map_ax.imshow(herbivore_map,
-                                                                     interpolation='nearest')
+                                                                     interpolation='nearest',
+                                                                     vmin=0, vmax=200)
             plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
                          orientation='vertical')
 
@@ -207,7 +214,8 @@ class Graphics:
             self._carnivore_img_axis.set_data(carnivore_map)
         else:
             self._carnivore_img_axis = self._carnivore_map_ax.imshow(carnivore_map,
-                                                                     interpolation='nearest')
+                                                                     interpolation='nearest',
+                                                                     vmin=0, vmax=50)
             plt.colorbar(self._carnivore_img_axis, ax=self._carnivore_map_ax,
                          orientation='vertical')
 
