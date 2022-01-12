@@ -5,19 +5,17 @@ from biosim.landscape import Lowland, Highland, Dessert, Water
 from biosim.animal import Herbivore, Carnivore
 import pytest
 seed = 456
+pop_1 = [{'species': 'Herbivore', 'age': 5, 'weight': 20} for _ in range(50)]
 
+pop_2 = [{'species': 'Carnivore', 'age': 5, 'weight': 20} for _ in range(50)]
+
+pop_3 = [{'species': 'Carnivore', 'age': 5, 'weight': 20} for _ in range(20)]
 
 def test_pop_animals():
     """Test if it counts the list of herbivores and carnivores correctly"""
     cell = Lowland()
-    cell.pop_animals([{'species': 'Herbivore',
-                       'age': 5,
-                       'weight': 20}
-                      for _ in range(50)])
-    cell.pop_animals([{'species': 'Carnivore',
-                       'age': 5,
-                       'weight': 20}
-                      for _ in range(50)])
+    cell.pop_animals(pop_1)
+    cell.pop_animals(pop_2)
     assert cell.num_herbivores(), cell.num_carnivores() == 50
 
 
@@ -67,14 +65,8 @@ def test_feeding_carnivores():
     random.seed(seed)
 
     cell = Lowland()
-    cell.pop_animals([{'species': 'Herbivore',
-                       'age': 5,
-                       'weight': 20}
-                      for _ in range(50)])
-    cell.pop_animals([{'species': 'Carnivore',
-                       'age': 5,
-                       'weight': 20}
-                      for _ in range(20)])
+    cell.pop_animals(pop_1)
+    cell.pop_animals(pop_3)
 
     cell.carnivore_feeding()
 
@@ -165,6 +157,15 @@ def test_migration():
     cell_herbi, cell_carni = cell.migration()
 
     assert type(cell_herbi) == list and type(cell_carni) == list
+
+
+def test_immigration():
+    """Tests if immigration works correctly"""
+    cell = Highland(pop_1, pop_2)
+    cell.immigrating_carnivores = pop_3
+    cell.immigration()
+    assert len(cell.immigrating_carnivores) == 0 and len(cell.carnivores) == len(pop_1) + len(pop_3)
+
 
 
 def test_list_herbivore_ages():
