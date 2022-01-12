@@ -5,14 +5,6 @@ from biosim.landscape import Lowland, Highland, Dessert, Water
 from biosim.animal import Herbivore, Carnivore
 import pytest
 seed = 456
-ini_herbs = [{'species': 'Herbivore',
-              'age': 5,
-              'weight': 20}
-             for _ in range(50)]
-ini_carns = [{'species': 'Carnivore',
-              'age': 5,
-              'weight': 20}
-             for _ in range(20)]
 
 
 def test_pop_animals():
@@ -38,17 +30,20 @@ def test_pop_animals_ValueError():
                            'weight': 20}
                           for _ in range(50)])
 
+
 def test_count_herbivores():
     """Tests if the num_herbivores count correctly"""
     cell = Lowland(herbivores=[Herbivore() for _ in range(50)])
 
     assert cell.num_herbivores() == 50
 
+
 def test_count_carnivore():
     """Test if the num_carnivore count correctly"""
     cell = Highland(carnivores=[Carnivore() for _ in range(50)])
 
     assert cell.num_carnivores() == 50
+
 
 def test_feeding():
     """Tests if the right amount of food are eaten"""
@@ -67,19 +62,26 @@ def test_feeding_if_no_fodder():
 
 
 def test_feeding_carnivores():
-    """Test if the carnivores are going to eat any herbivores"""
+    """Test if the carnivores are going to eat any herbivores by reducing
+    herbivore population"""
     random.seed(seed)
 
     cell = Lowland()
-    cell.pop_animals(ini_herbs)
-    cell.pop_animals(ini_carns)
+    cell.pop_animals([{'species': 'Herbivore',
+                       'age': 5,
+                       'weight': 20}
+                      for _ in range(50)])
+    cell.pop_animals([{'species': 'Carnivore',
+                       'age': 5,
+                       'weight': 20}
+                      for _ in range(20)])
 
     cell.carnivore_feeding()
 
     assert cell.num_herbivores() < 50
 
 
-def test_reproduction():
+def test_reproduction_herbivores():
     """Test if there are getting more herbivores when new herbivores are born"""
     random.seed(seed)
     cell = Lowland([Herbivore(3, 35) for _ in range(10)])
@@ -88,20 +90,31 @@ def test_reproduction():
     assert cell.num_herbivores() > 10
 
 
+def test_reproduction_carnivores():
+    """Test if there are getting more carnivores when new carnivores are born"""
+    random.seed(seed)
+    cell = Lowland(carnivores=[Carnivore(3, 40) for _ in range(10)])
+    cell.reproduction()
+
+    assert cell.num_carnivores() > 10
+
+
 def test_aging():
     """Tests if the herbivores are aging correctly"""
     cell = Lowland([Herbivore(a, 35) for a in range(10)], [Carnivore(a, 35) for a in range(10)])
     cell.aging_and_loss_of_weight()
 
-    assert all(herbi.age == i + 1 for i, herbi in enumerate(cell.herbivores))
+    assert all(herbi.age == i + 1 for i, herbi in enumerate(cell.herbivores)) and \
+           all(carni.age == i + 1 for i, carni in enumerate(cell.carnivores))
 
 
 def test_loss_of_weight():
     """Test if the herbivores loses weight correctly """
-    cell = Lowland([Herbivore(7, 35)])
+    cell = Lowland([Herbivore(7, 35)], [Carnivore(7, 35)])
     cell.aging_and_loss_of_weight()
 
-    assert cell.herbivores[0].weight == 35 - 35 * cell.herbivores[0].params['eta']
+    assert cell.herbivores[0].weight == 35 - 35 * cell.herbivores[0].params['eta'] and \
+           cell.carnivores[0].weight == 35 - 35 * cell.carnivores[0].params['eta']
 
 
 def test_pop_reduction():
@@ -139,6 +152,7 @@ def test_migration():
     cell_herbi, cell_carni = cell.migration()
 
     assert type(cell_herbi) == list and type(cell_carni) == list
+
 
 def test_food_params():
     """Test if it is possible to change the food parameter in landscape"""
