@@ -119,7 +119,10 @@ class BioSim:
                                       self.Island.amount_of_herbivores(),
                                       self.Island.amount_of_carnivores(),
                                       self.Island.herbivore_map(),
-                                      self.Island.carnivore_map())
+                                      self.Island.carnivore_map(),
+                                      self.Island.ages(),
+                                      self.Island.weights(),
+                                      self.Island.fitness())
 
 
         """

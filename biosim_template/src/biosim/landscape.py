@@ -134,6 +134,15 @@ class Landscape:
         self.immigrating_herbivores = []  # Empties the list for next time the function is called upon
         self.immigrating_carnivores = []
 
+    def list_ages(self):
+        return [animal.age for animal in self.herbivores+self.carnivores]
+
+    def list_weight(self):
+        return [animal.weight for animal in self.herbivores+self.carnivores]
+
+    def list_fitness(self):
+        return [animal.fitness for animal in self.herbivores+self.carnivores]
+
 
 class Water(Landscape):
     """Water without food and animals and is not possible to move to"""

@@ -71,7 +71,7 @@ class Graphics:
         self.island_map = island_map
         self.island_img = None
 
-    def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map):
+    def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map, age, weight, fitness):
         """
         Updates graphics with current data and save to file if necessary.
 

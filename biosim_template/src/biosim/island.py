@@ -90,7 +90,25 @@ class Island:
             self.map[loc_start].pop_animals(pop)
 
     def herbivore_map(self):
-        return [[self.map[(j+1, i+1)].num_herbivores() for i in range(self.length)] for j in range(self.height)]
+        return [[self.map[(j, i)].num_herbivores() for i in range(1, self.length+1)] for j in range(1, self.height+1)]
 
     def carnivore_map(self):
-        return [[self.map[(j+1, i+1)].num_carnivores() for i in range(self.length)] for j in range(self.height)]
+        return [[self.map[(j, i)].num_carnivores() for i in range(1, self.length+1)] for j in range(1, self.height+1)]
+
+    def ages(self):
+        animal_ages = []
+        for cell in self.map.values():
+            animal_ages.extend(cell.list_ages())
+        return animal_ages
+
+    def weights(self):
+        animal_weights = []
+        for cell in self.map.values():
+            animal_weights.extend(cell.list_weight())
+        return animal_weights
+
+    def fitness(self):
+        animal_fitness = []
+        for cell in self.map.values():
+            animal_fitness.extend(cell.list_fitness())
+        return animal_fitness
