@@ -65,7 +65,8 @@ class Graphics:
         self._carnivore_map_ax = None
         self._carnivore_img_axis = None
         self._mean_ax = None
-        self._mean_line = None
+        self._herbivore_line = None
+        self._carnivore_line = None
 
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map):
         """
@@ -78,7 +79,7 @@ class Graphics:
 
         self._update_carnivore_map(carnivore_map)
         self._update_herbivore_map(herbivore_map)
-        #self._update_mean_graph(year, sys_mean)
+        self._update_animal_graph(year, num_herbivores, num_carnivores)
         self._fig.canvas.flush_events()  # ensure every thing is drawn
         plt.pause(1e-6)  # pause required to pass control to GUI
 
@@ -153,28 +154,39 @@ class Graphics:
             self._carnivore_map_ax = self._fig.add_subplot(2, 2, 2)
             self._carnivore_img_axis = None
 
-        """
+
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
             self._mean_ax = self._fig.add_subplot(2, 2, 3)
-            self._mean_ax.set_ylim(-0.05, 0.05)
+
 
         # needs updating on subsequent calls to simulate()
         # add 1 so we can show values for time zero and time final_step
         self._mean_ax.set_xlim(0, final_step+1)
 
-        if self._mean_line is None:
+        if self._herbivore_line is None:
             mean_plot = self._mean_ax.plot(np.arange(0, final_step+1),
                                            np.full(final_step+1, np.nan))
-            self._mean_line = mean_plot[0]
+            self._herbivore_line = mean_plot[0]
         else:
-            x_data, y_data = self._mean_line.get_data()
+            x_data, y_data = self._herbivore_line.get_data()
             x_new = np.arange(x_data[-1] + 1, final_step+1)
             if len(x_new) > 0:
                 y_new = np.full(x_new.shape, np.nan)
-                self._mean_line.set_data(np.hstack((x_data, x_new)),
+                self._herbivore_line.set_data(np.hstack((x_data, x_new)),
                                          np.hstack((y_data, y_new)))
-                                         """
+
+        if self._carnivore_line is None:
+            mean_plot = self._mean_ax.plot(np.arange(0, final_step+1),
+                                           np.full(final_step+1, np.nan))
+            self._carnivore_line = mean_plot[0]
+        else:
+            x_data, y_data = self._carnivore_line.get_data()
+            x_new = np.arange(x_data[-1] + 1, final_step+1)
+            if len(x_new) > 0:
+                y_new = np.full(x_new.shape, np.nan)
+                self._carnivore_line.set_data(np.hstack((x_data, x_new)),
+                                         np.hstack((y_data, y_new)))
 
     def _update_herbivore_map(self, herbivore_map):
         """Update the 2D-view of the system."""
@@ -198,13 +210,27 @@ class Graphics:
             plt.colorbar(self._carnivore_img_axis, ax=self._carnivore_map_ax,
                          orientation='vertical')
 
-    def _update_mean_graph(self, step, mean):
-        y_data = self._mean_line.get_ydata()
-        y_data[step] = mean
-        self._mean_line.set_ydata(y_data)
+    def _update_animal_graph(self, step, herbivore, carnivore):
+        y_data_1 = self._herbivore_line.get_ydata()
+        y_data_1[step] = herbivore
+        self._herbivore_line.set_ydata(y_data_1)
+
+        y_data_2 = self._carnivore_line.get_ydata()
+        y_data_2[step] = carnivore
+        self._carnivore_line.set_ydata(y_data_2)
 
     def _save_graphics(self, step):
         """Saves graphics to file if file name given."""
+
+        # define the name of the directory to be created
+        path = self._img_base
+
+        try:
+            os.mkdir(path)
+        except OSError:
+            print("Creation of the directory %s failed" % path)
+        else:
+            print("Successfully created the directory %s " % path)
 
         if self._img_base is None or step % self._img_step != 0:
             return
