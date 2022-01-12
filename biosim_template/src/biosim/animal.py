@@ -65,6 +65,33 @@ class Animal:
         self._fitness = 0
         self.update_fitness()   # Makes fitness the right fitness from start
 
+    @property
+    def age(self):
+        """
+        Returns
+        -------
+        The age of the animal
+        """
+        return self._age
+
+    @property
+    def weight(self):
+        """
+        Returns
+        -------
+        The weight of the animal
+        """
+        return self._weight
+
+    @property
+    def fitness(self):
+        """
+        Returns
+        -------
+        The fitness of the animal
+        """
+        return self._fitness
+
     def add_weight(self, food):
         """
         Give weight to the herbivore when it eats
