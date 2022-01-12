@@ -70,8 +70,16 @@ class Graphics:
         self._carnivore_line = None
         self.island_map = island_map
         self.island_img = None
+        self._ages_hist = None
+        self._ages_histogram = None
+        self._weights_hist = None
+        self._weights_histogram = None
+        self._fitness_hist = None
+        self._fitness_histogram = None
 
-    def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map, age, weight, fitness):
+    def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map,
+               age_herbi=None, age_carni=None, weight_herbi=None, weight_carni=None,
+               fitness_herbi=None, fitness_carni=None):
         """
         Updates graphics with current data and save to file if necessary.
 
@@ -83,6 +91,7 @@ class Graphics:
         self._update_carnivore_map(carnivore_map)
         self._update_herbivore_map(herbivore_map)
         self._update_animal_graph(year, num_herbivores, num_carnivores)
+        #self._update_histograms(age, weight, fitness)
         self._fig.canvas.flush_events()  # ensure every thing is drawn
         plt.pause(1e-6)  # pause required to pass control to GUI
 
@@ -150,20 +159,32 @@ class Graphics:
         # We cannot create the actual ImageAxis object before we know
         # the size of the image, so we delay its creation.
         if self._herbivore_map_ax is None:
-            self._herbivore_map_ax = self._fig.add_subplot(2, 2, 1)
+            self._herbivore_map_ax = self._fig.add_subplot(3, 3, 1)
             self._herbivore_img_axis = None
 
         if self._carnivore_map_ax is None:
-            self._carnivore_map_ax = self._fig.add_subplot(2, 2, 2)
+            self._carnivore_map_ax = self._fig.add_subplot(3, 3, 2)
             self._carnivore_img_axis = None
 
         if self.island_img is None:
-            self.island_img = self._fig.add_subplot(2, 2, 3)
+            self.island_img = self._fig.add_subplot(3, 3, 4)
             self.island_img.imshow(mapping(self.island_map))
+
+        if self._ages_hist is None:
+            self._ages_hist = self._fig.add_subplot(3, 3, 7)
+            self._ages_histogram = None
+
+        if self._weights_hist is None:
+            self._weights_hist = self._fig.add_subplot(3, 3, 8)
+            self._weights_histogram = None
+
+        if self._fitness_hist is None:
+            self._fitness_hist = self._fig.add_subplot(3, 3, 9)
+            self._fitness_histogram = None
 
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(2, 2, 4)
+            self._mean_ax = self._fig.add_subplot(3, 3, 6)
             self._mean_ax.set_ylim(0, 7000)
 
 
@@ -227,6 +248,11 @@ class Graphics:
         y_data_2 = self._carnivore_line.get_ydata()
         y_data_2[step] = carnivore
         self._carnivore_line.set_ydata(y_data_2)
+
+    def _update_histograms(self, ages, weights, fitness):
+
+        self._fitness_histogram.hist(fitness)
+            #= self._fitness_hist.hist(fitness)
 
     def _save_graphics(self, step):
         """Saves graphics to file if file name given."""

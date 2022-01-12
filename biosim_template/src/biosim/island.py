@@ -95,20 +95,38 @@ class Island:
     def carnivore_map(self):
         return [[self.map[(j, i)].num_carnivores() for i in range(1, self.length+1)] for j in range(1, self.height+1)]
 
-    def ages(self):
-        animal_ages = []
+    def herbivore_ages(self):
+        herbi_ages = []
         for cell in self.map.values():
-            animal_ages.extend(cell.list_ages())
-        return animal_ages
+            herbi_ages.extend(cell.list_herbivores_ages())
+        return herbi_ages
 
-    def weights(self):
-        animal_weights = []
+    def carnivore_ages(self):
+        carni_ages = []
         for cell in self.map.values():
-            animal_weights.extend(cell.list_weight())
-        return animal_weights
+            carni_ages.extend(cell.list_carnivores_ages())
+        return carni_ages
 
-    def fitness(self):
-        animal_fitness = []
+    def herbivore_weights(self):
+        herbi_weights = []
         for cell in self.map.values():
-            animal_fitness.extend(cell.list_fitness())
-        return animal_fitness
+            herbi_weights.extend(cell.list_herbivores_weight())
+        return herbi_weights
+
+    def carnivore_weights(self):
+        carni_weights = []
+        for cell in self.map.values():
+            carni_weights.extend(cell.list_carnivores_weight())
+        return carni_weights
+
+    def herbivore_fitness(self):
+        herbi_fitness = []
+        for cell in self.map.values():
+            herbi_fitness.extend(cell.list_herbivores_fitness())
+        return herbi_fitness
+
+    def carnivore_fitness(self):
+        carni_fitness = []
+        for cell in self.map.values():
+            carni_fitness.extend(cell.list_carnivores_fitness())
+        return carni_fitness
