@@ -154,6 +154,41 @@ def test_migration():
     assert type(cell_herbi) == list and type(cell_carni) == list
 
 
+def test_list_herbivore_ages():
+    """Test to see if it returns a list with the ages of herbivores"""
+    cell = Lowland([Herbivore(3, 50)])
+    assert type(cell.list_herbivores_ages()) == list and cell.list_herbivores_ages() == [3]
+
+
+def test_list_carnivores_ages():
+    """Test to see if it returns a list with the ages of carnivores"""
+    cell = Lowland(carnivores=[Carnivore(3, 50)])
+    assert type(cell.list_carnivores_ages()) == list and cell.list_carnivores_ages() == [3]
+
+
+def test_list_herbivore_weight():
+    """Test to see if it returns a list with the weight of herbivores"""
+    cell = Lowland([Herbivore(3, 50)])
+    assert type(cell.list_herbivores_weight()) == list and cell.list_herbivores_weight() == [50]
+
+def test_list_carnivores_weight():
+    """Test to see if it returns a list with the weight of carnivores"""
+    cell = Lowland(carnivores=[Carnivore(3, 50)])
+    assert type(cell.list_carnivores_weight()) == list and cell.list_carnivores_weight() == [50]
+
+def test_list_herbivore_fitness():
+    """Test if it returns a list with the fitness of herbivores"""
+    cell = Lowland([Herbivore(3, 50)])
+    assert type(cell.list_herbivores_fitness()) == list and\
+           cell.list_herbivores_fitness() == [Herbivore(3, 50).fitness]
+
+def test_list_carnivore_fitness():
+    """Test if it retruns a list with the fitness of carnivores"""
+    cell = Lowland(carnivores=[Carnivore(3, 50)])
+    assert type(cell.list_carnivores_fitness()) == list and \
+           cell.list_carnivores_fitness() == [Carnivore(3, 50).fitness]
+
+
 def test_food_params():
     """Test if it is possible to change the food parameter in landscape"""
     Dessert.food_params({'f_max': 600})
