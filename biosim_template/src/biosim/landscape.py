@@ -135,21 +135,27 @@ class Landscape:
         self.immigrating_carnivores = []
 
     def list_herbivores_ages(self):
+        """Retrieving the age of herbivores and put it in a list"""
         return [animal._age for animal in self.herbivores]
 
     def list_carnivores_ages(self):
+        """Retrieving the age of carnivores and put it in a list"""
         return [animal._age for animal in self.carnivores]
 
     def list_herbivores_weight(self):
+        """Retrieving the weight of herbivores and put it in a list"""
         return [animal._weight for animal in self.herbivores]
 
     def list_carnivores_weight(self):
+        """Retrieving the weight of carnivores and put it in a list"""
         return [animal._weight for animal in self.carnivores]
 
     def list_herbivores_fitness(self):
+        """Retrieving the fitness of herbivores and put it in a list"""
         return [animal._fitness for animal in self.herbivores]
 
     def list_carnivores_fitness(self):
+        """Retrieving the fitness of carnivores and put it in a list"""
         return [animal._fitness for animal in self.carnivores]
 
 
