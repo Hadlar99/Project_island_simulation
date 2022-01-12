@@ -27,7 +27,7 @@ class TestSetParameters:
         with pytest.raises(ValueError):
             Herbivore.set_params({'gamma': -0.6})
 
-    def test_invalid_DeltaPhiMax(self, reset_params):
+    def test_invalid_delta_phi_max(self, reset_params):
         """Tests if it return ValueError if we try to set in a invalid value for DeltaPhiMax"""
         with pytest.raises(ValueError):
             Carnivore.set_params({'DeltaPhiMax': 0})
@@ -97,6 +97,7 @@ def test_baby_weights_too_much(mocker):
 
 
 def test_not_birth(mocker):
+    """Tests if birth returns False when it should not give birth"""
     mocker.patch('random.random', return_value=1)
     herbivore = Herbivore(5, 50)
 
@@ -140,3 +141,27 @@ def test_migrate_true(mocker):
     herbivore = Herbivore(5, 50)
 
     assert herbivore.migrate()
+
+
+def test_weight_negative():
+    """Tests if animal raises ValueError if weight of animal is not strictly posetive"""
+    with pytest.raises(ValueError):
+        Herbivore(0, 0)
+
+
+def test_update_fitness_negative_weight():
+    """Tests if it sets fitness to 0 if weight is 0 or lower"""
+    herbivore = Herbivore(0, 8)
+    herbivore.weight = -2
+    herbivore.update_fitness()
+
+    assert herbivore.fitness == 0
+
+
+def test_baby_weight_negative(mocker):
+    """Test if birth returns False when baby weight is negative"""
+    mocker.patch('random.gauss', return_value=-1)
+    mocker.patch('random.random', return_value=0)
+    herbivore = Herbivore(10, 40)
+
+    assert not herbivore.birth(10)
