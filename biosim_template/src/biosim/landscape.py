@@ -49,7 +49,7 @@ class Landscape:
     def feeding(self):
         """Feeds the herbivores in the landscape"""
         self.fodder = self.f_max
-        self.herbivores = sorted(self.herbivores, key=lambda x: x._fitness, reverse=True)  # Sort herbivores by fitness
+        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness, reverse=True)  # Sort herbivores by fitness
         for herbi in self.herbivores:
             if self.fodder >= herbi.params['F']:
                 self.fodder -= herbi.params['F']
@@ -62,19 +62,19 @@ class Landscape:
 
     def carnivore_feeding(self):
         """Feeds the carnivores if there are any herbivores"""
-        self.herbivores = sorted(self.herbivores, key=lambda x: x._fitness)
+        self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness)
         random.shuffle(self.carnivores)
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
             hunger = carni.params['F']
             for herbi in alive_herbivores:
-                if (carni._fitness - herbi._fitness)/carni.params['DeltaPhiMax'] > random.random():
-                    if herbi._weight >= hunger:
+                if (carni.fitness - herbi.fitness)/carni.params['DeltaPhiMax'] > random.random():
+                    if herbi.weight >= hunger:
                         carni.add_weight(hunger)
                         self.herbivores.remove(herbi)
                         break
                     else:
-                        carni.add_weight(herbi._weight)
+                        carni.add_weight(herbi.weight)
                         self.herbivores.remove(herbi)
 
     def reproduction(self):
@@ -136,27 +136,27 @@ class Landscape:
 
     def list_herbivores_ages(self):
         """Retrieving the age of herbivores and put it in a list"""
-        return [animal._age for animal in self.herbivores]
+        return [animal.age for animal in self.herbivores]
 
     def list_carnivores_ages(self):
         """Retrieving the age of carnivores and put it in a list"""
-        return [animal._age for animal in self.carnivores]
+        return [animal.age for animal in self.carnivores]
 
     def list_herbivores_weight(self):
         """Retrieving the weight of herbivores and put it in a list"""
-        return [animal._weight for animal in self.herbivores]
+        return [animal.weight for animal in self.herbivores]
 
     def list_carnivores_weight(self):
         """Retrieving the weight of carnivores and put it in a list"""
-        return [animal._weight for animal in self.carnivores]
+        return [animal.weight for animal in self.carnivores]
 
     def list_herbivores_fitness(self):
         """Retrieving the fitness of herbivores and put it in a list"""
-        return [animal._fitness for animal in self.herbivores]
+        return [animal.fitness for animal in self.herbivores]
 
     def list_carnivores_fitness(self):
         """Retrieving the fitness of carnivores and put it in a list"""
-        return [animal._fitness for animal in self.carnivores]
+        return [animal.fitness for animal in self.carnivores]
 
 
 class Water(Landscape):
@@ -169,6 +169,7 @@ class Lowland(Landscape):
     """Lowland with food, animals and the possibility to move to"""
     f_max = 800
     move = True
+
 
 class Highland(Landscape):
     """Highland with food, animals and the possibility to move to"""
