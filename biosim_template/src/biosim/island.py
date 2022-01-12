@@ -90,42 +90,50 @@ class Island:
             self.map[loc_start].pop_animals(pop)
 
     def herbivore_map(self):
+        """Checks how many herbivores are on each coordinate and put them in a list"""
         return [[self.map[(j, i)].num_herbivores() for i in range(1, self.length+1)] for j in range(1, self.height+1)]
 
     def carnivore_map(self):
+        """Checks how many carnivores ar on each coordinate and put them in a list"""
         return [[self.map[(j, i)].num_carnivores() for i in range(1, self.length+1)] for j in range(1, self.height+1)]
 
     def herbivore_ages(self):
+        """Retrieves the age of all herbivores and put them in a list"""
         herbi_ages = []
         for cell in self.map.values():
             herbi_ages.extend(cell.list_herbivores_ages())
         return herbi_ages
 
     def carnivore_ages(self):
+        """Retrieves the age of all carnivores and put them in a list"""
         carni_ages = []
         for cell in self.map.values():
             carni_ages.extend(cell.list_carnivores_ages())
         return carni_ages
 
     def herbivore_weights(self):
+        """Retrieves the weight of all herbivores and put them in a list"""
         herbi_weights = []
         for cell in self.map.values():
             herbi_weights.extend(cell.list_herbivores_weight())
         return herbi_weights
 
     def carnivore_weights(self):
+        """Retrieves the weight of all carnivores and put them in a list"""
         carni_weights = []
         for cell in self.map.values():
             carni_weights.extend(cell.list_carnivores_weight())
         return carni_weights
 
     def herbivore_fitness(self):
+        """Retrieves the fitness of all herbivores and put them in a list"""
         herbi_fitness = []
         for cell in self.map.values():
             herbi_fitness.extend(cell.list_herbivores_fitness())
         return herbi_fitness
 
     def carnivore_fitness(self):
+        """Retrieves the fitness of all carnivores and put them in a list"""
         carni_fitness = []
         for cell in self.map.values():
             carni_fitness.extend(cell.list_carnivores_fitness())
