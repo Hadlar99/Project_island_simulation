@@ -172,21 +172,21 @@ class Graphics:
 
         if self._ages_hist is None:
             self._ages_hist = self._fig.add_subplot(3, 3, 7)
-            self._ages_hist.set_title('Age')
             self._ages_histogram = None
 
         if self._weights_hist is None:
-            self._weights_hist = self._fig.add_subplot(3, 3, 8, title='Weight')
+            self._weights_hist = self._fig.add_subplot(3, 3, 8)
             self._weights_histogram = None
 
         if self._fitness_hist is None:
-            self._fitness_hist = self._fig.add_subplot(3, 3, 9, title='Fitness')
+            self._fitness_hist = self._fig.add_subplot(3, 3, 9)
             self._fitness_histogram = None
 
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
             self._mean_ax = self._fig.add_subplot(3, 3, 6, title='Animal population')
             self._mean_ax.set_ylim(0, 7000)
+
 
 
         # needs updating on subsequent calls to simulate()
@@ -231,6 +231,7 @@ class Graphics:
             plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
                          orientation='vertical')
 
+
     def _update_carnivore_map(self, carnivore_map):
         """Update the 2D-view of the system."""
 
@@ -239,7 +240,7 @@ class Graphics:
         else:
             self._carnivore_img_axis = self._carnivore_map_ax.imshow(carnivore_map,
                                                                      interpolation='nearest',
-                                                                     vmin=0, vmax=50)
+                                                                     vmin=0, vmax=60)
             plt.colorbar(self._carnivore_img_axis, ax=self._carnivore_map_ax,
                          orientation='vertical')
 
@@ -251,22 +252,28 @@ class Graphics:
         y_data_2 = self._carnivore_line.get_ydata()
         y_data_2[step] = carnivore
         self._carnivore_line.set_ydata(y_data_2)
+        plt.legend((self._herbivore_line, self._carnivore_line), ['Herbivore', 'Carnivore'], loc='upper left')
 
     def _update_histograms(self, age_herbi, age_carn, weight_herbi, weight_carn, fitness_herbi, fitness_carn):
 
 
         self._ages_hist.cla()
         self._ages_hist.set_title('Age')
-        self._ages_histogram = self._ages_hist.hist(age_herbi, histtype='step', color='b')
-        self._ages_histogram = self._ages_hist.hist(age_carn, histtype='step', color='r')
+        self._ages_histogram = self._ages_hist.hist(age_herbi, histtype='step')
+        self._ages_histogram = self._ages_hist.hist(age_carn, histtype='step')
+        self._ages_hist.legend(['Herbivore', 'Carnivore'])
 
         self._weights_hist.cla()
-        self._weights_histogram = self._weights_hist.hist(weight_herbi, histtype='step', color='b')
-        self._weights_histogram = self._weights_hist.hist(weight_carn, histtype='step', color='r')
+        self._weights_hist.set_title('Weights')
+        self._weights_histogram = self._weights_hist.hist(weight_herbi, histtype='step')
+        self._weights_histogram = self._weights_hist.hist(weight_carn, histtype='step')
+        self._weights_hist.legend(['Herbivore', 'Carnivore'])
 
         self._fitness_hist.cla()
-        self._fitness_histogram = self._fitness_hist.hist(fitness_herbi, histtype='step', color='b')
-        self._fitness_histogram = self._fitness_hist.hist(fitness_carn, histtype='step', color='r')
+        self._fitness_hist.set_title('Fitness')
+        self._fitness_histogram = self._fitness_hist.hist(fitness_herbi, histtype='step')
+        self._fitness_histogram = self._fitness_hist.hist(fitness_carn, histtype='step')
+        self._fitness_hist.legend(['Herbivore', 'Carnivore'], loc='upper center')
 
     def _save_graphics(self, step):
         """Saves graphics to file if file name given."""
