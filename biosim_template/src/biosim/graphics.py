@@ -91,7 +91,7 @@ class Graphics:
         self._update_carnivore_map(carnivore_map)
         self._update_herbivore_map(herbivore_map)
         self._update_animal_graph(year, num_herbivores, num_carnivores)
-        #self._update_histograms(age, weight, fitness)
+        self._update_histograms(age_herbi, age_carni)
         self._fig.canvas.flush_events()  # ensure every thing is drawn
         plt.pause(1e-6)  # pause required to pass control to GUI
 
@@ -249,10 +249,12 @@ class Graphics:
         y_data_2[step] = carnivore
         self._carnivore_line.set_ydata(y_data_2)
 
-    def _update_histograms(self, ages, weights, fitness):
+    def _update_histograms(self, age_herbi, age_carn):
 
-        self._fitness_histogram.hist(fitness)
-            #= self._fitness_hist.hist(fitness)
+
+        self._ages_hist.cla()
+        self._ages_histogram = self._ages_hist.hist(age_herbi)
+        self._ages_histogram = self._ages_hist.hist(age_carn)
 
     def _save_graphics(self, step):
         """Saves graphics to file if file name given."""
