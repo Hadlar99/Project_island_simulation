@@ -4,12 +4,9 @@ Template for BioSim class.
 from .island import Island
 from .animal import Herbivore
 from .landscape import Dessert, Highland, Lowland, Water
-from .map import mapping
 import random
 import matplotlib.pyplot as plt
 from .graphics import Graphics
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-
 
 
 # The material in this file is licensed under the BSD 3-clause license
@@ -71,7 +68,6 @@ class BioSim:
                 else:
                     raise KeyError(f'Key in cmax_animals must be Herbivore or Carnivore, not {ani}')
 
-
         self.hist_specs_age = None
         self.hist_specs_weight = None
         self.hist_specs_fitness = None
@@ -87,7 +83,6 @@ class BioSim:
                 else:
                     raise KeyError(f'Key in hist_specs must be age, fitness or weight, not {ani}')
 
-
         self._graphics = Graphics(self.Island_map, vis_years=vis_years, img_fmt=img_fmt, ymax_animals=ymax_animals,
                                   cmax_herbi=self.cmax_herbivore, cmax_carni=self.cmax_carnivore,
                                   hist_specs_age=self.hist_specs_age, hist_specs_fitness=self.hist_specs_fitness,
@@ -98,8 +93,6 @@ class BioSim:
 
         self.vis_years = vis_years
         self.img_years = img_years
-
-
 
     def set_animal_parameters(self, species, params):
         """
@@ -132,38 +125,40 @@ class BioSim:
         else:
             raise NameError(f'Landscape has to be L, H or D')
 
-    def simulate(self, num_years, img_years=None):
+    def simulate(self, num_years):
         """
         Run simulation while visualizing the result.
 
         :param num_years: number of years to simulate
         """
+        self._final_year = self._year + num_years
 
         if self.img_years is None:
             self.img_years = self.vis_years
 
-        if self.img_years % self.vis_years != 0:
-            raise ValueError('img_years must be multiple of vis_years')
+        if self.vis_years != 0:
+            if self.img_years % self.vis_years != 0:
+                raise ValueError('img_years must be multiple of vis_years')
 
-        self._final_year = self._year + num_years
-        self._graphics.setup(self._final_year, img_years)
+            self._graphics.setup(self._final_year, self.img_years)
 
         while self._year < self._final_year:
             self.Island.season()
             self._year += 1
 
-            if self._year % self.vis_years == 0:
-                self._graphics.update(self._year,
-                                      self.Island.amount_of_herbivores(),
-                                      self.Island.amount_of_carnivores(),
-                                      self.Island.herbivore_map(),
-                                      self.Island.carnivore_map(),
-                                      self.Island.herbivore_ages(),
-                                      self.Island.carnivore_ages(),
-                                      self.Island.herbivore_weights(),
-                                      self.Island.carnivore_weights(),
-                                      self.Island.herbivore_fitness(),
-                                      self.Island.carnivore_fitness())
+            if self.vis_years != 0:
+                if self._year % self.vis_years == 0:
+                    self._graphics.update(self._year,
+                                          self.Island.amount_of_herbivores(),
+                                          self.Island.amount_of_carnivores(),
+                                          self.Island.herbivore_map(),
+                                          self.Island.carnivore_map(),
+                                          self.Island.herbivore_ages(),
+                                          self.Island.carnivore_ages(),
+                                          self.Island.herbivore_weights(),
+                                          self.Island.carnivore_weights(),
+                                          self.Island.herbivore_fitness(),
+                                          self.Island.carnivore_fitness())
 
     def add_population(self, population):
         """
@@ -177,10 +172,12 @@ class BioSim:
     def year(self):
         """Last year simulated."""
         return self._final_year
+
     @property
     def num_animals(self):
         """Total number of animals on island."""
         return self.Island.amount_of_herbivores() + self.Island.amount_of_carnivores()
+
     @property
     def num_animals_per_species(self):
         """Number of animals per species in island, as dictionary."""

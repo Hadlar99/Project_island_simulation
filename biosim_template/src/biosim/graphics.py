@@ -17,7 +17,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import subprocess
 import os
-from biosim.map import mapping
 
 # Update these variables to point to your ffmpeg and convert binaries
 # If you installed ffmpeg using conda or installed both softwares in
@@ -59,7 +58,7 @@ class Graphics:
         self._img_fmt = img_fmt if img_fmt is not None else _DEFAULT_IMG_FORMAT
 
         self._img_ctr = 0
-        self._img_year = vis_years
+        self._img_year = 1
         self._vis_year = vis_years
 
         # the following will be initialized by _setup_graphics
@@ -91,20 +90,39 @@ class Graphics:
 
         self.template = 'Year: {:5d}'
 
-
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map,
                age_herbi=None, age_carni=None, weight_herbi=None, weight_carni=None,
                fitness_herbi=None, fitness_carni=None):
         """
-        Updates graphics with current data and save to file if necessary.
 
-        :param year: current time step
-        :param num_herbivores: total number of herbivores
-        :param num_carnivores: total number of carnivores
-        :param herbivore_map: list of how many herbivores on each coordinate
-        :param carnivore_map: list of how many carnivores on each coordinate
+        Parameters
+        ----------
+        year: int
+            The current year
+        num_herbivores: int
+            Total number of herbivores
+        num_carnivores: int
+            Total number of carnivores
+        herbivore_map: list
+            Nested list with how many herbivores there are in each cell
+        carnivore_map: list
+            Nested list with how many cerbivores there are in each cell
+        age_herbi: list with int
+            List of ages for every herbivore
+        age_carni: list with int
+            List of ages for every carnivore
+        weight_herbi: list with float
+            List of weights for every herbivore
+        weight_carni: list with float
+            List of weights for every carnivore
+        fitness_herbi: list with float
+            List of fitness for every herbivore
+        fitness_carni: list with float
+            List of fitness for every carnivore
+
 
         """
+
         self._year_txt.set_text(self.template.format(year))
         self._update_carnivore_map(carnivore_map)
         self._update_herbivore_map(herbivore_map)
@@ -156,7 +174,7 @@ class Graphics:
         else:
             raise ValueError('Unknown movie format: ' + movie_fmt)
 
-    def setup(self, final_step, img_step):
+    def setup(self, final_step, img_year):
         """
         Prepare graphics.
 
@@ -164,10 +182,10 @@ class Graphics:
         the final time step has changed.
 
         :param final_step: last time step to be visualised (upper limit of x-axis)
-        :param img_step: interval between saving image to file
+        :param img_year: interval between saving image to file
         """
 
-        self._img_step = img_step
+        self._img_year = img_year
 
         # create new figure window
         if self._fig is None:
@@ -221,8 +239,6 @@ class Graphics:
                                               facecolor=rgb_value[name[0]]))
                 ax_lg.text(0.25, ix * 0.2, name, transform=ax_lg.transAxes)
 
-
-
         if self._ages_hist is None:
             self._ages_hist = self._fig.add_axes([0.08, 0.1, 0.2, 0.15])
             self._ages_histogram = None
@@ -268,7 +284,7 @@ class Graphics:
                 x_new = np.full(xtr_years.shape, np.nan)
                 y_new = np.full(xtr_years.shape, np.nan)
                 self._carnivore_line.set_data(np.hstack((x_data, x_new)),
-                                         np.hstack((y_data, y_new)))
+                                              np.hstack((y_data, y_new)))
 
     def _update_herbivore_map(self, herbivore_map):
         """Update the 2D-view of the system."""
@@ -283,7 +299,6 @@ class Graphics:
                                                                            else self.cmax_herbi))
             plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
                          orientation='vertical')
-
 
     def _update_carnivore_map(self, carnivore_map):
         """Update the 2D-view of the system."""
@@ -347,13 +362,15 @@ class Graphics:
         self._weights_hist.cla()
         self._weights_hist.set_title('Weights')
         if self.hist_specs_weight is not None:
-            self._weights_histogram = self._weights_hist.hist(weight_herbi, bins=np.arange(0, self.hist_specs_weight['max']
-                                                                                       + self.hist_specs_weight['delta'],
-                                                                                       self.hist_specs_weight['delta']),
+            self._weights_histogram = self._weights_hist.hist(weight_herbi,
+                                                              bins=np.arange(0, self.hist_specs_weight['max']
+                                                                             + self.hist_specs_weight['delta'],
+                                                                             self.hist_specs_weight['delta']),
                                                               histtype='step')
-            self._weights_histogram = self._weights_hist.hist(weight_carn, bins=np.arange(0, self.hist_specs_weight['max']
-                                                                                          + self.hist_specs_weight['delta'],
-                                                                                          self.hist_specs_weight['delta']),
+            self._weights_histogram = self._weights_hist.hist(weight_carn,
+                                                              bins=np.arange(0, self.hist_specs_weight['max']
+                                                                             + self.hist_specs_weight['delta'],
+                                                                             self.hist_specs_weight['delta']),
                                                               histtype='step')
         else:
             self._weights_histogram = self._weights_hist.hist(weight_herbi, histtype='step')
@@ -364,13 +381,15 @@ class Graphics:
         self._fitness_hist.cla()
         self._fitness_hist.set_title('Fitness')
         if self.hist_specs_fitness is not None:
-            self._fitness_histogram = self._fitness_hist.hist(fitness_herbi, bins=np.arange(0, self.hist_specs_fitness['max']
-                                                                                            + self.hist_specs_fitness['delta'],
-                                                                                            self.hist_specs_fitness['delta']),
+            self._fitness_histogram = self._fitness_hist.hist(fitness_herbi,
+                                                              bins=np.arange(0, self.hist_specs_fitness['max']
+                                                                             + self.hist_specs_fitness['delta'],
+                                                                             self.hist_specs_fitness['delta']),
                                                               histtype='step')
-            self._fitness_histogram = self._fitness_hist.hist(fitness_carn, bins=np.arange(0, self.hist_specs_fitness['max']
-                                                                                           + self.hist_specs_fitness['delta'],
-                                                                                           self.hist_specs_fitness['delta']),
+            self._fitness_histogram = self._fitness_hist.hist(fitness_carn,
+                                                              bins=np.arange(0, self.hist_specs_fitness['max']
+                                                                             + self.hist_specs_fitness['delta'],
+                                                                             self.hist_specs_fitness['delta']),
                                                               histtype='step')
         else:
             self._fitness_histogram = self._fitness_hist.hist(fitness_herbi, histtype='step')
