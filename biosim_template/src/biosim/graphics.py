@@ -36,7 +36,7 @@ _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
 class Graphics:
     """Provides graphics support for RandVis."""
 
-    def __init__(self, island_map, img_dir=None, img_name=None, img_fmt=None, ymax_animals=None,
+    def __init__(self, island_map, vis_years=1, img_dir=None, img_name=None, img_fmt=None, ymax_animals=None,
                  cmax_herbi=None, cmax_carni=None, hist_specs_age=None, hist_specs_fitness=None,
                  hist_specs_weight=None):
         """
@@ -59,7 +59,8 @@ class Graphics:
         self._img_fmt = img_fmt if img_fmt is not None else _DEFAULT_IMG_FORMAT
 
         self._img_ctr = 0
-        self._img_step = 1
+        self._img_year = 1
+        self._vis_year = vis_years
 
         # the following will be initialized by _setup_graphics
         self._fig = None
@@ -89,6 +90,7 @@ class Graphics:
         self.hist_specs_weight = hist_specs_weight
 
         self.template = 'Year: {:5d}'
+
 
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map,
                age_herbi=None, age_carni=None, weight_herbi=None, weight_carni=None,
@@ -248,21 +250,23 @@ class Graphics:
             self._herbivore_line = mean_plot[0]
         else:
             x_data, y_data = self._herbivore_line.get_data()
-            x_new = np.arange(x_data[-1] + 1, final_step+1)
-            if len(x_new) > 0:
-                y_new = np.full(x_new.shape, np.nan)
+            xtr_years = np.arange(x_data[-1] + 1, final_step + 1)
+            if len(xtr_years) > 0:
+                x_new = np.full(xtr_years.shape, np.nan)
+                y_new = np.full(xtr_years.shape, np.nan)
                 self._herbivore_line.set_data(np.hstack((x_data, x_new)),
-                                         np.hstack((y_data, y_new)))
+                                              np.hstack((y_data, y_new)))
 
         if self._carnivore_line is None:
-            mean_plot = self._mean_ax.plot(np.arange(0, final_step+1),
+            mean_plot = self._mean_ax.plot(np.full(final_step+1, np.nan),
                                            np.full(final_step+1, np.nan))
             self._carnivore_line = mean_plot[0]
         else:
             x_data, y_data = self._carnivore_line.get_data()
-            x_new = np.arange(x_data[-1] + 1, final_step+1)
-            if len(x_new) > 0:
-                y_new = np.full(x_new.shape, np.nan)
+            xtr_years = np.arange(x_data[-1] + 1, final_step+1)
+            if len(xtr_years) > 0:
+                x_new = np.full(xtr_years.shape, np.nan)
+                y_new = np.full(xtr_years.shape, np.nan)
                 self._carnivore_line.set_data(np.hstack((x_data, x_new)),
                                          np.hstack((y_data, y_new)))
 
@@ -294,18 +298,30 @@ class Graphics:
             plt.colorbar(self._carnivore_img_axis, ax=self._carnivore_map_ax,
                          orientation='vertical')
 
-    def _update_animal_graph(self, step, herbivore, carnivore):
+    def _update_animal_graph(self, year, herbivore, carnivore):
+        step = int(year/self._vis_year)
+
         y_data_1 = self._herbivore_line.get_ydata()
         y_data_1[step] = herbivore
         self._herbivore_line.set_ydata(y_data_1)
 
+        x_data_1 = self._herbivore_line.get_xdata()
+        x_data_1[step] = year
+        self._herbivore_line.set_xdata(x_data_1)
+
         y_data_2 = self._carnivore_line.get_ydata()
         y_data_2[step] = carnivore
         self._carnivore_line.set_ydata(y_data_2)
+
+        x_data_2 = self._carnivore_line.get_xdata()
+        x_data_2[step] = year
+        self._carnivore_line.set_xdata(x_data_2)
+
         plt.legend((self._herbivore_line, self._carnivore_line), ['Herbivore', 'Carnivore'], loc='upper left')
 
+
         if self.ymax_animals is not None:
-            self._mean_ax.set_ylim(0, self.ymax_aniamls)
+            self._mean_ax.set_ylim(0, self.ymax_animals)
         else:
             self._mean_ax.set_ylim(0, herbivore+carnivore)
 
