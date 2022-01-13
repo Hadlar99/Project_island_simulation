@@ -154,38 +154,38 @@ class Graphics:
         # create new figure window
         if self._fig is None:
             self._fig = plt.figure()
-            self._fig.tight_layout(pad=5.0)
 
         # Add left subplot for images created with imshow().
         # We cannot create the actual ImageAxis object before we know
         # the size of the image, so we delay its creation.
         if self._herbivore_map_ax is None:
-            self._herbivore_map_ax = self._fig.add_subplot(3, 3, 1)
+            self._herbivore_map_ax = self._fig.add_subplot(3, 3, 1, title='Herbivore')
             self._herbivore_img_axis = None
 
         if self._carnivore_map_ax is None:
-            self._carnivore_map_ax = self._fig.add_subplot(3, 3, 2)
+            self._carnivore_map_ax = self._fig.add_subplot(3, 3, 2, title='Carnivore')
             self._carnivore_img_axis = None
 
         if self.island_img is None:
-            self.island_img = self._fig.add_subplot(3, 3, 4)
+            self.island_img = self._fig.add_subplot(3, 3, 4, title='Island')
             self.island_img.imshow(mapping(self.island_map))
 
         if self._ages_hist is None:
             self._ages_hist = self._fig.add_subplot(3, 3, 7)
+            self._ages_hist.set_title('Age')
             self._ages_histogram = None
 
         if self._weights_hist is None:
-            self._weights_hist = self._fig.add_subplot(3, 3, 8)
+            self._weights_hist = self._fig.add_subplot(3, 3, 8, title='Weight')
             self._weights_histogram = None
 
         if self._fitness_hist is None:
-            self._fitness_hist = self._fig.add_subplot(3, 3, 9)
+            self._fitness_hist = self._fig.add_subplot(3, 3, 9, title='Fitness')
             self._fitness_histogram = None
 
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(3, 3, 6)
+            self._mean_ax = self._fig.add_subplot(3, 3, 6, title='Animal population')
             self._mean_ax.set_ylim(0, 7000)
 
 
@@ -216,6 +216,8 @@ class Graphics:
                 y_new = np.full(x_new.shape, np.nan)
                 self._carnivore_line.set_data(np.hstack((x_data, x_new)),
                                          np.hstack((y_data, y_new)))
+
+        self._fig.tight_layout()
 
     def _update_herbivore_map(self, herbivore_map):
         """Update the 2D-view of the system."""
@@ -254,6 +256,7 @@ class Graphics:
 
 
         self._ages_hist.cla()
+        self._ages_hist.set_title('Age')
         self._ages_histogram = self._ages_hist.hist(age_herbi, histtype='step', color='b')
         self._ages_histogram = self._ages_hist.hist(age_carn, histtype='step', color='r')
 
