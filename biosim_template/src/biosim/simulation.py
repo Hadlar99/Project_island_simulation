@@ -58,12 +58,24 @@ class BioSim:
         random.seed(seed)
         self.Island = Island(island_map, ini_pop)
         self.Island_map = island_map
-        self._graphics = Graphics(self.Island_map, img_fmt=img_fmt, ymax_animals=ymax_animals)
+        for ani, num in cmax_animals.items():
+            if ani == 'Herbivore':
+                self.cmax_herbivore = num
+            elif ani == 'Carnivore':
+                self.cmax_carnivore = num
+            else:
+                raise KeyError(f'Key in cmax_animals must be Herbivore or Carnivore, not {ani}')
+
+        self._graphics = Graphics(self.Island_map, img_fmt=img_fmt, ymax_animals=ymax_animals,
+                                  cmax_herbi=self.cmax_herbivore, cmax_carni=self.cmax_carnivore)
 
         self._year = 0
         self._final_year = None
 
         self.vis_years = vis_years
+
+
+
 
     def set_animal_parameters(self, species, params):
         """

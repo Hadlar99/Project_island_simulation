@@ -36,7 +36,8 @@ _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
 class Graphics:
     """Provides graphics support for RandVis."""
 
-    def __init__(self, island_map, img_dir=None, img_name=None, img_fmt=None, ymax_animals=None):
+    def __init__(self, island_map, img_dir=None, img_name=None, img_fmt=None, ymax_animals=None,
+                 cmax_herbi=None, cmax_carni=None):
         """
         :param img_dir: directory for image files; no images if None
         :type img_dir: str
@@ -76,7 +77,11 @@ class Graphics:
         self._weights_histogram = None
         self._fitness_hist = None
         self._fitness_histogram = None
+
         self.ymax_animals = ymax_animals
+        self.cmax_herbi = cmax_herbi
+        self.cmax_carni = cmax_carni
+
 
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map,
                age_herbi=None, age_carni=None, weight_herbi=None, weight_carni=None,
@@ -250,7 +255,9 @@ class Graphics:
         else:
             self._herbivore_img_axis = self._herbivore_map_ax.imshow(herbivore_map,
                                                                      interpolation='nearest',
-                                                                     vmin=0, vmax=200)
+                                                                     vmin=0,
+                                                                     vmax=(200 if self.cmax_herbi is None
+                                                                           else self.cmax_herbi))
             plt.colorbar(self._herbivore_img_axis, ax=self._herbivore_map_ax,
                          orientation='vertical')
 
@@ -263,7 +270,8 @@ class Graphics:
         else:
             self._carnivore_img_axis = self._carnivore_map_ax.imshow(carnivore_map,
                                                                      interpolation='nearest',
-                                                                     vmin=0, vmax=60)
+                                                                     vmin=0, vmax=(60 if self.cmax_carni is None
+                                                                                   else self.cmax_carni))
             plt.colorbar(self._carnivore_img_axis, ax=self._carnivore_map_ax,
                          orientation='vertical')
 
