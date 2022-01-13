@@ -58,16 +58,31 @@ class BioSim:
         random.seed(seed)
         self.Island = Island(island_map, ini_pop)
         self.Island_map = island_map
-        for ani, num in cmax_animals.items():
-            if ani == 'Herbivore':
-                self.cmax_herbivore = num
-            elif ani == 'Carnivore':
-                self.cmax_carnivore = num
-            else:
-                raise KeyError(f'Key in cmax_animals must be Herbivore or Carnivore, not {ani}')
+        if cmax_animals is not None:
+
+            for ani, num in cmax_animals.items():
+                if ani == 'Herbivore':
+                    self.cmax_herbivore = num
+                elif ani == 'Carnivore':
+                    self.cmax_carnivore = num
+                else:
+                    raise KeyError(f'Key in cmax_animals must be Herbivore or Carnivore, not {ani}')
+
+        if hist_specs is not None:
+            for ani, num in hist_specs.items():
+                if ani == 'age':
+                    self.hist_specs_age = num
+                elif ani == 'fitness':
+                    self.hist_specs_fitness = num
+                elif ani == 'weight':
+                    self.hist_specs_weight = num
+                else:
+                    raise KeyError(f'Key in hist_specs must be age, fitness or weight, not {ani}')
 
         self._graphics = Graphics(self.Island_map, img_fmt=img_fmt, ymax_animals=ymax_animals,
-                                  cmax_herbi=self.cmax_herbivore, cmax_carni=self.cmax_carnivore)
+                                  cmax_herbi=self.cmax_herbivore, cmax_carni=self.cmax_carnivore,
+                                  hist_specs_age=self.hist_specs_age, hist_specs_fitness=self.hist_specs_fitness,
+                                  hist_specs_weight=self.hist_specs_weight)
 
         self._year = 0
         self._final_year = None
