@@ -167,8 +167,31 @@ class Graphics:
             self._carnivore_img_axis = None
 
         if self.island_img is None:
-            self.island_img = self._fig.add_subplot(3, 3, 4, title='Island')
-            self.island_img.imshow(mapping(self.island_map))
+            rgb_value = {'W': (0.0, 0.0, 1.0),  # blue
+                         'L': (0.0, 0.6, 0.0),  # dark green
+                         'H': (0.5, 1.0, 0.5),  # light green
+                         'D': (1.0, 1.0, 0.5)}  # light yellow
+
+            map_rgb = [[rgb_value[column] for column in row]
+                       for row in self.island_map.splitlines()]
+            self.island_img = self._fig.add_axes([0.05, 0.35, 0.3, 0.3])
+            self.island_img.imshow(map_rgb)
+
+            self.island_img.set_xticks(range(0, len(map_rgb[0]), 5))
+            self.island_img.set_xticklabels(range(1, 1 + len(map_rgb[0]), 5))
+            self.island_img.set_yticks(range(0, len(map_rgb), 5))
+            self.island_img.set_yticklabels(range(1, 1 + len(map_rgb), 5))
+
+            ax_lg = self._fig.add_axes([0.35, 0.35, 0.05, 0.3])  # llx, lly, w, h
+            ax_lg.axis('off')
+            for ix, name in enumerate(('Water', 'Lowland',
+                                       'Highland', 'Desert')):
+                ax_lg.add_patch(plt.Rectangle((0., ix * 0.2), 0.1, 0.1,
+                                              edgecolor='none',
+                                              facecolor=rgb_value[name[0]]))
+                ax_lg.text(0.25, ix * 0.2, name, transform=ax_lg.transAxes)
+
+
 
         if self._ages_hist is None:
             self._ages_hist = self._fig.add_subplot(3, 3, 7)
