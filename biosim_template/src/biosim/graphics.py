@@ -36,7 +36,7 @@ _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
 class Graphics:
     """Provides graphics support for RandVis."""
 
-    def __init__(self, island_map, img_dir=None, img_name=None, img_fmt=None):
+    def __init__(self, island_map, img_dir=None, img_name=None, img_fmt=None, ymax_animals=None):
         """
         :param img_dir: directory for image files; no images if None
         :type img_dir: str
@@ -76,6 +76,7 @@ class Graphics:
         self._weights_histogram = None
         self._fitness_hist = None
         self._fitness_histogram = None
+        self.ymax_animals = ymax_animals
 
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map,
                age_herbi=None, age_carni=None, weight_herbi=None, weight_carni=None,
@@ -212,9 +213,6 @@ class Graphics:
         if self._mean_ax is None:
             self._mean_ax = self._fig.add_axes([0.6, 0.35, 0.35, 0.25])
             self._mean_ax.set_title('Animal population')
-            self._mean_ax.set_ylim(0, 7000)
-
-
 
         # needs updating on subsequent calls to simulate()
         # add 1 so we can show values for time zero and time final_step
@@ -243,8 +241,6 @@ class Graphics:
                 y_new = np.full(x_new.shape, np.nan)
                 self._carnivore_line.set_data(np.hstack((x_data, x_new)),
                                          np.hstack((y_data, y_new)))
-
-        self._fig.tight_layout()
 
     def _update_herbivore_map(self, herbivore_map):
         """Update the 2D-view of the system."""
@@ -280,6 +276,12 @@ class Graphics:
         y_data_2[step] = carnivore
         self._carnivore_line.set_ydata(y_data_2)
         plt.legend((self._herbivore_line, self._carnivore_line), ['Herbivore', 'Carnivore'], loc='upper left')
+
+        if self.ymax_animals is not None:
+            self._mean_ax.set_ylim(0, self.ymax_aniamls)
+        else:
+            self._mean_ax.set_ylim(0, herbivore+carnivore)
+
 
     def _update_histograms(self, age_herbi, age_carn, weight_herbi, weight_carn, fitness_herbi, fitness_carn):
 
