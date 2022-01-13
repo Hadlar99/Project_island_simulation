@@ -159,11 +159,13 @@ class Graphics:
         # We cannot create the actual ImageAxis object before we know
         # the size of the image, so we delay its creation.
         if self._herbivore_map_ax is None:
-            self._herbivore_map_ax = self._fig.add_subplot(3, 3, 1, title='Herbivore')
+            self._herbivore_map_ax = self._fig.add_axes([0.1, 0.7, 0.35, 0.25])
+            self._herbivore_map_ax.set_title('Herbivores')
             self._herbivore_img_axis = None
 
         if self._carnivore_map_ax is None:
-            self._carnivore_map_ax = self._fig.add_subplot(3, 3, 2, title='Carnivore')
+            self._carnivore_map_ax = self._fig.add_axes([0.6, 0.7, 0.35, 0.25])
+            self._carnivore_map_ax.set_title('Carnivores')
             self._carnivore_img_axis = None
 
         if self.island_img is None:
@@ -175,6 +177,7 @@ class Graphics:
             map_rgb = [[rgb_value[column] for column in row]
                        for row in self.island_map.splitlines()]
             self.island_img = self._fig.add_axes([0.05, 0.35, 0.3, 0.3])
+            self.island_img.set_title('Island')
             self.island_img.imshow(map_rgb)
 
             self.island_img.set_xticks(range(0, len(map_rgb[0]), 5))
@@ -194,20 +197,21 @@ class Graphics:
 
 
         if self._ages_hist is None:
-            self._ages_hist = self._fig.add_subplot(3, 3, 7)
+            self._ages_hist = self._fig.add_axes([0.08, 0.1, 0.2, 0.15])
             self._ages_histogram = None
 
         if self._weights_hist is None:
-            self._weights_hist = self._fig.add_subplot(3, 3, 8)
+            self._weights_hist = self._fig.add_axes([0.38, 0.1, 0.2, 0.15])
             self._weights_histogram = None
 
         if self._fitness_hist is None:
-            self._fitness_hist = self._fig.add_subplot(3, 3, 9)
+            self._fitness_hist = self._fig.add_axes([0.70, 0.1, 0.2, 0.15])
             self._fitness_histogram = None
 
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(3, 3, 6, title='Animal population')
+            self._mean_ax = self._fig.add_axes([0.6, 0.35, 0.35, 0.25])
+            self._mean_ax.set_title('Animal population')
             self._mean_ax.set_ylim(0, 7000)
 
 
