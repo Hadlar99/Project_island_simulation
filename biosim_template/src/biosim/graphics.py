@@ -37,7 +37,7 @@ class Graphics:
     """Provides graphics support for RandVis."""
 
     def __init__(self, island_map, img_dir=None, img_name=None, img_fmt=None, ymax_animals=None,
-                 cmax_herbi=None, cmax_carni=None, hist_specs_age=None, hist_specs_fitness = None,
+                 cmax_herbi=None, cmax_carni=None, hist_specs_age=None, hist_specs_fitness=None,
                  hist_specs_weight=None):
         """
         :param img_dir: directory for image files; no images if None
@@ -86,7 +86,6 @@ class Graphics:
         self.hist_specs_fitness = hist_specs_fitness
         self.hist_specs_weight = hist_specs_weight
 
-
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map,
                age_herbi=None, age_carni=None, weight_herbi=None, weight_carni=None,
                fitness_herbi=None, fitness_carni=None):
@@ -94,8 +93,11 @@ class Graphics:
         Updates graphics with current data and save to file if necessary.
 
         :param year: current time step
-        :param sys_map: current system status (2d array)
-        :param sys_mean: current mean value of system
+        :param num_herbivores: total number of herbivores
+        :param num_carnivores: total number of carnivores
+        :param herbivore_map: list of how many herbivores on each coordinate
+        :param carnivore_map: list of how many carnivores on each coordinate
+
         """
 
         self._update_carnivore_map(carnivore_map)
@@ -294,50 +296,49 @@ class Graphics:
         else:
             self._mean_ax.set_ylim(0, herbivore+carnivore)
 
-
     def _update_histograms(self, age_herbi, age_carn, weight_herbi, weight_carn, fitness_herbi, fitness_carn):
-
 
         self._ages_hist.cla()
         self._ages_hist.set_title('Age')
         self._ages_histogram = self._ages_hist.hist(age_herbi, bins=np.arange(0, self.hist_specs_age['max']
-                                                                          + self.hist_specs_age['delta'],
-                                                                          self.hist_specs_age['delta']),
+                                                                              + self.hist_specs_age['delta'],
+                                                                              self.hist_specs_age['delta']),
                                                     histtype='step')
         self._ages_histogram = self._ages_hist.hist(age_carn, bins=np.arange(0, self.hist_specs_age['max']
-                                                                          + self.hist_specs_age['delta'],
-                                                                          self.hist_specs_age['delta']),
+                                                                             + self.hist_specs_age['delta'],
+                                                                             self.hist_specs_age['delta']),
                                                     histtype='step')
         self._ages_hist.legend(['Herbivore', 'Carnivore'])
 
         self._weights_hist.cla()
         self._weights_hist.set_title('Weights')
-        self._weights_histogram = self._weights_hist.hist(weight_herbi,  bins=np.arange(0, self.hist_specs_weight['max']
-                                                                          + self.hist_specs_weight['delta'],
-                                                                          self.hist_specs_weight['delta']),
-                                                    histtype='step')
+        self._weights_histogram = self._weights_hist.hist(weight_herbi, bins=np.arange(0, self.hist_specs_weight['max']
+                                                                                       + self.hist_specs_weight['delta'],
+                                                                                       self.hist_specs_weight['delta']),
+                                                          histtype='step')
         self._weights_histogram = self._weights_hist.hist(weight_carn, bins=np.arange(0, self.hist_specs_weight['max']
-                                                                        + self.hist_specs_weight['delta'],
-                                                                          self.hist_specs_weight['delta']),
-                                                    histtype='step')
+                                                                                      + self.hist_specs_weight['delta'],
+                                                                                      self.hist_specs_weight['delta']),
+                                                          histtype='step')
         self._weights_hist.legend(['Herbivore', 'Carnivore'])
 
         self._fitness_hist.cla()
         self._fitness_hist.set_title('Fitness')
-        self._fitness_histogram = self._fitness_hist.hist(fitness_herbi,  bins=np.arange(0, self.hist_specs_fitness['max']
-                                                                          + self.hist_specs_fitness['delta'],
-                                                                          self.hist_specs_fitness['delta']),
-                                                    histtype='step')
-        self._fitness_histogram = self._fitness_hist.hist(fitness_carn,  bins=np.arange(0, self.hist_specs_fitness['max']
-                                                                          + self.hist_specs_fitness['delta'],
-                                                                          self.hist_specs_fitness['delta']),
-                                                    histtype='step')
+        self._fitness_histogram = self._fitness_hist.hist(fitness_herbi, bins=np.arange(0,
+                                                                                        self.hist_specs_fitness['max']
+                                                                                        + self.hist_specs_fitness['delta'],
+                                                                                        self.hist_specs_fitness['delta']),
+                                                          histtype='step')
+        self._fitness_histogram = self._fitness_hist.hist(fitness_carn, bins=np.arange(0, self.hist_specs_fitness['max']
+                                                                                       + self.hist_specs_fitness['delta'],
+                                                                                       self.hist_specs_fitness['delta']),
+                                                          histtype='step')
         self._fitness_hist.legend(['Herbivore', 'Carnivore'], loc='upper center')
 
-    def _save_graphics(self, step):
+    def _save_graphics(self, year):
         """Saves graphics to file if file name given."""
 
-        if self._img_base is None or step % self._img_step != 0:
+        if self._img_base is None or year % self._img_year != 0:
             return
 
         plt.savefig('{base}_{num:05d}.{type}'.format(base=self._img_base,
