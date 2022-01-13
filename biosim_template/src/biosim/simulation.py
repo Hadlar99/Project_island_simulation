@@ -63,6 +63,8 @@ class BioSim:
         self._year = 0
         self._final_year = None
 
+        self.vis_years = vis_years
+
     def set_animal_parameters(self, species, params):
         """
         Set parameters for animal species.
@@ -94,7 +96,7 @@ class BioSim:
         else:
             raise NameError(f'Landscape has to be L, H or D')
 
-    def simulate(self, num_years, vis_years=1, img_years=None):
+    def simulate(self, num_years, img_years=None):
         """
         Run simulation while visualizing the result.
 
@@ -102,9 +104,9 @@ class BioSim:
         """
 
         if img_years is None:
-            img_years = vis_years
+            img_years = self.vis_years
 
-        if img_years % vis_years != 0:
+        if img_years % self.vis_years != 0:
             raise ValueError('img_years must be multiple of vis_years')
 
         self._final_year = self._year + num_years
@@ -114,7 +116,7 @@ class BioSim:
             self.Island.season()
             self._year += 1
 
-            if self._year % vis_years == 0:
+            if self._year % self.vis_years == 0:
                 self._graphics.update(self._year,
                                       self.Island.amount_of_herbivores(),
                                       self.Island.amount_of_carnivores(),
@@ -127,36 +129,6 @@ class BioSim:
                                       self.Island.herbivore_fitness(),
                                       self.Island.carnivore_fitness())
 
-
-        """
-        self.years = num_years
-        x = []
-        y1 = []
-        y2 = []
-        for year in range(num_years):
-            y1.append(self.Island.amount_of_herbivores())
-            y2.append(self.Island.amount_of_carnivores())
-            self.Island.season()
-            x.append(self.Island.year)
-        fig = plt.figure()
-        ax1 = fig.add_subplot(2, 2, 1)
-        ax2 = fig.add_subplot(2, 2, 2)
-        ax3 = fig.add_subplot(2, 2, 3)
-        ax4 = fig.add_subplot(2, 2, 4)
-
-        ax1.plot(x, y1, '-r')
-        ax1.plot(x, y2, '-b')
-
-        map_herbi = self.Island.herbivore_map()
-        ax2.imshow(map_herbi)
-
-        map_carni = self.Island.carnivore_map()
-        ax3.imshow(map_carni)
-
-
-        map = mapping(self.Island_map)
-        ax4.imshow(map)
-        """
     def add_population(self, population):
         """
         Add a population to the island

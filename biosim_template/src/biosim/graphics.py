@@ -154,6 +154,7 @@ class Graphics:
         # create new figure window
         if self._fig is None:
             self._fig = plt.figure()
+            self._fig.tight_layout(pad=5.0)
 
         # Add left subplot for images created with imshow().
         # We cannot create the actual ImageAxis object before we know
