@@ -78,6 +78,8 @@ class Graphics:
         self._weights_histogram = None
         self._fitness_hist = None
         self._fitness_histogram = None
+        self._year_ax = None
+        self._year_txt = None
 
         self.ymax_animals = ymax_animals
         self.cmax_herbi = cmax_herbi
@@ -85,6 +87,8 @@ class Graphics:
         self.hist_specs_age = hist_specs_age
         self.hist_specs_fitness = hist_specs_fitness
         self.hist_specs_weight = hist_specs_weight
+
+        self.template = 'Year: {:5d}'
 
     def update(self, year, num_herbivores, num_carnivores, herbivore_map, carnivore_map,
                age_herbi=None, age_carni=None, weight_herbi=None, weight_carni=None,
@@ -99,7 +103,7 @@ class Graphics:
         :param carnivore_map: list of how many carnivores on each coordinate
 
         """
-
+        self._year_txt.set_text(self.template.format(year))
         self._update_carnivore_map(carnivore_map)
         self._update_herbivore_map(herbivore_map)
         self._update_animal_graph(year, num_herbivores, num_carnivores)
@@ -170,8 +174,17 @@ class Graphics:
         # Add left subplot for images created with imshow().
         # We cannot create the actual ImageAxis object before we know
         # the size of the image, so we delay its creation.
+        if self._year_ax is None:
+            self._year_ax = self._fig.add_axes([0.4, 0.8, 0.2, 0.2])  # llx, lly, w, h
+            self._year_ax.axis('off')  # turn off coordinate system
+
+            self._year_txt = self._year_ax.text(0.5, 0.5, self.template.format(0),
+                                                horizontalalignment='center',
+                                                verticalalignment='center',
+                                                transform=self._year_ax.transAxes)
+
         if self._herbivore_map_ax is None:
-            self._herbivore_map_ax = self._fig.add_axes([0.1, 0.7, 0.35, 0.25])
+            self._herbivore_map_ax = self._fig.add_axes([0.05, 0.7, 0.35, 0.25])
             self._herbivore_map_ax.set_title('Herbivores')
             self._herbivore_img_axis = None
 
