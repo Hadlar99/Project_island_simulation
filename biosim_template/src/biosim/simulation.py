@@ -97,7 +97,7 @@ class BioSim:
         self._final_year = None
 
         self.vis_years = vis_years
-
+        self.img_years = img_years
 
 
 
@@ -139,10 +139,10 @@ class BioSim:
         :param num_years: number of years to simulate
         """
 
-        if img_years is None:
-            img_years = self.vis_years
+        if self.img_years is None:
+            self.img_years = self.vis_years
 
-        if img_years % self.vis_years != 0:
+        if self.img_years % self.vis_years != 0:
             raise ValueError('img_years must be multiple of vis_years')
 
         self._final_year = self._year + num_years
