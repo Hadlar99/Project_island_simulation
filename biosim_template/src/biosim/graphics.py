@@ -87,6 +87,7 @@ class Graphics:
         self.hist_specs_age = hist_specs_age
         self.hist_specs_fitness = hist_specs_fitness
         self.hist_specs_weight = hist_specs_weight
+        self.animal_ydata = []
 
         self.template = 'Year: {:5d}'
 
@@ -338,7 +339,8 @@ class Graphics:
         if self.ymax_animals is not None:
             self._mean_ax.set_ylim(0, self.ymax_animals)
         else:
-            self._mean_ax.set_ylim(0, herbivore+carnivore)
+            self.animal_ydata.append(max(herbivore, carnivore))
+            self._mean_ax.set_ylim(0, max(self.animal_ydata))
 
     def _update_histograms(self, age_herbi, age_carn, weight_herbi, weight_carn, fitness_herbi, fitness_carn):
 
