@@ -35,7 +35,7 @@ _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
 class Graphics:
     """Provides graphics support for RandVis."""
 
-    def __init__(self, island_map, vis_years=1, img_dir=None, img_name=None, img_fmt=None, ymax_animals=None,
+    def __init__(self, island_map, vis_years=1, img_dir=None, img_name=None, img_fmt=None, img_base=None, ymax_animals=None,
                  cmax_herbi=None, cmax_carni=None, hist_specs_age=None, hist_specs_fitness=None,
                  hist_specs_weight=None):
         """
@@ -50,10 +50,12 @@ class Graphics:
         if img_name is None:
             img_name = _DEFAULT_GRAPHICS_NAME
 
-        if img_dir is not None:
+        self._img_base = img_base
+
+        """if img_dir is not None:
             self._img_base = os.path.join(img_dir, img_name)
         else:
-            self._img_base = None
+            self._img_base = None"""
 
         self._img_fmt = img_fmt if img_fmt is not None else _DEFAULT_IMG_FORMAT
 
