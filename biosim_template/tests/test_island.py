@@ -1,3 +1,5 @@
+import pytest
+
 from biosim.island import Island
 from biosim.animal import Herbivore, Carnivore
 import textwrap
@@ -23,6 +25,12 @@ ini_carns = [{'loc': (2, 2),
                        'age': age,
                        'weight': weight}
                       for _ in range(20)]}]
+
+ini_herbs_water = [{'loc': (1, 1),
+                    'pop': [{'species': 'Herbivore',
+                             'age': age,
+                             'weight': weight}
+                            for _ in range(50)]}]
 
 
 def test_season():
@@ -51,6 +59,11 @@ def test_new_animals():
     cell = Island(geogr, ini_herbs)
     cell.new_animals(ini_herbs)
     assert cell.amount_of_herbivores() == 100
+
+def test_animal_on_water():
+    """Tests if it returns Value Error if animals are set on Water"""
+    with pytest.raises(ValueError):
+        Island(geogr, ini_herbs_water )
 
 
 def test_herbivore_map():

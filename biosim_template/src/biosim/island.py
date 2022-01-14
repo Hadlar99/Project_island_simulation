@@ -89,8 +89,11 @@ class Island:
         """Takes in a dictonary with the location and what kind of species and put it on the island """
         for animals in ini_pop:
             loc_start = animals['loc']
-            pop = animals['pop']
-            self.map[loc_start].pop_animals(pop)
+            if self.map[loc_start].move:
+                pop = animals['pop']
+                self.map[loc_start].pop_animals(pop)
+            else:
+                raise ValueError('You can not place animals in Water')
 
     def herbivore_map(self):
         """Checks how many herbivores are on each coordinate and put them in a list"""
