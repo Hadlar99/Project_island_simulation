@@ -361,8 +361,6 @@ class Graphics:
             self._ages_histogram = self._ages_hist.hist(age_herbi, histtype='step')
             self._ages_histogram = self._ages_hist.hist(age_carn, histtype='step')
 
-        self._ages_hist.legend(['Herbivore', 'Carnivore'])
-
         self._weights_hist.cla()
         self._weights_hist.set_title('Weights')
         if self.hist_specs_weight is not None:
@@ -380,8 +378,6 @@ class Graphics:
             self._weights_histogram = self._weights_hist.hist(weight_herbi, histtype='step')
             self._weights_histogram = self._weights_hist.hist(weight_carn, histtype='step')
 
-        self._weights_hist.legend(['Herbivore', 'Carnivore'])
-
         self._fitness_hist.cla()
         self._fitness_hist.set_title('Fitness')
         if self.hist_specs_fitness is not None:
@@ -398,7 +394,6 @@ class Graphics:
         else:
             self._fitness_histogram = self._fitness_hist.hist(fitness_herbi, histtype='step')
             self._fitness_histogram = self._fitness_hist.hist(fitness_carn, histtype='step')
-        self._fitness_hist.legend(['Herbivore', 'Carnivore'], loc='upper center')
 
     def _save_graphics(self, year):
         """Saves graphics to file if file name given."""

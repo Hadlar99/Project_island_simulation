@@ -66,11 +66,14 @@ class Island:
         """Everything that happens each year in correct order"""
         for cell in self.map.values():
             cell.feeding()
+        for cell in self.map.values():
             cell.carnivore_feeding()
+        for cell in self.map.values():
             cell.reproduction()
         self.migrate_season()
         for cell in self.map.values():
             cell.aging_and_loss_of_weight()
+        for cell in self.map.values():
             cell.pop_reduction()
         self.year += 1
 
