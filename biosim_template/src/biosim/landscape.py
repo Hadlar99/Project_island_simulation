@@ -117,6 +117,7 @@ class Landscape:
                 moving_herbivores.append(herbi)
             else:
                 stationary_herbivores.append(herbi)
+
         moving_carnivores = []
         stationary_carnivores = []
         for carni in self.carnivores:   # The carnivores are getting sorted

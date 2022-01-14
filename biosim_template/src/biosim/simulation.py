@@ -2,7 +2,7 @@
 Template for BioSim class.
 """
 from .island import Island
-from .animal import Herbivore
+from .animal import Herbivore, Carnivore
 from .landscape import Dessert, Highland, Lowland, Water
 import random
 import matplotlib.pyplot as plt
@@ -104,7 +104,7 @@ class BioSim:
         if species == 'Herbivore':
             Herbivore.set_params(params)
         elif species == 'Carnivore':
-            pass
+            Carnivore.set_params(params)
         else:
             raise NameError('Species have to be Herbivore or Carnivore ')
 
