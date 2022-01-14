@@ -74,6 +74,9 @@ class Graphics:
         self._carnivore_line = None
         self.island_map = island_map
         self.island_img = None
+        self.island_map_lines = self.island_map.splitlines()
+        self._hight = len(self.island_map_lines)
+        self._length = len(self.island_map_lines[0])
         self._ages_hist = None
         self._ages_histogram = None
         self._weights_hist = None
@@ -207,14 +210,24 @@ class Graphics:
                                                 transform=self._year_ax.transAxes)
 
         if self._herbivore_map_ax is None:
-            self._herbivore_map_ax = self._fig.add_axes([0.05, 0.7, 0.35, 0.25])
+            self._herbivore_map_ax = self._fig.add_axes([0.05, 0.3, 0.35, 0.3])
             self._herbivore_map_ax.set_title('Herbivores')
             self._herbivore_img_axis = None
 
+            self._herbivore_map_ax.set_xticks(range(0, self._length, 5))
+            self._herbivore_map_ax.set_xticklabels(range(1, 1 + self._length, 5))
+            self._herbivore_map_ax.set_yticks(range(0, self._hight, 5))
+            self._herbivore_map_ax.set_yticklabels(range(1, 1 + self._hight, 5))
+
         if self._carnivore_map_ax is None:
-            self._carnivore_map_ax = self._fig.add_axes([0.6, 0.7, 0.35, 0.25])
+            self._carnivore_map_ax = self._fig.add_axes([0.6, 0.3, 0.35, 0.3])
             self._carnivore_map_ax.set_title('Carnivores')
             self._carnivore_img_axis = None
+
+            self._carnivore_map_ax.set_xticks(range(0, self._length, 5))
+            self._carnivore_map_ax.set_xticklabels(range(1, 1 + self._length, 5))
+            self._carnivore_map_ax.set_yticks(range(0, self._hight, 5))
+            self._carnivore_map_ax.set_yticklabels(range(1, 1 + self._hight, 5))
 
         if self.island_img is None:
             rgb_value = {'W': (0.0, 0.0, 1.0),  # blue
@@ -224,7 +237,7 @@ class Graphics:
 
             map_rgb = [[rgb_value[column] for column in row]
                        for row in self.island_map.splitlines()]
-            self.island_img = self._fig.add_axes([0.05, 0.35, 0.3, 0.3])
+            self.island_img = self._fig.add_axes([0.05, 0.7, 0.25, 0.25])
             self.island_img.set_title('Island')
             self.island_img.imshow(map_rgb)
 
@@ -233,7 +246,7 @@ class Graphics:
             self.island_img.set_yticks(range(0, len(map_rgb), 5))
             self.island_img.set_yticklabels(range(1, 1 + len(map_rgb), 5))
 
-            ax_lg = self._fig.add_axes([0.35, 0.35, 0.05, 0.3])  # llx, lly, w, h
+            ax_lg = self._fig.add_axes([0.3, 0.7, 0.05, 0.3])  # llx, lly, w, h
             ax_lg.axis('off')
             for ix, name in enumerate(('Water', 'Lowland',
                                        'Highland', 'Desert')):
@@ -243,20 +256,20 @@ class Graphics:
                 ax_lg.text(0.25, ix * 0.2, name, transform=ax_lg.transAxes)
 
         if self._ages_hist is None:
-            self._ages_hist = self._fig.add_axes([0.08, 0.1, 0.2, 0.15])
+            self._ages_hist = self._fig.add_axes([0.08, 0.05, 0.2, 0.15])
             self._ages_histogram = None
 
         if self._weights_hist is None:
-            self._weights_hist = self._fig.add_axes([0.38, 0.1, 0.2, 0.15])
+            self._weights_hist = self._fig.add_axes([0.38, 0.05, 0.2, 0.15])
             self._weights_histogram = None
 
         if self._fitness_hist is None:
-            self._fitness_hist = self._fig.add_axes([0.70, 0.1, 0.2, 0.15])
+            self._fitness_hist = self._fig.add_axes([0.70, 0.05, 0.2, 0.15])
             self._fitness_histogram = None
 
         # Add right subplot for line graph of mean.
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_axes([0.6, 0.35, 0.35, 0.25])
+            self._mean_ax = self._fig.add_axes([0.65, 0.7, 0.3, 0.25])
             self._mean_ax.set_title('Animal population')
 
         # needs updating on subsequent calls to simulate()
