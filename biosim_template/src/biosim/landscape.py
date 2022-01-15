@@ -24,7 +24,7 @@ class Landscape:
 
     def pop_animals(self, pop):
         """
-
+        Sets animals on the Island
         Parameters
         ----------
         pop : list With Herbivore or Carnivore
@@ -35,8 +35,9 @@ class Landscape:
                 self.herbivores.append(Herbivore(animal['age'], animal['weight']))
             elif animal['species'] == 'Carnivore':
                 self.carnivores.append(Carnivore(animal['age'], animal['weight']))
-            else:
-                raise ValueError(f"species must be Herbivore or Carnivore, not {animal['species']}")
+
+            else:       # Raises ValueError if the species are not Herbivore or Carnivore
+                raise ValueError(f"Species must be Herbivore or Carnivore, not {animal['species']}")
 
     def num_herbivores(self):
         """Finds the number of herbivores"""
@@ -51,11 +52,14 @@ class Landscape:
         self.fodder = self.f_max
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness, reverse=True)  # Sort herbivores by fitness
         for herbi in self.herbivores:
+
             if self.fodder >= herbi.params['F']:
                 self.fodder -= herbi.params['F']
                 herbi.add_weight(herbi.params['F'])
+
             elif self.fodder == 0:  # The herbivores dont get food, because there are no food left
                 break
+
             else:  # If there are less food then a herbivore can eat
                 herbi.add_weight(self.fodder)  # the herbivore get the rest of the food
                 self.fodder = 0
@@ -65,16 +69,24 @@ class Landscape:
         """Feeds the carnivores if there are any herbivores"""
         self.herbivores = sorted(self.herbivores, key=lambda x: x.fitness)
         random.shuffle(self.carnivores)
+
         for carni in self.carnivores:
             alive_herbivores = self.herbivores
-            hunger = carni.params['F']
+            hunger = carni.params['F']      # How much the carnivore can eat
+
             for herbi in alive_herbivores:
+                # Checks if the carnivore catch the herbivore
                 if (carni.fitness - herbi.fitness)/carni.params['DeltaPhiMax'] > random.random():
+
+                    # If herivore weights more than what a carnivore can eat, the carnivore eats what it can
                     if herbi.weight >= hunger:
                         carni.add_weight(hunger)
                         self.herbivores.remove(herbi)
                         break
+
+                    # The carnivore eats the herbivore
                     else:
+                        hunger -= herbi.weight
                         carni.add_weight(herbi.weight)
                         self.herbivores.remove(herbi)
 
@@ -110,16 +122,16 @@ class Landscape:
         -------
         Two list all the animals that are going to migrate
         """
-        moving_herbivores = []
-        stationary_herbivores = []
+        moving_herbivores = []      # list of herbivores emigrating
+        stationary_herbivores = []      # list of herbivores not emigrating
         for herbi in self.herbivores:  # The herbivores are getting sorted
             if herbi.migrate():
                 moving_herbivores.append(herbi)
             else:
                 stationary_herbivores.append(herbi)
 
-        moving_carnivores = []
-        stationary_carnivores = []
+        moving_carnivores = []      # list of carnivores emigrating
+        stationary_carnivores = []      # list of carnivores not emigrating
         for carni in self.carnivores:   # The carnivores are getting sorted
             if carni.migrate():
                 moving_carnivores.append(carni)

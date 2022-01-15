@@ -134,9 +134,16 @@ def test_food_params(reset_food_params):
 
 
 def test_invalid_food_param(reset_food_params):
-    """Tests if it returns KeyError if we try to set a parameter that does not exists"""
+    """Tests if it raises KeyError if we try to set a parameter that does not exists"""
     with pytest.raises(KeyError):
         Lowland.food_params({'food': 600})
+
+def test_herbivore_eats_rest(reset_food_params):
+    """Tests if the herbivore eats the rest of the food"""
+    Lowland.food_params({'f_max': 95})
+    cell = Lowland([Herbivore() for _ in range(50)])
+    cell.feeding()
+    assert cell.fodder == 0
 
 
 def test_moving_params():

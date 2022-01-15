@@ -8,6 +8,16 @@ from .landscape import Lowland, Highland, Water, Dessert
 class Island:
 
     def __init__(self, island_map, ini_animals=None):
+        """
+
+        Parameters
+        ----------
+        island_map: str
+            map of the island
+        ini_animals: list with dict
+            the Animals that start on the Island
+
+        """
         self.map = {}
         map_lines = island_map.splitlines()
         self.height = len(map_lines)
@@ -66,15 +76,21 @@ class Island:
         """Everything that happens each year in correct order"""
         for cell in self.map.values():
             cell.feeding()
+
         for cell in self.map.values():
             cell.carnivore_feeding()
+
         for cell in self.map.values():
             cell.reproduction()
+
         self.migrate_season()
+
         for cell in self.map.values():
             cell.aging_and_loss_of_weight()
+
         for cell in self.map.values():
             cell.pop_reduction()
+
         self.year += 1
 
     def amount_of_herbivores(self):
@@ -85,9 +101,17 @@ class Island:
         """Count how many carnivores it is"""
         return sum(cell.num_carnivores() for cell in self.map.values())
 
-    def new_animals(self, ini_pop):
-        """Takes in a dictonary with the location and what kind of species and put it on the island """
-        for animals in ini_pop:
+    def new_animals(self, ani_pop):
+        """
+        Adds new animals to the Island
+        Parameters
+        ----------
+        ani_pop: list with dict
+            new animals that should be added to the Island
+
+        """
+
+        for animals in ani_pop:
             loc_start = animals['loc']
             if self.map[loc_start].move:
                 pop = animals['pop']
