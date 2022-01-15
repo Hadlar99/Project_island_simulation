@@ -72,11 +72,11 @@ class Graphics:
         self._mean_ax = None
         self._herbivore_line = None
         self._carnivore_line = None
-        self.island_map = island_map
-        self.island_img = None
-        self.island_map_lines = self.island_map.splitlines()
-        self._hight = len(self.island_map_lines)
-        self._length = len(self.island_map_lines[0])
+        self._island_map = island_map
+        self._island_img = None
+        self._island_map_lines = self._island_map.splitlines()
+        self._hight = len(self._island_map_lines)
+        self._length = len(self._island_map_lines[0])
         self._ages_hist = None
         self._ages_histogram = None
         self._weights_hist = None
@@ -187,9 +187,15 @@ class Graphics:
         Call this before calling :meth:`update()` for the first time after
         the final time step has changed.
 
-        :param final_step: last time step to be visualised (upper limit of x-axis)
-        :param img_year: interval between saving image to file
+        Parameters
+        ----------
+        final_step: int
+            last time step to be visualised (upper limit of x-axis)
+        img_year: int
+            interval between saving image to file
+
         """
+
 
         self._img_year = img_year
 
@@ -229,22 +235,22 @@ class Graphics:
             self._carnivore_map_ax.set_yticks(range(0, self._hight, 5))
             self._carnivore_map_ax.set_yticklabels(range(1, 1 + self._hight, 5))
 
-        if self.island_img is None:
+        if self._island_img is None:
             rgb_value = {'W': (0.0, 0.0, 1.0),  # blue
                          'L': (0.0, 0.6, 0.0),  # dark green
                          'H': (0.5, 1.0, 0.5),  # light green
                          'D': (1.0, 1.0, 0.5)}  # light yellow
 
             map_rgb = [[rgb_value[column] for column in row]
-                       for row in self.island_map.splitlines()]
-            self.island_img = self._fig.add_axes([0.05, 0.7, 0.25, 0.25])
-            self.island_img.set_title('Island')
-            self.island_img.imshow(map_rgb)
+                       for row in self._island_map.splitlines()]
+            self._island_img = self._fig.add_axes([0.05, 0.7, 0.25, 0.25])
+            self._island_img.set_title('Island')
+            self._island_img.imshow(map_rgb)
 
-            self.island_img.set_xticks(range(0, len(map_rgb[0]), 5))
-            self.island_img.set_xticklabels(range(1, 1 + len(map_rgb[0]), 5))
-            self.island_img.set_yticks(range(0, len(map_rgb), 5))
-            self.island_img.set_yticklabels(range(1, 1 + len(map_rgb), 5))
+            self._island_img.set_xticks(range(0, len(map_rgb[0]), 5))
+            self._island_img.set_xticklabels(range(1, 1 + len(map_rgb[0]), 5))
+            self._island_img.set_yticks(range(0, len(map_rgb), 5))
+            self._island_img.set_yticklabels(range(1, 1 + len(map_rgb), 5))
 
             ax_lg = self._fig.add_axes([0.3, 0.7, 0.05, 0.3])  # llx, lly, w, h
             ax_lg.axis('off')
@@ -303,7 +309,14 @@ class Graphics:
                                               np.hstack((y_data, y_new)))
 
     def _update_herbivore_map(self, herbivore_map):
-        """Update the 2D-view of the system."""
+        """
+        Update the map with herbivores
+        Parameters
+        ----------
+        herbivore_map: nested list
+            How many herbivores there are in each cell
+
+        """
 
         if self._herbivore_img_axis is not None:
             self._herbivore_img_axis.set_data(herbivore_map)
@@ -317,7 +330,14 @@ class Graphics:
                          orientation='vertical')
 
     def _update_carnivore_map(self, carnivore_map):
-        """Update the 2D-view of the system."""
+        """
+        Update the map with carnivores
+        Parameters
+        ----------
+        carnivore_map: nested list
+            How many herbivores there are in each cell
+
+        """
 
         if self._carnivore_img_axis is not None:
             self._carnivore_img_axis.set_data(carnivore_map)
@@ -330,6 +350,19 @@ class Graphics:
                          orientation='vertical')
 
     def _update_animal_graph(self, year, herbivore, carnivore):
+        """
+        Updates the graph of hoe many herbivores and carnivores there are on the Island
+
+        Parameters
+        ----------
+        year: int
+            the current year
+        herbivore: int
+            the total amount of herbivores
+        carnivore: int
+            the total amount of carnivores
+
+        """
         step = int(year/self._vis_year)
 
         y_data_1 = self._herbivore_line.get_ydata()
