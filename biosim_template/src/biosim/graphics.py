@@ -66,7 +66,6 @@ class Graphics:
             sets the x-max limit and the bins for the weight histogram
         """
 
-
         if img_name is None:
             img_name = _DEFAULT_GRAPHICS_NAME
 
@@ -74,8 +73,6 @@ class Graphics:
             self._img_base = os.path.join(img_dir, img_name)
         else:
             self._img_base = None
-
-
 
         self._img_fmt = img_fmt if img_fmt is not None else _DEFAULT_IMG_FORMAT
 
@@ -133,7 +130,7 @@ class Graphics:
         herbivore_map: list
             Nested list with how many herbivores there are in each cell
         carnivore_map: list
-            Nested list with how many cerbivores there are in each cell
+            Nested list with how many carnivores there are in each cell
         age_herbi: list with int
             List of ages for every herbivore
         age_carni: list with int

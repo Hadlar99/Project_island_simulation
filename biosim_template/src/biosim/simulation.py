@@ -5,7 +5,6 @@ from .island import Island
 from .animal import Herbivore, Carnivore
 from .landscape import Dessert, Highland, Lowland, Water
 import random
-import matplotlib.pyplot as plt
 from .graphics import Graphics
 
 
@@ -90,7 +89,8 @@ class BioSim:
         self.vis_years = vis_years
         self.img_years = img_years
 
-    def set_animal_parameters(self, species, params):
+    @staticmethod
+    def set_animal_parameters(species, params):
         """
         Set parameters for animal species
 
@@ -112,7 +112,8 @@ class BioSim:
         else:
             raise NameError('Species have to be Herbivore or Carnivore ')
 
-    def set_landscape_parameters(self, landscape, params):
+    @staticmethod
+    def set_landscape_parameters(landscape, params):
         """
         Set parameters for the different kinds of landscape
 
