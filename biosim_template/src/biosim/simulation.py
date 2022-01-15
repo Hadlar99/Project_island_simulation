@@ -82,7 +82,7 @@ class BioSim:
         self._graphics = Graphics(self.Island_map, vis_years=vis_years, img_fmt=img_fmt, ymax_animals=ymax_animals,
                                   cmax_herbi=self.cmax_herbivore, cmax_carni=self.cmax_carnivore,
                                   hist_specs_age=self.hist_specs_age, hist_specs_fitness=self.hist_specs_fitness,
-                                  hist_specs_weight=self.hist_specs_weight, img_dir=img_dir, img_base=img_base)
+                                  hist_specs_weight=self.hist_specs_weight, img_dir=img_dir, img_name=img_base)
 
         self._year = 0
         self._final_year = None

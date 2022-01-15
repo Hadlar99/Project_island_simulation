@@ -26,16 +26,16 @@ _MAGICK_BINARY = 'magick'
 
 # update this to the directory and file-name beginning
 # for the graphics files
-_DEFAULT_GRAPHICS_DIR = os.path.join('../..', 'data')
-_DEFAULT_GRAPHICS_NAME = 'dv'
+_DEFAULT_GRAPHICS_DIR = os.path.join('../results', 'data')
+_DEFAULT_GRAPHICS_NAME = 'biosim'
 _DEFAULT_IMG_FORMAT = 'png'
 _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
 
 
 class Graphics:
-    """Provides graphics support for RandVis."""
+    """Provides graphics support for Biosim."""
 
-    def __init__(self, island_map, vis_years=1, img_dir=None, img_name=None, img_fmt=None, img_base=None,
+    def __init__(self, island_map, vis_years=1, img_dir=None, img_name=None, img_fmt=None,
                  ymax_animals=None, cmax_herbi=None, cmax_carni=None, hist_specs_age=None, hist_specs_fitness=None,
                  hist_specs_weight=None):
         """
@@ -49,11 +49,9 @@ class Graphics:
         img_dir: string
             gives a path to where to save the graphics
         img_name: string
-            gives a name to the saved graphics
+            gives the filename to where the graphics will be saved
         img_fmt: string
             gives the information on what format the images shall be saved in
-        img_base: string
-            gives the filename to where the graphics will be saved
         ymax_animals: int
             sets the y-max limit for the population graph
         cmax_herbi: dict
@@ -68,10 +66,16 @@ class Graphics:
             sets the x-max limit and the bins for the weight histogram
         """
 
+
         if img_name is None:
             img_name = _DEFAULT_GRAPHICS_NAME
 
-        self._img_base = img_base
+        if img_dir is not None:
+            self._img_base = os.path.join(img_dir, img_name)
+        else:
+            self._img_base = None
+
+
 
         self._img_fmt = img_fmt if img_fmt is not None else _DEFAULT_IMG_FORMAT
 

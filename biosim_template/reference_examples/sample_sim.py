@@ -8,7 +8,6 @@ __author__ = 'Hans Ekkehard Plesser, NMBU'
 
 import textwrap
 from biosim.simulation import BioSim
-import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
 
@@ -53,8 +52,8 @@ if __name__ == '__main__':
                              'age': {'max': 60.0, 'delta': 2},
                              'weight': {'max': 60, 'delta': 2}},
                  cmax_animals={'Herbivore': 200, 'Carnivore': 50},
-                 img_dir='results',
-                 img_base='../data/sample', vis_years=1)
+                 img_dir='../results',
+                 img_base='sample', vis_years=1)
     sim.simulate(200)
     sim.make_movie()
 
