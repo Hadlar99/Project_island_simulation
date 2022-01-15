@@ -17,13 +17,16 @@ class Island:
         ini_animals: list with dict
             the Animals that start on the Island
 
+        Raises
+        ------
+        ValueError
         """
         self.map = {}
         map_lines = island_map.splitlines()
         self.height = len(map_lines)
         self.length = len(map_lines[0].strip())
 
-        'Checks if the boundaries are all water and if the lines in the landscape are equal length'
+        # Checks if the boundaries are all water and if the lines in the landscape are equal length
         for landscape in map_lines[0] + map_lines[-1]:
             if landscape != 'W':
                 raise ValueError('Boundary must be W')
@@ -33,7 +36,7 @@ class Island:
             if row[0] != 'W' or row[-1] != 'W':
                 raise ValueError('Boundary must be W')
 
-        """Place the different landscape in the right places, also raises error if wrong type of landscape"""
+        # Place the different landscape in the right places, also raises error if wrong type of landscape
         for i, row in enumerate(island_map.splitlines()):
             for j, landscape in enumerate(row):
                 if landscape == 'W':
@@ -47,7 +50,8 @@ class Island:
                 else:
                     raise ValueError(f'Landscape has to be W, L, H, D, can not be {landscape}')
         self.year = 0   # set the start year to 0
-        """Import the animals"""
+
+        #Import the animals
         if ini_animals:
             self.new_animals(ini_animals)
 
@@ -112,6 +116,9 @@ class Island:
         ani_pop: list with dict
             new animals that should be added to the Island
 
+        Raises
+        ------
+        ValueError
         """
 
         for animals in ani_pop:

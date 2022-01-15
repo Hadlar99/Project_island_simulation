@@ -438,9 +438,6 @@ class Graphics:
             list with the fitness for all herbivores
         fitness_carn: list
             list with all fitness for all carnivores
-
-        -------
-
         """
 
         self._ages_hist.cla()
@@ -501,8 +498,9 @@ class Graphics:
         year: int
             How many years the simulation are going to run
 
+        Returns
         -------
-
+        None if it does not save a figure
         """
 
         if self._img_base is None or year % self._img_year != 0:

@@ -45,6 +45,10 @@ class BioSim:
             years between the images is saved
         log_file:
             if given, write animal counts to the file
+
+        Raises
+        ------
+        KeyError
         """
 
         random.seed(seed)
@@ -101,8 +105,9 @@ class BioSim:
         params: dict
             all the different parameters for each species
 
+        Raises
         -------
-
+        NameError
         """
 
         if species == 'Herbivore':
@@ -124,7 +129,9 @@ class BioSim:
         params: dict
             parameters for the different kind of landscape
 
-        -------
+        Raises
+        ------
+        NameError
         """
 
         if landscape == 'L':
@@ -144,8 +151,10 @@ class BioSim:
         ----------
         num_years: int
             how many years the simulation are gong to run
-        -------
 
+        Raises
+        ------
+        ValueError
         """
 
         self._final_year = self._year + num_years
@@ -185,9 +194,6 @@ class BioSim:
         ----------
         population: list
             list of dictionaries specifying the population
-
-        -------
-
         """
 
         self.Island.new_animals(population)
@@ -208,5 +214,11 @@ class BioSim:
         return {'Herbivore': self.Island.amount_of_herbivores(), 'Carnivore': self.Island.amount_of_carnivores()}
 
     def make_movie(self, movie_fmt=None):
-        """Create MPEG4 movie from visualization images saved."""
+        """
+        Create MPEG4 movie from visualization images saved.
+        Parameters
+        ----------
+        movie_fmt: str
+            Movie format the movie should be made in
+        """
         self._graphics.make_movie(movie_fmt)

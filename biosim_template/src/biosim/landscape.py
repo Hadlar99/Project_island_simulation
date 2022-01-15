@@ -9,6 +9,18 @@ class Landscape:
 
     @classmethod
     def food_params(cls, param):
+        """
+
+        Parameters
+        ----------
+        param: dict
+            Dictionary with parameter to change
+
+        Raises
+        ------
+        KeyError
+
+        """
         for key, value in param.items():
             if key == 'f_max':
                 cls.f_max = value
@@ -29,6 +41,9 @@ class Landscape:
         ----------
         pop : list With Herbivore or Carnivore
 
+        Raises
+        ------
+        ValueError
         """
         for animal in pop:
             if animal['species'] == 'Herbivore':

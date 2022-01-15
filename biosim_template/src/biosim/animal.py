@@ -18,6 +18,10 @@ class Animal:
             parameter name as key and parameter value as value
 
         changes the parameters for Animal
+
+        Raises
+        ------
+        KeyError, ValueError
         """
         for key, value in given_params.items():
 
@@ -49,6 +53,10 @@ class Animal:
             set to 0 if not anything else is given
         weight: float
             will be given a weight when born
+
+        Raises
+        ------
+        ValueError
         """
 
         if weight is not None:
