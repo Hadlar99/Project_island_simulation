@@ -42,7 +42,7 @@ class Graphics:
 
         Parameters
         ----------
-        island_map: multiline string
+        island_map: string
             gives description on how the island look
         vis_years: int
             Tells how many years between each graphics update
@@ -56,10 +56,10 @@ class Graphics:
             gives the filename to where the graphics will be saved
         ymax_animals: int
             sets the y-max limit for the population graph
-        cmax_herbi: int
-            sets the max limit on the heatmap for herbivores
-        cmax_carni: int
-            sets the max limit on the heatmap for carnivores
+        cmax_herbi: dict
+            sets the color code on the heatmap for herbivores
+        cmax_carni: dict
+            sets the color code on the heatmap for carnivores
         hist_specs_age: dict
             sets the x-max limit and the bins for the age histogram
         hist_specs_fitness: dict
