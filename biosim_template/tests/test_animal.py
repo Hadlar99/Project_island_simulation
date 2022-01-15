@@ -43,7 +43,7 @@ def test_age():
     num_year = 21
     herbivore = Herbivore(5)
     for i in range(num_year):
-        herbivore.aging_and_lose_weight()
+        herbivore.aging()
     assert herbivore.age == num_year + 5
 
 
@@ -59,7 +59,7 @@ def test_lose_weight():
     """Checks if the herbivore loses weight"""
     herbivore = Herbivore()
     previous_weight = herbivore.weight
-    herbivore.aging_and_lose_weight()
+    herbivore.lose_weight()
 
     assert herbivore.weight < previous_weight
 

@@ -100,12 +100,19 @@ class Landscape:
                                 if (bw := carni.birth(self.num_carnivores())) > 0])
         # Adds the new babies to the list of carnivores
 
-    def aging_and_loss_of_weight(self):
-        """Makes all the animals one year older and removes the weight the animals loses in a year"""
+    def aging_animals(self):
+        """Makes all the animals one year older"""
         for herbi in self.herbivores:
-            herbi.aging_and_lose_weight()
+            herbi.aging()
         for carni in self.carnivores:
-            carni.aging_and_lose_weight()
+            carni.aging()
+
+    def weight_loss(self):
+        """Makes all the animals loss the yearly weight"""
+        for herbi in self.herbivores:
+            herbi.lose_weight()
+        for carni in self.carnivores:
+            carni.lose_weight()
 
     def pop_reduction(self):
         """Removes all animals that dies"""

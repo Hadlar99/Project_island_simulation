@@ -91,10 +91,10 @@ def test_reproduction_carnivores():
     assert cell.num_carnivores() > 10
 
 
-def test_aging():
+def test_aging_animals():
     """Tests if the herbivores are aging correctly"""
     cell = Lowland([Herbivore(a, 35) for a in range(10)], [Carnivore(a, 35) for a in range(10)])
-    cell.aging_and_loss_of_weight()
+    cell.aging_animals()
 
     assert all(herbi._age == i + 1 for i, herbi in enumerate(cell.herbivores)) and \
            all(carni._age == i + 1 for i, carni in enumerate(cell.carnivores))
@@ -103,7 +103,7 @@ def test_aging():
 def test_loss_of_weight():
     """Test if the herbivores loses weight correctly """
     cell = Lowland([Herbivore(7, 35)], [Carnivore(7, 35)])
-    cell.aging_and_loss_of_weight()
+    cell.weight_loss()
 
     assert cell.herbivores[0]._weight == 35 - 35 * cell.herbivores[0].params['eta'] and \
            cell.carnivores[0]._weight == 35 - 35 * cell.carnivores[0].params['eta']

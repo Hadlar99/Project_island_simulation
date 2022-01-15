@@ -106,9 +106,13 @@ class Animal:
         self._weight += food * self.params['beta']
         self.update_fitness()
 
-    def aging_and_lose_weight(self):
-        """Add one year to the age and reduce the weight of the herbivore"""
+    def aging(self):
+        """Add one year to the age of the animal"""
         self._age += 1
+        self.update_fitness()
+
+    def lose_weight(self):
+        """Reduce the weight of the animal"""
         self._weight -= self._weight * self.params['eta']
         self.update_fitness()
 

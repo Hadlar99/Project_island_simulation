@@ -86,7 +86,10 @@ class Island:
         self.migrate_season()
 
         for cell in self.map.values():
-            cell.aging_and_loss_of_weight()
+            cell.aging_animals()
+
+        for cell in self.map.values():
+            cell.weight_loss()
 
         for cell in self.map.values():
             cell.pop_reduction()
