@@ -1,5 +1,5 @@
 """
-:mod:`randvis.graphics` provides graphics support for RandVis.
+This is a modified graphic from the Randvis project to Biosim.
 
 .. note::
    * This module requires the program ``ffmpeg`` or ``convert``
@@ -35,27 +35,43 @@ _DEFAULT_MOVIE_FORMAT = 'mp4'   # alternatives: mp4, gif
 class Graphics:
     """Provides graphics support for RandVis."""
 
-    def __init__(self, island_map, vis_years=1, img_dir=None, img_name=None, img_fmt=None, img_base=None, ymax_animals=None,
-                 cmax_herbi=None, cmax_carni=None, hist_specs_age=None, hist_specs_fitness=None,
+    def __init__(self, island_map, vis_years=1, img_dir=None, img_name=None, img_fmt=None, img_base=None,
+                 ymax_animals=None, cmax_herbi=None, cmax_carni=None, hist_specs_age=None, hist_specs_fitness=None,
                  hist_specs_weight=None):
         """
-        :param img_dir: directory for image files; no images if None
-        :type img_dir: str
-        :param img_name: beginning of name for image files
-        :type img_name: str
-        :param img_fmt: image file format suffix
-        :type img_fmt: str
+
+        Parameters
+        ----------
+        island_map: multiline string
+            gives description on how the island look
+        vis_years: int
+            Tells how many years between each graphics update
+        img_dir: string
+            gives a path to where to save the graphics
+        img_name: string
+            gives a name to the saved graphics
+        img_fmt: string
+            gives the information on what format the images shall be saved in
+        img_base: string
+            gives the filename to where the graphics will be saved
+        ymax_animals: int
+            sets the y-max limit for the population graph
+        cmax_herbi: int
+            sets the max limit on the heatmap for herbivores
+        cmax_carni: int
+            sets the max limit on the heatmap for carnivores
+        hist_specs_age: dict
+            sets the x-max limit and the bins for the age histogram
+        hist_specs_fitness: dict
+            sets the x-max limit and the bins for the fitness histogram
+        hist_specs_weight: dict
+            sets the x-max limit and the bins for the weight histogram
         """
 
         if img_name is None:
             img_name = _DEFAULT_GRAPHICS_NAME
 
         self._img_base = img_base
-
-        """if img_dir is not None:
-            self._img_base = os.path.join(img_dir, img_name)
-        else:
-            self._img_base = None"""
 
         self._img_fmt = img_fmt if img_fmt is not None else _DEFAULT_IMG_FORMAT
 
@@ -86,6 +102,7 @@ class Graphics:
         self._year_ax = None
         self._year_txt = None
 
+        # Attributes that are changeable for the user
         self.ymax_animals = ymax_animals
         self.cmax_herbi = cmax_herbi
         self.cmax_carni = cmax_carni
@@ -141,12 +158,15 @@ class Graphics:
 
     def make_movie(self, movie_fmt=None):
         """
-        Creates MPEG4 movie from visualization images saved.
 
-        .. :note:
-            Requires ffmpeg for MP4 and magick for GIF
+        Parameters
+        ----------
+        movie_fmt: string
+            Gives information on the format the movie should be made in
+            Must be mp4 or GIF
+            Default: mp4
+        -------
 
-        The movie is stored as img_base + movie_fmt
         """
 
         if self._img_base is None:
@@ -181,21 +201,21 @@ class Graphics:
             raise ValueError('Unknown movie format: ' + movie_fmt)
 
     def setup(self, final_step, img_year):
-        """
-        Prepare graphics.
-
-        Call this before calling :meth:`update()` for the first time after
-        the final time step has changed.
-
-        Parameters
-        ----------
-        final_step: int
-            last time step to be visualised (upper limit of x-axis)
-        img_year: int
-            interval between saving image to file
 
         """
+          Prepare graphics.
 
+          Call this before calling :meth:`update()` for the first time after
+          the final time step has changed.
+
+          Parameters
+          ----------
+          final_step: int
+              last time step to be visualised (upper limit of x-axis)
+          img_year: int
+              interval between saving image to file
+
+          """
 
         self._img_year = img_year
 
@@ -215,26 +235,31 @@ class Graphics:
                                                 verticalalignment='center',
                                                 transform=self._year_ax.transAxes)
 
+        # Makes a place to put the graphics for herbivore map
         if self._herbivore_map_ax is None:
             self._herbivore_map_ax = self._fig.add_axes([0.05, 0.3, 0.35, 0.3])
             self._herbivore_map_ax.set_title('Herbivores')
             self._herbivore_img_axis = None
 
+            # Makes the axis correct for herbivore map
             self._herbivore_map_ax.set_xticks(range(0, self._length, 5))
             self._herbivore_map_ax.set_xticklabels(range(1, 1 + self._length, 5))
             self._herbivore_map_ax.set_yticks(range(0, self._hight, 5))
             self._herbivore_map_ax.set_yticklabels(range(1, 1 + self._hight, 5))
 
+        # Makes a place to put the graphics for carnivore map
         if self._carnivore_map_ax is None:
             self._carnivore_map_ax = self._fig.add_axes([0.6, 0.3, 0.35, 0.3])
             self._carnivore_map_ax.set_title('Carnivores')
             self._carnivore_img_axis = None
 
+            # Makes the axis correct for carnivore map
             self._carnivore_map_ax.set_xticks(range(0, self._length, 5))
             self._carnivore_map_ax.set_xticklabels(range(1, 1 + self._length, 5))
             self._carnivore_map_ax.set_yticks(range(0, self._hight, 5))
             self._carnivore_map_ax.set_yticklabels(range(1, 1 + self._hight, 5))
 
+        # Makes a map of the island with different color for different terrain
         if self._island_img is None:
             rgb_value = {'W': (0.0, 0.0, 1.0),  # blue
                          'L': (0.0, 0.6, 0.0),  # dark green
@@ -247,11 +272,13 @@ class Graphics:
             self._island_img.set_title('Island')
             self._island_img.imshow(map_rgb)
 
+            # Gives correct axis to the island map
             self._island_img.set_xticks(range(0, len(map_rgb[0]), 5))
             self._island_img.set_xticklabels(range(1, 1 + len(map_rgb[0]), 5))
             self._island_img.set_yticks(range(0, len(map_rgb), 5))
             self._island_img.set_yticklabels(range(1, 1 + len(map_rgb), 5))
 
+            # Adds description on what terrain the different colors represent
             ax_lg = self._fig.add_axes([0.3, 0.7, 0.05, 0.3])  # llx, lly, w, h
             ax_lg.axis('off')
             for ix, name in enumerate(('Water', 'Lowland',
@@ -261,27 +288,30 @@ class Graphics:
                                               facecolor=rgb_value[name[0]]))
                 ax_lg.text(0.25, ix * 0.2, name, transform=ax_lg.transAxes)
 
+        # Makes a histogram to put the age
         if self._ages_hist is None:
             self._ages_hist = self._fig.add_axes([0.08, 0.05, 0.2, 0.15])
             self._ages_histogram = None
 
+        # Makes a histogram to put the weight
         if self._weights_hist is None:
             self._weights_hist = self._fig.add_axes([0.38, 0.05, 0.2, 0.15])
             self._weights_histogram = None
 
+        # Makes a histogram to put the fitness
         if self._fitness_hist is None:
             self._fitness_hist = self._fig.add_axes([0.70, 0.05, 0.2, 0.15])
             self._fitness_histogram = None
 
-        # Add right subplot for line graph of mean.
+        # Makes a graph to put the animal population
         if self._mean_ax is None:
             self._mean_ax = self._fig.add_axes([0.65, 0.7, 0.3, 0.25])
             self._mean_ax.set_title('Animal population')
 
-        # needs updating on subsequent calls to simulate()
         # add 1 so we can show values for time zero and time final_step
         self._mean_ax.set_xlim(0, final_step+1)
 
+        # Gets the updated statistics to put in the graph
         if self._herbivore_line is None:
             mean_plot = self._mean_ax.plot(np.arange(0, final_step+1),
                                            np.full(final_step+1, np.nan))
@@ -351,7 +381,7 @@ class Graphics:
 
     def _update_animal_graph(self, year, herbivore, carnivore):
         """
-        Updates the graph of hoe many herbivores and carnivores there are on the Island
+        Updates the graph of how many herbivores and carnivores there are on the Island
 
         Parameters
         ----------
@@ -383,7 +413,6 @@ class Graphics:
 
         plt.legend((self._herbivore_line, self._carnivore_line), ['Herbivore', 'Carnivore'], loc='upper left')
 
-
         if self.ymax_animals is not None:
             self._mean_ax.set_ylim(0, self.ymax_animals)
         else:
@@ -391,6 +420,27 @@ class Graphics:
             self._mean_ax.set_ylim(0, max(self.animal_ydata))
 
     def _update_histograms(self, age_herbi, age_carn, weight_herbi, weight_carn, fitness_herbi, fitness_carn):
+        """
+        Updates all of the histograms for herbivore and carnivores on the island
+
+        Parameters
+        ----------
+        age_herbi: list
+            list with the age for all the herbivores
+        age_carn: list
+            list with the age for all the carnivores
+        weight_herbi: list
+            list with the weight for all the herbivores
+        weight_carn: list
+            list with the weight for all the carnivores
+        fitness_herbi: list
+            list with the fitness for all herbivores
+        fitness_carn: list
+            list with all fitness for all carnivores
+
+        -------
+
+        """
 
         self._ages_hist.cla()
         self._ages_hist.set_title('Age')
@@ -442,7 +492,17 @@ class Graphics:
             self._fitness_histogram = self._fitness_hist.hist(fitness_carn, histtype='step')
 
     def _save_graphics(self, year):
-        """Saves graphics to file if file name given."""
+        """
+        Saves graphics to file if file name given
+
+        Parameters
+        ----------
+        year: int
+            How many years the simulation are going to run
+
+        -------
+
+        """
 
         if self._img_base is None or year % self._img_year != 0:
             return
