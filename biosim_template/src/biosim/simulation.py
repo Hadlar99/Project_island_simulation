@@ -93,6 +93,13 @@ class BioSim:
         self.vis_years = vis_years
         self.img_years = img_years
 
+        self.log_file = log_file
+        if self.log_file is not None:
+            with open(self.log_file, 'w') as f:
+                f.write(f"{'Year':10}, {'Num herbivores':15}, {'Num carnivores':15}, {'Tot animals':15} \n"
+                        f"{self.year:10}, {self.Island.amount_of_herbivores():15}, "
+                        f"{self.Island.amount_of_carnivores():15}, {self.num_animals:15}\n")
+
     @staticmethod
     def set_animal_parameters(species, params):
         """
@@ -186,6 +193,11 @@ class BioSim:
                                           self.Island.herbivore_fitness(),
                                           self.Island.carnivore_fitness())
 
+            if self.log_file is not None:
+                with open(self.log_file, 'a') as f:
+                    f.write(f"{self.year:10}, {self.Island.amount_of_herbivores():15}, "
+                            f"{self.Island.amount_of_carnivores():15}, {self.num_animals:15}\n")
+
     def add_population(self, population):
         """
         Add population to the island
@@ -201,7 +213,7 @@ class BioSim:
     @property
     def year(self):
         """Last year simulated."""
-        return self._final_year
+        return self._year
 
     @property
     def num_animals(self):
