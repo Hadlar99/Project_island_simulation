@@ -1,5 +1,43 @@
 """
 Template for BioSim class.
+
+Example
+-------
+::
+    geogr = '''\
+               WWWWWWWWWWWWWWWWWWWWW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WWHHLLLLLLLWWLLLLLLLW\n
+               WWHHLLLLLLLWWLLLLLLLW\n
+               WWWWWWWWHWWWWLLLLLLLW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WHHHHHHHHHWWLLLLLLWWW\n
+               WHHHHHDDDDDLLLLLLLWWW\n
+               WWWWWWWWWWWWWWWWWWWWW'''
+    geogr = textwrap.dedent(geogr)
+
+    ini_herbs = [{'loc': (2, 7),
+                  'pop': [{'species': 'Herbivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(80)]}]
+    ini_carns = [{'loc': (2, 7),
+                  'pop': [{'species': 'Carnivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(20)]}]
+
+    sim = BioSim(geogr, ini_herbs + ini_carns, seed=1,
+                 hist_specs={'fitness': {'max': 1.0, 'delta': 0.05},
+                             'age': {'max': 60.0, 'delta': 2},
+                             'weight': {'max': 60, 'delta': 2}},
+                 cmax_animals={'Herbivore': 200, 'Carnivore': 50},
+                 img_dir='../results',
+                 img_base='sample', vis_years=1)
+    sim.simulate(50)
+    sim.make_movie()
 """
 from .island import Island
 from .animal import Herbivore, Carnivore, Animal
@@ -11,6 +49,8 @@ from .graphics import Graphics
 # The material in this file is licensed under the BSD 3-clause license
 # https://opensource.org/licenses/BSD-3-Clause
 # (C) Copyright 2021 Hans Ekkehard Plesser / NMBU
+
+
 
 class BioSim:
     """Simulation class for BioSim"""
