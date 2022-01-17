@@ -155,7 +155,8 @@ class Graphics:
         self._fig.canvas.flush_events()  # ensure every thing is drawn
         plt.pause(1e-6)  # pause required to pass control to GUI
 
-        self._save_graphics(year)
+        if self._img_base is not None:
+            self._save_graphics(year)
 
     def make_movie(self, movie_fmt=None):
         """
