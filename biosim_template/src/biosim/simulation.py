@@ -13,8 +13,8 @@ Example
                WWHHLLLLLLLWWLLLLLLLW\n
                WWWWWWWWHWWWWLLLLLLLW\n
                WHHHHHLLLLWWLLLLLLLWW\n
-               WHHHHHHHHHWWLLLLLLWWW\n
-               WHHHHHDDDDDLLLLLLLWWW\n
+               WHHHDDDHHHWWLLLLLLWWW\n
+               WHHHHHDDDDLLLLLLLLWWW\n
                WWWWWWWWWWWWWWWWWWWWW'''
     geogr = textwrap.dedent(geogr)
 
