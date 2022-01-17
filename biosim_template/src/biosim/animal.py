@@ -1,7 +1,7 @@
 import math as m
 import random
 
-"""This is a class for a single Herbivore"""
+"""This is a class for a single animal"""
 
 
 class Animal:
@@ -102,7 +102,7 @@ class Animal:
 
     def add_weight(self, food):
         """
-        Give weight to the herbivore when it eats
+        Give weight to the animal when it eats
         Parameters
         ----------
         food: int
@@ -127,12 +127,12 @@ class Animal:
     def update_fitness(self):
 
         """
-        Decide how fit the herbivore are
+        Decide how fit the animal are
 
         It is called every time the weight or age
 
         """
-        if self._weight <= 0:    # if the herbivore weight is less than 0 it cannot get any fitness
+        if self._weight <= 0:    # if the animal weight is less than 0 it cannot get any fitness
             self._fitness = 0
         else:
             self._fitness = 1 / (1 + m.exp(self.params['phi_age'] * (self._age - self.params['a_half']))) * \

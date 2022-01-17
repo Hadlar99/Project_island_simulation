@@ -2,7 +2,7 @@
 Template for BioSim class.
 """
 from .island import Island
-from .animal import Herbivore, Carnivore
+from .animal import Herbivore, Carnivore, Animal
 from .landscape import Dessert, Highland, Lowland, Water
 import random
 from .graphics import Graphics
