@@ -137,9 +137,9 @@ class BioSim:
         self.log_file = log_file
         if self.log_file is not None:
             with open(self.log_file, 'w') as f:
-                f.write(f"{'Year':10}, {'Num herbivores':15}, {'Num carnivores':15}, {'Tot animals':15} \n"
-                        f"{self.year:10}, {self.Island.amount_of_herbivores():15}, "
-                        f"{self.Island.amount_of_carnivores():15}, {self.num_animals:15}\n")
+                f.write(f"{'Year'}, {'Num herbivores'}, {'Num carnivores'}, {'Tot animals'} \n"
+                        f"{self.year}, {self.Island.amount_of_herbivores()}, "
+                        f"{self.Island.amount_of_carnivores()}, {self.num_animals}\n")
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -236,8 +236,8 @@ class BioSim:
 
             if self.log_file is not None:
                 with open(self.log_file, 'a') as f:
-                    f.write(f"{self.year:10}, {self.Island.amount_of_herbivores():15}, "
-                            f"{self.Island.amount_of_carnivores():15}, {self.num_animals:15}\n")
+                    f.write(f"{self.year}, {self.Island.amount_of_herbivores()}, "
+                            f"{self.Island.amount_of_carnivores()}, {self.num_animals}\n")
 
     def add_population(self, population):
         """
