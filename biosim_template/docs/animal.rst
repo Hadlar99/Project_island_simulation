@@ -22,6 +22,8 @@ This is how the probability of birth is calculated where N is the number of anim
 
 This is how the probability of death is calculated:
 
+.. math::
+
  P _{death} =
  \begin{cases}
  0  &\text{if $weight\leq0$} \\
