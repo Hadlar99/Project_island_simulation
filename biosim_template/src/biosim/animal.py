@@ -1,11 +1,9 @@
 import math as m
 import random
 
-"""This is a class for a single animal"""
-
 
 class Animal:
-
+    """This is a class for a single animal"""
     params = {}
 
     @classmethod

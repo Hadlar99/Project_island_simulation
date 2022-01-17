@@ -2,11 +2,9 @@ import random
 
 from .animal import Herbivore, Carnivore
 
-'''Super Class for the Landscape'''
-
 
 class Landscape:
-
+    '''Super Class for the Landscape'''
     @classmethod
     def food_params(cls, param):
         """

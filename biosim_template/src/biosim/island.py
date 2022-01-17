@@ -2,11 +2,9 @@ import random
 
 from .landscape import Lowland, Highland, Water, Dessert
 
-"""Class for the island"""
-
 
 class Island:
-
+    """Class for the island"""
     def __init__(self, island_map, ini_animals=None):
         """
 
