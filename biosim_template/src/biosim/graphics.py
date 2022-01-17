@@ -13,6 +13,7 @@ This is a modified graphic from the Randvis project to Biosim.
 
 """
 
+# Original Author: Hans Ekkehard Plesser / NMBU
 import matplotlib.pyplot as plt
 import numpy as np
 import subprocess
