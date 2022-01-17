@@ -150,12 +150,12 @@ class Animal:
         Tests if an animal will give birth or not
         Parameters
         ----------
-        :num int
+        num: int
             How many herbivors that is present
 
-        Returns the weight of the new baby or False if do not give birth
+        Returns
         -------
-
+            the weight of the new baby or False if do not give birth
         """
         if self._weight < self.params['zeta'] * (self.params['w_birth'] + self.params['sigma_birth']):
             return False    # if the mother weighs too little, no birth
