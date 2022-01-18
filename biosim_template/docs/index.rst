@@ -14,6 +14,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   information
    animal
    landscape
    island

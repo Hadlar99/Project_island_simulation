@@ -1,0 +1,3 @@
+Information
+-----------
+.. include:: ../README.md
