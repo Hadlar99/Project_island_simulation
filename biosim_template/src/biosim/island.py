@@ -49,7 +49,7 @@ class Island:
                     raise ValueError(f'Landscape has to be W, L, H, D, can not be {landscape}')
         self.year = 0   # set the start year to 0
 
-        #Import the animals
+        # Import the animals
         if ini_animals:
             self.new_animals(ini_animals)
 

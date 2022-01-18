@@ -91,7 +91,7 @@ class Landscape:
                 # Checks if the carnivore catch the herbivore
                 if (carni.fitness - herbi.fitness)/carni.params['DeltaPhiMax'] > random.random():
 
-                    # If herivore weights more than what a carnivore can eat, the carnivore eats what it can
+                    # If herbivore weights more than what a carnivore can eat, the carnivore eats what it can
                     if herbi.weight >= hunger:
                         carni.add_weight(hunger)
                         self.herbivores.remove(herbi)
@@ -137,7 +137,7 @@ class Landscape:
 
     def migration(self):
         """
-        Sortes the animal that are going to migrate and those who will stand still
+        Sorts the animal that are going to migrate and those who will stand still
         Returns
         -------
         Two list all the animals that are going to migrate

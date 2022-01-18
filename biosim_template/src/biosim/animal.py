@@ -151,7 +151,7 @@ class Animal:
         Parameters
         ----------
         num: int
-            How many herbivors that is present
+            How many herbivores that is present
 
         Returns
         -------
