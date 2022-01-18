@@ -12,3 +12,6 @@ Second, all the animals have the possibility to give birth if more than one anim
 Third, the animals have the possibility to move to a connected cell vertical or horizontal, but they
 can only move to one cell each season. Fourth, the animals get one year older. Fifth, all the animals
 loses a bit of their weight. Sixth, some animals are going to die of natural causes. 
+
+In this project it does exist one directory with the source code, one directory for all the tests, two directories 
+with different examples and a directory to save the result.

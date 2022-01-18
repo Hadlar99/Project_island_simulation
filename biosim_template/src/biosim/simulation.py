@@ -1,8 +1,46 @@
 """
 Template for BioSim class.
+
+Example
+-------
+::
+    geogr = '''\
+               WWWWWWWWWWWWWWWWWWWWW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WWHHLLLLLLLWWLLLLLLLW\n
+               WWHHLLLLLLLWWLLLLLLLW\n
+               WWWWWWWWHWWWWLLLLLLLW\n
+               WHHHHHLLLLWWLLLLLLLWW\n
+               WHHHDDDHHHWWLLLLLLWWW\n
+               WHHHHHDDDDLLLLLLLLWWW\n
+               WWWWWWWWWWWWWWWWWWWWW'''
+    geogr = textwrap.dedent(geogr)
+
+    ini_herbs = [{'loc': (2, 7),
+                  'pop': [{'species': 'Herbivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(80)]}]
+    ini_carns = [{'loc': (2, 7),
+                  'pop': [{'species': 'Carnivore',
+                           'age': 5,
+                           'weight': 20}
+                          for _ in range(20)]}]
+
+    sim = BioSim(geogr, ini_herbs + ini_carns, seed=1,
+                 hist_specs={'fitness': {'max': 1.0, 'delta': 0.05},
+                             'age': {'max': 60.0, 'delta': 2},
+                             'weight': {'max': 60, 'delta': 2}},
+                 cmax_animals={'Herbivore': 200, 'Carnivore': 50},
+                 img_dir='../results',
+                 img_base='sample', vis_years=1)
+    sim.simulate(50)
+    sim.make_movie()
 """
 from .island import Island
-from .animal import Herbivore, Carnivore, Animal
+from .animal import Herbivore, Carnivore
 from .landscape import Dessert, Highland, Lowland, Water
 import random
 from .graphics import Graphics
@@ -11,6 +49,7 @@ from .graphics import Graphics
 # The material in this file is licensed under the BSD 3-clause license
 # https://opensource.org/licenses/BSD-3-Clause
 # (C) Copyright 2021 Hans Ekkehard Plesser / NMBU
+
 
 class BioSim:
     """Simulation class for BioSim"""
@@ -97,9 +136,9 @@ class BioSim:
         self.log_file = log_file
         if self.log_file is not None:
             with open(self.log_file, 'w') as f:
-                f.write(f"{'Year':10}, {'Num herbivores':15}, {'Num carnivores':15}, {'Tot animals':15} \n"
-                        f"{self.year:10}, {self.Island.amount_of_herbivores():15}, "
-                        f"{self.Island.amount_of_carnivores():15}, {self.num_animals:15}\n")
+                f.write(f"{'Year'}, {'Num herbivores'}, {'Num carnivores'}, {'Tot animals'} \n"
+                        f"{self.year}, {self.Island.amount_of_herbivores()}, "
+                        f"{self.Island.amount_of_carnivores()}, {self.num_animals}\n")
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -196,8 +235,8 @@ class BioSim:
 
             if self.log_file is not None:
                 with open(self.log_file, 'a') as f:
-                    f.write(f"{self.year:10}, {self.Island.amount_of_herbivores():15}, "
-                            f"{self.Island.amount_of_carnivores():15}, {self.num_animals:15}\n")
+                    f.write(f"{self.year}, {self.Island.amount_of_herbivores()}, "
+                            f"{self.Island.amount_of_carnivores()}, {self.num_animals}\n")
 
     def add_population(self, population):
         """

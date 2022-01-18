@@ -60,10 +60,11 @@ def test_new_animals():
     cell.new_animals(ini_herbs)
     assert cell.amount_of_herbivores() == 100
 
+
 def test_animal_on_water():
     """Tests if it returns Value Error if animals are set on Water"""
     with pytest.raises(ValueError):
-        Island(geogr, ini_herbs_water )
+        Island(geogr, ini_herbs_water)
 
 
 def test_herbivore_map():
