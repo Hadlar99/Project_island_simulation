@@ -4,7 +4,7 @@ from .animal import Herbivore, Carnivore
 
 
 class Landscape:
-    '''Super Class for the Landscape'''
+    """Super Class for the Landscape"""
     @classmethod
     def food_params(cls, param):
         """

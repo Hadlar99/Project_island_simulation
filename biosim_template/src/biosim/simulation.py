@@ -40,7 +40,7 @@ Example
     sim.make_movie()
 """
 from .island import Island
-from .animal import Herbivore, Carnivore, Animal
+from .animal import Herbivore, Carnivore
 from .landscape import Dessert, Highland, Lowland, Water
 import random
 from .graphics import Graphics
@@ -49,7 +49,6 @@ from .graphics import Graphics
 # The material in this file is licensed under the BSD 3-clause license
 # https://opensource.org/licenses/BSD-3-Clause
 # (C) Copyright 2021 Hans Ekkehard Plesser / NMBU
-
 
 
 class BioSim:
