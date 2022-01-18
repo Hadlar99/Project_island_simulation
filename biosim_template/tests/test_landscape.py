@@ -11,6 +11,7 @@ pop_2 = [{'species': 'Carnivore', 'age': 5, 'weight': 20} for _ in range(50)]
 
 pop_3 = [{'species': 'Carnivore', 'age': 5, 'weight': 20} for _ in range(20)]
 
+
 def test_pop_animals():
     """Test if it counts the list of herbivores and carnivores correctly"""
     cell = Lowland()
@@ -19,7 +20,7 @@ def test_pop_animals():
     assert cell.num_herbivores(), cell.num_carnivores() == 50
 
 
-def test_pop_animals_ValueError():
+def test_pop_animals_error():
     """Checks if the program raises a ValueError if wrong species"""
     with pytest.raises(ValueError):
         cell = Lowland()
@@ -138,6 +139,7 @@ def test_invalid_food_param(reset_food_params):
     with pytest.raises(KeyError):
         Lowland.food_params({'food': 600})
 
+
 def test_herbivore_eats_rest(reset_food_params):
     """Tests if the herbivore eats the rest of the food"""
     Lowland.food_params({'f_max': 95})
@@ -172,7 +174,6 @@ def test_immigration():
     cell.immigrating_carnivores = pop_3
     cell.immigration()
     assert len(cell.immigrating_carnivores) == 0 and len(cell.carnivores) == len(pop_1) + len(pop_3)
-
 
 
 def test_list_herbivore_ages():
@@ -211,6 +212,3 @@ def test_list_carnivore_fitness():
     cell = Lowland(carnivores=[Carnivore(3, 50)])
     assert type(cell.list_carnivores_fitness()) == list and \
            cell.list_carnivores_fitness() == [Carnivore(3, 50)._fitness]
-
-
-

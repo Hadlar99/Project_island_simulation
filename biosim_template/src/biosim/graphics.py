@@ -282,7 +282,7 @@ class Graphics:
             self._island_img.set_yticklabels(range(1, 1 + len(map_rgb), 5))
 
             # Adds description on what terrain the different colors represent
-            ax_lg = self._fig.add_axes([0.3, 0.7, 0.05, 0.3])  # llx, lly, w, h
+            ax_lg = self._fig.add_axes([0.33, 0.7, 0.05, 0.3])  # llx, lly, w, h
             ax_lg.axis('off')
             for ix, name in enumerate(('Water', 'Lowland',
                                        'Highland', 'Desert')):
